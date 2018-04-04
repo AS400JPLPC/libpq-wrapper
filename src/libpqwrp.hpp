@@ -5,9 +5,6 @@
 //
 // THANK YOU   MERCI BEAUCOUP
 //
-// Sasha Goldshtein				https://stackoverflow.com/questions/20731/how-do-you-clear-a-stringstream-variable
-//								safe_printf
-//
 // le site quebecois 			https://h-deb.clg.qc.ca/		pour son travaille de divulgation
 //
 // https://stackoverflow.com	une mine d'or pour comprendre avec des examples

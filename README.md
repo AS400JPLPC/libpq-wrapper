@@ -21,9 +21,9 @@ THANK YOU   MERCI BEAUCOUP
  https://docs.postgresql.fr/		pour tous les efforts pour la traduction
 
  
- le site Français wikiversity		https://fr.wikiversity.org/wiki/Langage_C%2B%2B
+ le site Français wikiversity		https://fr.wikiversity.org/wiki/Langage_C%2B%2B<br>
  le site cppreference				http://en.cppreference.com/w/
-									http://fr.cppreference.com/w/
+									http://fr.cppreference.com/w/<br>
  le site cplusplus					http://www.cplusplus.com/reference/
 
 

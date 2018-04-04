@@ -12,21 +12,20 @@ je voudrais remercier...
 
 THANK YOU   MERCI BEAUCOUP
 
- Sasha Goldshtein					https://stackoverflow.com/questions/20731/how-do-you-clear-a-stringstream-variable
-									safe_printf
 
  le site quebecois 					https://h-deb.clg.qc.ca/		pour son travaille de divulgation
-
- le site Français wikiversity		https://fr.wikiversity.org/wiki/Langage_C%2B%2B
-
- le site cppreference				http://en.cppreference.com/w/
-									http://fr.cppreference.com/w/
-
- le site cplusplus					http://www.cplusplus.com/reference/
+ exemple:							https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/templates_variadiques.html
 
  https://stackoverflow.com			une mine d'or pour comprendre avec des examples
 
  https://docs.postgresql.fr/		pour tous les efforts pour la traduction
+
+ 
+ le site Français wikiversity		https://fr.wikiversity.org/wiki/Langage_C%2B%2B
+ le site cppreference				http://en.cppreference.com/w/
+									http://fr.cppreference.com/w/
+ le site cplusplus					http://www.cplusplus.com/reference/
+
 
  et tout ceux qui part leur publication sur des sujets pointus mon permis d'avancé.
 

@@ -67,7 +67,6 @@ static bool fetchEOF ;
 
 struct	inforowcol
 {
-
 	int			rows;			/// initialise par les requetes
 	int			cols;			/// initialise par les requetes
 

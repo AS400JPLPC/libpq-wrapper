@@ -224,7 +224,7 @@ std::string QueryPrint::prepare(std::string const& format, Head&& head, Args&&..
 
 
 
-std::stringstream  QueryPrint::result(PGresult* res)								/// rzteizvz values on the fields
+std::stringstream  QueryPrint::result(PGresult* res)								/// retrieve values on the fields
 {	
 
 	char* tptr;

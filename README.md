@@ -3,7 +3,7 @@ wrapper de base en c++
 
 il est basé sur libpq C API
 
-ce projet à pour but de simplifier l'accès au travers de libpq misa disposition par PostGreSql
+ce projet à pour but de simplifier l'accès au travers de libpq mise à disposition par PostGreSql
 
 
 projet 2018-03-15  (C) 2011   Copyright 2018 <laroche.jeanpierre@gmail.com>

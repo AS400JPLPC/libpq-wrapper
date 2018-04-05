@@ -1,7 +1,7 @@
 //
 // A very  C++ wrapper for (subset of) libpq C API
 //
-// projet 2018-03-15  (C) 2011   Copyright 2018 SOLEIL <laroche.jeanpierre@gmail.com>
+// projet 2018-03-15  (C) 2011   Copyright 2018  <laroche.jeanpierre@gmail.com>
 //
 // THANK YOU   MERCI BEAUCOUP
 //
@@ -9,7 +9,7 @@
 //
 // https://stackoverflow.com	une mine d'or pour comprendre avec des examples
 //
-// https://docs.postgresql.fr/10/	pour tous les efforts pour la traduction 
+// https://docs.postgresql.fr/	pour tous les efforts pour la traduction 
 /*
  *
  * M. laroche jean Pierre  12-10-1951    laroche.jeanpierre@gmail.com
@@ -45,12 +45,14 @@
 #include <libpq-fe.h>
 #include <cstdlib>
 
-#ifndef   DeLiMiTaTioN
-#define   DeLiMiTaTioN		'~'		///  caractère de délimitation
-#endif
+
 namespace libpqsql
 {
 
+
+#ifndef   DeLiMiTaTioN
+#define   DeLiMiTaTioN		'~'		///  caractère de délimitation multibuffer > stringstream
+#endif
 
 ///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 ///				fonction sql de libpq 
@@ -126,11 +128,16 @@ constexpr unsigned long long int HashStringToInt(const char *str, unsigned long 
 
 #define NAMEOF(variable) ((void)variable, #variable)
 
+
+
+
 ///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 ///			 prepare sql  formatage avec template variadique 
 ///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-class QueryPrint            /// gestion parametre sql ex: select 
+
+
+class QueryPrint            /// gestion parametre sql 
 {
 	private:
 	static constexpr char FORMAT_SPECIFIER = '?';
@@ -155,7 +162,7 @@ class QueryPrint            /// gestion parametre sql ex: select
 	std::stringstream result(PGresult* res);										/// out buffer;
 };
 
-///-------------------------------------------------------------------------------------------------------
+
 
 unsigned  QueryPrint::count_format_specifiers(std::string const& format)
 {
@@ -174,7 +181,7 @@ unsigned  QueryPrint::count_format_specifiers(std::string const& format)
   return count;
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void QueryPrint::prepare(std::string const& format)
 {
@@ -182,10 +189,10 @@ void QueryPrint::prepare(std::string const& format)
     throw std::invalid_argument("number of arguments does not match the format string");
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 template <typename Head, typename... Args>
-std::string QueryPrint::prepare(std::string const& format, Head&& head, Args&&... args)
+std::string QueryPrint::prepare(std::string const& format, Head&& head, Args&&... args)		/// formate la requete 
 {
 
 	if (count_format_specifiers(format) > 0 && first == true)
@@ -199,12 +206,16 @@ std::string QueryPrint::prepare(std::string const& format, Head&& head, Args&&..
 
   if (count_format_specifiers(format) != sizeof...(Args) + 1)
     throw std::invalid_argument("number of arguments does not match the format string");
+
   // TODO: take care of escaped format specifiers
   sql<<"";
   auto first_format_pos = format.find_first_of(FORMAT_SPECIFIER);
+  
   sql << format.substr(0, first_format_pos);  
   sql << head;
-  if ( count_format_specifiers(format) == 1 ) { sql<<fin_stage; first =true  ;} 	/// returns to initial position
+  
+  if ( count_format_specifiers(format) == 1 ) { sql<<fin_stage; first =true  ;}
+  
   prepare(format.substr(first_format_pos+1), std::forward<Args>(args)...);
   return sql.str();
  
@@ -213,10 +224,7 @@ std::string QueryPrint::prepare(std::string const& format, Head&& head, Args&&..
 
 
 
-///-------------------------------------------------------------------------------------------------------
-
-
-std::stringstream  QueryPrint::result(PGresult* res)
+std::stringstream  QueryPrint::result(PGresult* res)								/// rzteizvz values on the fields
 {	
 
 	char* tptr;
@@ -228,28 +236,18 @@ std::stringstream  QueryPrint::result(PGresult* res)
 	{
 		tptr = PQgetvalue(res, records.Xrow, i);
 		
-		if ( i == 0 )
+
+		for (size_t i = 0; i < strlen(tptr); ++i)
 		{
-			for (size_t i = 0; i < strlen(tptr); ++i)
+			if (tptr[i] == ' ')
 			{
-				if (tptr[i] == ' ')
-				{
 				tptr[i] =DeLiMiTaTioN;
-				}
 			}
-			sql << tptr;
 		}
-		else
-		{
-			for (size_t i = 0; i < strlen(tptr); ++i)
-			{
-				if (tptr[i] == ' ')
-				{
-				tptr[i] = DeLiMiTaTioN ;
-				}
-			}
-			sql <<' '<< tptr;
-		}
+
+
+		if ( i == 0 ) sql << tptr;
+		else sql <<' '<< tptr;
 
 	}
 	return  sql;
@@ -276,7 +274,7 @@ PGconn* connectDB(std::string info)											/// connect to the database
 }
 
 
-///-------------------------------------------------------------------------------------------------------
+
 
 bool qexec(PGconn* conn, std::string sql)									/// PQexec 
 {
@@ -293,9 +291,9 @@ bool qexec(PGconn* conn, std::string sql)									/// PQexec
     return true ;
 }
 
-///-------------------------------------------------------------------------------------------------------
 
-PGresult* query(PGconn* conn, std::string sql, bool binary = true)	/// PQquery
+
+PGresult* query(PGconn* conn, std::string sql, bool binary = true)			/// PQquery
 {
     int const fmt = binary ? 1 : 0;
  
@@ -321,9 +319,9 @@ PGresult* query(PGconn* conn, std::string sql, bool binary = true)	/// PQquery
     return res;
 }
 
-///-------------------------------------------------------------------------------------------------------
 
-char* fetch(PGresult* res, int row, int column)						/// get the value of the row and the column
+
+char* fetch(PGresult* res, int row, int column)								/// get the value of the row and the column
 {
 	if (row < 0)
 		throw std::invalid_argument("row position is negative");
@@ -334,9 +332,9 @@ char* fetch(PGresult* res, int row, int column)						/// get the value of the ro
 	return PQgetvalue(res, row, column);
 }
 
-///-------------------------------------------------------------------------------------------------------
 
-double fetchDbl(PGresult* res, int row, int column)						/// get the value of the row and the column
+
+double fetchDbl(PGresult* res, int row, int column)							/// get the value of the row and the column
 {
 	if (row < 0)
 		throw std::invalid_argument("row position is negative");
@@ -348,9 +346,9 @@ double fetchDbl(PGresult* res, int row, int column)						/// get the value of th
 	throw std::invalid_argument("fetchDbl invalide argument");
 }
 
-///-------------------------------------------------------------------------------------------------------
 
-int fetchInt(PGresult* res, int row, int column)						/// get the value of the row and the column
+
+int fetchInt(PGresult* res, int row, int column)							/// get the value of the row and the column
 {
 	if (row < 0)
 		throw std::invalid_argument("row position is negative");
@@ -362,9 +360,9 @@ int fetchInt(PGresult* res, int row, int column)						/// get the value of the r
 		throw std::invalid_argument("fetchInt invalide argument");
 }
 
-///-------------------------------------------------------------------------------------------------------
 
-int nfield(PGresult* res, std::string field)						/// column of the field
+
+int nfield(PGresult* res, std::string field)								/// column of the field
 {
 	int col =  PQfnumber(res, field.c_str());
 
@@ -376,9 +374,9 @@ int nfield(PGresult* res, std::string field)						/// column of the field
 	return col;
 }
 
-///-------------------------------------------------------------------------------------------------------
 
-const char* cfield(PGresult* res,int nfield)						/// name of the field 
+
+const char* cfield(PGresult* res,int nfield)								/// name of the field 
 {
 	if (nfield < 0 || nfield > PQnfields(res) )
 	{
@@ -389,21 +387,21 @@ const char* cfield(PGresult* res,int nfield)						/// name of the field
 
 }
 
-///-------------------------------------------------------------------------------------------------------
 
-int countfield(PGresult* res)										/// number of columns
+
+int countfield(PGresult* res)												/// number of columns
 {
 	return  PQnfields(res);
 }
 
-///-------------------------------------------------------------------------------------------------------
 
-int countrow(PGresult* res)											/// number of rows
+
+int countrow(PGresult* res)													/// number of rows
 {
 	return PQntuples(res);	
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 bool is_Table(PGconn* conn , const char* table)						/// if exist table of the database ->fasle = does not exist
 {
@@ -420,7 +418,7 @@ bool is_Table(PGconn* conn , const char* table)						/// if exist table of the d
 
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void closeDB(PGconn* conn)											/// close to the database 
 {
@@ -430,7 +428,7 @@ void closeDB(PGconn* conn)											/// close to the database
 	PQfinish(conn);
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void begin(PGconn* conn )
 {
@@ -438,42 +436,42 @@ void begin(PGconn* conn )
 }
 
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void commit(PGconn* conn )
 {
 	query(conn,"COMMIT");		/// full
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void end(PGconn* conn )
 {
 	query(conn,"END");		/// full
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void rollback(PGconn* conn )
 {
 	query(conn,"ROLLBACK");		/// full
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void savpoint(PGconn* conn )
 {
 	query(conn,"SAVEPOINT full_savepoint");					/// point de sauvegarde  
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void savpointRollback(PGconn* conn )
 {
 	query(conn,"ROLLBACK TO SAVEPOINT full_savepoint");		/// roolback sur savepoint
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 void savpointRelease(PGconn* conn )
 {
@@ -487,7 +485,7 @@ void savpointRelease(PGconn* conn )
 
 
 
-///-------------------------------------------------------------------------------------------------------
+
 
 PGresult * fetchAll(PGconn* conn, std::string sql, std::string cursor = "mycursor")		/// fetch ALL include requete 
 {
@@ -535,7 +533,7 @@ PGresult * fetchAll(PGconn* conn, std::string sql, std::string cursor = "mycurso
 	return res ;
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 PGresult * opensql(PGconn* conn, std::string sql, std::string cursor = "mycursor")	///  query for fetchsql record / record 
 {
@@ -576,7 +574,7 @@ PGresult * opensql(PGconn* conn, std::string sql, std::string cursor = "mycursor
 	return res;
 }
 
-///-------------------------------------------------------------------------------------------------------
+
 
 PGresult * fechsql(PGconn* conn, std::string cursor = "mycursor")			/// fetch record use openSQL
 {
@@ -605,14 +603,9 @@ PGresult * fechsql(PGconn* conn, std::string cursor = "mycursor")			/// fetch re
 }
 
 
-//********************************************************
-
-///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-///				Fin des fonctions sql
-///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-} // namespace funcPQSQL
+} // namespace libpqsql
 
 using namespace libpqsql ;
 

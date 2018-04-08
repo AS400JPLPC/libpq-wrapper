@@ -27,44 +27,38 @@
 
 #include <string>       // std::string
 #include <iostream>     // std::cout
-#include <sstream>      // std::stringstream
-#include <cstdio>
-#include <cstdlib>
-#include <typeinfo>     // name 
+#include <sstream>
+
 #include <exception>
-
-
 
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
 
-
-
 #include <ZONED.hpp>
 
-#include <libpqwrp.hpp>   // std::stringstream
+#include <libpqwrp.hpp>
 
 
 ///*************************************************
-// #include <fonc.h>
+ 
 
 
-using namespace std;
+ 
  
 int main()
 {
  
-	PGconn*		conn ;
-	PGresult*	res;
+ 
+ 
 	const char *conninfo;
 
-	QueryPrint stm;
+	libPQwrp sql;
 
 	std::string requete ;
 	
-	std::string cursorName = "MONcursor";
+	std::string cursorName = "MYcursor";
 
 
 
@@ -74,8 +68,8 @@ int main()
 Zind_Init_All();
 
 	Zchar nom(15);
-	Zdcml dcml(15,2);
-	int   test =0;
+
+
 
 
 
@@ -116,130 +110,159 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
  try{
 	conninfo = "dbname =CGIFCH host=localhost port=5432 user=postgres password=pgmr";
   
-	conn = connectDB(conninfo);
+	sql.connectDB(conninfo);
 	/// deux exemple pour count(*) 
 
 					printf("\n000    count\n");
-	if ( ! is_Table(conn,"employees") ) qexec(conn,"CREATE TABLE employees (emp_id integer not null, name varchar(32));"); 
+	if ( ! sql.is_Table("employees") ) sql.qexec("CREATE TABLE employees (emp_id integer not null, name varchar(32));"); 
 	// nbr employe 
-	res = query(conn," select count(*) from \"employees\" where \"emp_id\" = 1;",false);  	// false oblogatoire pour return valeur count(*)
-		 for (int i = 0; i < countrow(res); i++)
-			for (int j = 0; j < countfield(res); j++)
+	sql.query(" select count(*) from \"employees\" where \"emp_id\" = 1;",false);  	// false oblogatoire pour return valeur count(*)
+		 for (int i = 0; i < sql.countrow(); i++)
+			for (int j = 0; j < sql.countfield(); j++)
 				{
-					std::cout<<cfield(res,j)<<std::endl;
-					std::cout<<countfield(res)<<std::endl;
+					std::cout<<sql.cfield(j)<<std::endl;
+					std::cout<<sql.countfield()<<std::endl;
 				}
 
 				printf("\n001  close connect\n");
 
-	closeDB(conn);
- 	conn = connectDB(conninfo);
+	sql.closeDB();
+
+	
+ 	sql.connectDB(conninfo);
  	
-					printf("\n002 is table   command    creat\n");
+	printf("\n002 is table   command    creat\n");
 
 	 // exemple  print  true / false  exist table 
-	 if ( ! is_Table(conn,"employeesx")  ) qexec(conn,create_employeesx);
+	 if ( ! sql.is_Table("employeesx")  ) sql.qexec(create_employeesx); else std::cout<<"table employeesx exits"<<std::endl;
 
-					printf("\n003 \n");
-		if ( ! is_Table(conn,"patron")  ) qexec(conn,create_patron);
+	printf("\n003 \n");
+	if ( ! sql.is_Table("patron")  ) sql.qexec(create_patron);
 
-					printf("\n004   instert \n");
-	// requete = stm.prepare("INSERT INTO employeesx (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'");	
-	// res = query(conn,requete);
-
-
+	printf("\n004   instert \n");
+	//requete = sql.prepare("INSERT INTO employeesx (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'");	
+	//sql.query(requete);
 
 
-					printf("\n006   select \n"); 
-  requete = stm.prepare("SELECT emp_id , name FROM  employeesx WHERE emp_id = ?;", 1);  res = query(conn,requete);
+	printf("\n005   select \n"); 
+	requete = sql.prepare("SELECT emp_id , name FROM  employeesx WHERE emp_id = ?;", 1);
+	std::cout<<requete<<std::endl;
+	sql.query(requete);
      
-    				printf("\n007 select incorrect  ou list de la selection \n"); if (select0 ) std::cout<<"tartuf select"<<std::endl;
+    printf("\n006 select incorrect  ou list de la selection \n");
+    if (select0 ) std::cout<<"tartuf select"<<std::endl; else std::cout<<"table employeesx un enrg "<<std::endl;
     				
-		 for (int i = 0; i < countrow(res); i++)
+		 for (int i = 0; i < sql.countrow(); i++)
 			
-                for (int j = 0; j < countfield(res); j++)
+                for (int j = 0; j < sql.countfield(); j++)
                 {
-					std::cout<<cfield(res,j)<<std::endl;			// name
-					std::cout<<fetch(res, i,j)<<std::endl;			// value
+					std::cout<<sql.cfield(j)<< " --> ";				// name
+					std::cout<<sql.fetch(i,j)<<std::endl;			// value    probleme numerique 
 				}
 
 /// traitement error ok
-																			printf("\n007.1 update is error \n");
-requete = stm.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1);  res = query(conn,requete);
-if (update0 ) std::cout<<"tartuf update"<<std::endl;
-
-																			printf("\n007.2 delete is error \n");
-requete = stm.prepare("DELETE FROM patron WHERE emp_id = ?", 1);  res = query(conn,requete);
-if (delete0 ) std::cout<<"tartuf delete"<<std::endl;
-
-																			printf("\n007.3 insert is error \n");
-requete = stm.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); res = query(conn,requete);
-				if (insert0 ) std::cout<<"tartuf insert"<<std::endl;
-
-																			printf("\n007.4 insert is error \n");
-//requete = stm.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); res = query(conn,requete);
-//				if (insertNO ) std::cout<<"tartuf insert"<<std::endl;
+	printf("\n007.1 update is error \n");
+	
+	requete = sql.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1); sql.query(requete);
+	if (update0 ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
 
 
-																			printf("\n008 update is error\n");
-requete = stm.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1);  res = query(conn,requete); // CHG  2
-if (update0 ) std::cout<<"tartuf update"<<std::endl;
- 
+	printf("\n007.2 delete is error \n");
+	requete = sql.prepare("DELETE FROM patron WHERE emp_id = ?", 1);  sql.query(requete);
+	if (delete0 ) std::cout<<"tartuf delete"<<std::endl;else std::cout<<"table patron un enrg delete "<<std::endl;
 
 
-																			printf("\n008.1 controle commit & savpoint\n");
+	printf("\n007.3 insert is error \n");
+	requete = sql.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); sql.query(requete);
+	if (insert0 ) std::cout<<"tartuf insert"<<std::endl; else std::cout<<"table patron un enrg insert "<<std::endl;
+
+
+
+	printf("\n007.4 insert is error  force error trow \n");
+//	requete = sql.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); sql.query(requete);
+
+
+
+	printf("\n008 update is error\n");
+	requete = sql.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1);  sql.query(requete); // CHG  2
+	if (update0 ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
+
+
+
+
+
+	printf("\n008.1 controle commit & savpoint\n");
 
 
 	// test avec 2 connexions pour controler le comportement  
   
- 	PGconn*		oups;
- 	oups = connectDB(conninfo);
+ 	libPQwrp *lock = new libPQwrp;
+ 	lock->connectDB(conninfo);
  	
-	begin(conn);
-	
-	savpoint(conn);
+	lock->begin();
+	sql.begin();
+	lock->savpoint();
 
 	
-	requete = stm.prepare("UPDATE employees SET name = 'laroche'  WHERE emp_id = ?;", 1);
+	requete = sql.prepare("UPDATE employees SET name = 'laroche'  WHERE emp_id = ?;", 1);
   
-	res = query(conn,requete);
+	sql.query(requete);
 		
-	requete = stm.prepare("UPDATE patron SET name = 'Moi'  WHERE emp_id = ?;", 1);
+	requete = lock->prepare("UPDATE patron SET name = 'Moi'  WHERE emp_id = ?;", 1);
 
  
 
   
-	res = query(oups,requete); // le commit impacte que la connexion de begin conn
+	lock->query(requete); // le commit impacte que la connexion de begin conn
+
+
+
+	printf("sql.commit \n");
+	sql.commit();
+ 
+	printf("slock.savpointRollback \n");
+	lock->savpointRollback();
+
+
+//lock.savpointRelease(conn);  // valide la transction
+
+	printf("lock.end() \n");
+	lock->clearRes();
+	
+	lock->clearRes();			/// test clear n fois  
+	
+		
+	lock->end();
+
+		
+	printf("lock.closeDB \n"); 
+	lock->closeDB();
+	delete lock;
 
 
 
 
-// rollback(conn);
-savpointRollback(conn);
 
-//savpointRelease(conn);  // valide la transction
+	printf("\n009 delete\n"); 
 
-    
+	//sql.query(" DROP TABLE employeesx;");
 
 
-																			printf("\n009 delete\n"); 
+	int test = 0 ;
 
-//res = query(conn," DROP TABLE employeesx;");
+	printf("\n009 retrieve to buffer  for select  \n"); 
+    requete = sql.prepare("SELECT emp_id , name FROM  patron WHERE emp_id = ?", 1);
+    sql.query(requete);
 
-
-																			printf("\n009 retrieve to buffer  for select  \n"); 
-    requete = stm.prepare("SELECT emp_id , name FROM  patron WHERE emp_id = ?", 1);
-    res = query(conn,requete);
-
-																			printf("\n010\n"); 
-    for (int row = 0; row < countrow(res); row++)
-		for (int nf = 0;nf < countfield(res); nf++)
+	printf("\n010\n"); 
+    for (int row = 0; row < sql.countrow(); row++)
+		for (int nf = 0;nf < sql.countfield(); nf++)
 			{
-				switch (HashStringToInt(cfield(res,nf)))
+				switch (HashStringToInt(sql.cfield(nf)))
 				{
-					case HashStringToInt("name"):		nom = fetch(res, row, nf) ;   break;
+					case HashStringToInt("name"):		nom = sql.fetch( row, nf) ;   break;
 
-					case HashStringToInt("emp_id"):		test = atoi(fetch(res, row, nf)) ;
+					case HashStringToInt("emp_id"):		test = atoi(sql.fetch( row, nf)) ;
 
 
 					break;
@@ -250,32 +273,21 @@ savpointRollback(conn);
 			}
 
 
-		std::cout<<nom.ToChar()<<std::endl;  		std::cout<<test<<std::endl;
+	std::cout<<"nom = sql.fetch( row, nf)  "<<nom.ToChar()<<std::endl;
+	std::cout<<"test = atoi(sql.fetch( row, nf))  "<<test<<std::endl;
 
 
+	printf("\n011 delete\n");
 
-																			printf("\n010 trt name sql field\n");
-	//cfield(res,3);
-																			printf("\n011 delete\n");
-
-	// query(conn,"DROP TABLE employeesx");
-
-																			printf("\n012 type field\n");
-
-/*INSERT INTO public.typetable
-(vdate, vnumeric, vtext, vdouble, vint, vonchar, vbool, vbpchar, vtimestamp, vvarcharcolumn1)
-VALUES('12-10-51', 0, 'text', 23.003, 5, 'C', false, 'LAROCHE', '12-10-5112:10:01', 'xxxxxxxxxxxxxxxxxxxxxxxxxx');
-*/
-																			
-
- //    requete = stm.prepare("SELECT vdate, vnumeric, vtext, vdouble, vint, vonchar, vbool, vbpchar, vtimestamp, vvarchar FROM  typetable WHERE vint = ?", 5);
+	//sql.query("DROP TABLE employeesx");
 
 
 
 
+	printf("\n011 description de field\n");
 
 /// select the name off field  in table  
-requete = stm.prepare(\
+requete = sql.prepare(\
 "SELECT \
 cl.table_catalog,\
 cl.table_name,\
@@ -293,66 +305,65 @@ WHERE cl.table_catalog='?'  and cl.table_name='?' and cl.column_name= '?' order 
 "CGIFCH","FC0CLI","C0NCLI");
 
 
-std::cout<<requete<<std::endl;
+	std::cout<<requete<<std::endl;
 
-    res = query(conn,requete);
+	sql.query(requete);
 
-long int   ival;    
-char       *iptr ;
+	long int   ival;    
+	char       *iptr ;
 
 
 
-    for (int row = 0; row < countrow(res); row++)
-		for (int nf = 0;nf < countfield(res); nf++)
+    for (int row = 0; row < sql.countrow(); row++)
+		for (int nf = 0;nf < sql.countfield(); nf++)
 			{ 
 
-				switch (HashStringToInt(cfield(res,nf)))
+				switch (HashStringToInt(sql.cfield(nf)))
 				{
-					case HashStringToInt("table_catalog"):	std::cout<<fetch(res, row, nf)<<std::endl;   break;
+					case HashStringToInt("table_catalog"):	std::cout<<sql.fetch( row, nf)<<"  ";   break;
 					
-					case HashStringToInt("table_name"):		std::cout<<fetch(res, row, nf)<<std::endl;   break;
+					case HashStringToInt("table_name"):		std::cout<<sql.fetch( row, nf)<<"  ";   break;
 					
-					case HashStringToInt("column_name"):	std::cout<<fetch(res, row, nf)<<std::endl;   break;
+					case HashStringToInt("column_name"):	std::cout<<sql.fetch(row, nf)<<"  ";   break;
 					
-					case HashStringToInt("ordre"):			iptr =fetch(res, row, nf);
+					case HashStringToInt("ordre"):			iptr =sql.fetch( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
-															std::cout<< ival<<std::endl;
+															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("data_type"):		std::cout<<fetch(res, row, nf)<<std::endl; 	break;
+					case HashStringToInt("data_type"):		std::cout<<sql.fetch( row, nf)<<"  "; 	break;
 
-					case HashStringToInt("length"):			iptr =fetch(res, row, nf);
+					case HashStringToInt("length"):			iptr =sql.fetch( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
-															std::cout<< ival<<std::endl;
+															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("precision"):		iptr =fetch(res, row, nf);
+					case HashStringToInt("precision"):		iptr =sql.fetch( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
-															std::cout<< ival<<std::endl;
+															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("scale"):			iptr =fetch(res, row, nf);
+					case HashStringToInt("scale"):			iptr =sql.fetch( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
-															std::cout<< ival<<std::endl;
+															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("column_comment"):	std::cout<<fetch(res, row, nf)<<std::endl;   break;
+					case HashStringToInt("column_comment"):	std::cout<<sql.fetch( row, nf)<<std::endl;   break;
 
 					
-					default : std::cout<<cfield(res,nf)<<std::endl;	break;
+					default : std::cout<<sql.cfield(nf)<<std::endl;	break;
 				}
-				//std::cout<<cfield(res,nf)<<std::endl;   
-				//std::cout<<fetch(res,row,nf)<<std::endl;
+				//std::cout<<sql.cfield(nf)<<std::endl;   
+				//std::cout<<sql.fetch(row,nf)<<std::endl;
 			}
 
 
 
-end(conn);
+	sql.end();
 
-
-begin(conn);
-
-std::string cursorName = "mycursor";
+	printf("\n012 traitement file db2 \n");
+	
+	sql.begin();
 
 /*
 CREATE TABLE public."FNBDOS" (
@@ -421,220 +432,292 @@ UPDATE public."FNBDOS"
 SET "NBCAPR"='22', "NBCHTR"='      19', "NBCREP"=58, "NBCTVC"=-16, "NBCUTR"='MILLE', "NB999E"='2012-10-23',
  "NB999M"='2013-02-20', "NBMQOT"=6.95, "NBMTRF"=8.28, "NBMPRV"=6.95, "NBNLZE"=39, "NBNCAR"=0, "NBNFEU"=1,
  "NBQCDE"=900000000, "NBQFAC"=0, "NBQLVA"=900000000, "NBQLVR"=0, "NBQLVM"=0, "NBSHS"=0, "NBTTAS"='A', "NBXCFT"=1000,
- "NBXCOM"=0.00, "NBZIMP"='19X39  ETQ PF BOB 4000    KEYS'
+ "NBXCOM"=0.00, "NBZIMP"='19X39  ETQ PF BOB 4000'
 WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39';
 
 */
 
 /// select table n° order , prix , name of the print
-	requete = stm.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",21071110);
+	requete = sql.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",21071110);
 	std::cout<<requete<<std::endl;
 
 // mprv = 6.95
 /// fetch all 
-	res = fetchAll(conn,requete, cursorName);
+	sql.fetchAll(requete, cursorName);
 	if ( !fetch0)
 	{
-std::cout<<"code status  :"<<PQresultStatus(res)<<" OK:"<<PGRES_TUPLES_OK<<"  value result  "<<PQcmdStatus(res)<<std::endl;
 		printf("-- %s --\n", "FNBDOS");
 
-		for (int row = 0; row < PQntuples(res); row++)
+		for (int row = 0; row < PQntuples(sql.res); row++)
 		{
 
-			for (int col = 0; col < PQnfields(res); col++)
+			for (int col = 0; col < PQnfields(sql.res); col++)
 			{
-				std::cout<<cfield(res,col)<<std::endl;
-				std::cout<< PQgetvalue(res, row, col) <<std::endl;
+				std::cout<<sql.cfield(col)<<"  ";
+				std::cout<< PQgetvalue(sql.res, row, col) <<std::endl;
 			}
 		}
 	}
-PQclear(res);
 
-end(conn);
-
-
-Zdcml NBNDOS(8,0);
-Zdcml NBMPRV(8,2);
-Zchar NBZIMP(30);
-
-
-NBNDOS = 15;
-NBMPRV = 78.3;
-NBZIMP = "bonjour" ;
-
-
-printf("detail 001\n");
-
-std::cout<<NBNDOS.ToChar()<<std::endl;  std::cout<<NBMPRV.ToChar()<<std::endl; std::cout<<NBZIMP.ToChar()<<std::endl;
-
-NBMPRV =16.95 ; NBNDOS=21071110;
-requete = stm.prepare("UPDATE public.\"FNBDOS\"  SET \"NBMPRV\" = ?  WHERE \"NBNDOS\" = '?'",NBMPRV,NBNDOS);
-     std::cout<<requete<<std::endl;
-	res = query(conn,requete);
-printf("OK\n");
-commit(conn);
-end(conn);
+	sql.end();
 
 
 
-	requete = stm.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",21071110);
+
+	printf("\n013 traitement field db2 \n");
+
+	Zdcml NBNDOS(8,0);
+	Zdcml NBMPRV(8,2);
+	Zchar NBZIMP(30);
+
+
+	NBNDOS = 15;
+	NBMPRV = 78.3;
+	NBZIMP = "bonjour" ;
+
+
+	std::cout<<NBNDOS.ToChar()<<std::endl;  std::cout<<NBMPRV.ToChar()<<std::endl; std::cout<<NBZIMP.ToChar()<<std::endl;
+
+	NBMPRV =16.95 ; NBNDOS=21071110;
+
+	requete = sql.prepare("UPDATE public.\"FNBDOS\"  SET \"NBMPRV\" = ?  WHERE \"NBNDOS\" = '?'",NBMPRV,NBNDOS);
+
+	std::cout<<requete<<std::endl;
+     
+	sql.query(requete);
+
+	printf("OK\n");
+
+	sql.commit();
+
+	sql.end();
+
+
+
+	printf("\n014 traitement display field db2 \n");
+
+	requete = sql.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",21071110);
 	std::cout<<requete<<std::endl;
 
-begin(conn);
-	res = opensql(conn,requete, cursorName);
+	sql.begin();
+	sql.opensql(requete, cursorName);
 	do
 	{
 		if ( fetchEOF ==false )
-			for (int row = 0; row < records.rows; row++)
+			for (int row = 0; row < sql.rows; row++)
 			{
-				for (int col = 0; col < records.cols; col++)
+				for (int col = 0; col < sql.cols; col++)
 				{
-					std::cout<<cfield(res,col)<<" -row :"<<row<< " -col :"<< col<<std::endl;
-					std::cout<< PQgetvalue(res, row, col) <<std::endl;
+					std::cout<<sql.cfield(col)<<" -row :"<<row<< " -col :"<< col<<"    ";
+					std::cout<< PQgetvalue(sql.res, row, col) <<std::endl;
 				}
 			}
-		res = fechsql(conn);
+		sql.fechsql(cursorName);
 	}	while  (fetchEOF ==false) ;
 
-end(conn);
+	sql.end();
 
+	printf("\n015 traitement  update field db2 \n");
+	NBMPRV =6.95 ; NBNDOS=21071110;
 
-NBMPRV =6.95 ; NBNDOS=21071110;
-requete = stm.prepare("UPDATE public.\"FNBDOS\"  SET \"NBMPRV\" = ?  WHERE \"NBNDOS\" = '?'",NBMPRV,NBNDOS);
-     std::cout<<requete<<std::endl;
-	res = query(conn,requete);
-printf("OK\n");
-commit(conn);
-end(conn); 
-	requete = stm.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",21071110);
+	requete = sql.prepare("UPDATE public.\"FNBDOS\"  SET \"NBMPRV\" = ?  WHERE \"NBNDOS\" = '?'",NBMPRV,NBNDOS);
+
 	std::cout<<requete<<std::endl;
-printf("result 001\n");
-begin(conn);
-	res = opensql(conn,requete, cursorName);
+     
+	sql.query(requete);
+	
+	sql.commit();
+	
+	sql.end();
+
+
+
+	printf("\n016 traitement istream field db2  avec cursor name default\n");
+	
+	requete = sql.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",21071110);
+	std::cout<<requete<<std::endl;
+	
+
+	sql.begin();
+	
+	sql.opensql(requete);
 	do
 	{
-		if ( fetchEOF ==false ) stm.result(res)>>NBNDOS>>NBMPRV>>NBZIMP;
+		if ( fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
 
-std::cout<<NBNDOS<<std::endl;  std::cout<<NBMPRV<<std::endl; std::cout<<NBZIMP<<std::endl;
+		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
 		
-		if ( fetchEOF ==false ) res = fechsql(conn);
+		if ( fetchEOF ==false ) sql.fechsql();
  	}	while  (fetchEOF ==false) ;
 	
 
-end(conn);
-//closeDB(conn);
+	sql.end();
 
 
-printf("result 001.1\n");
- 
-begin(conn);
 
  
-char *	vdate = new char[8];
-double Ndouble =0;
-char* Nchar = new char[30];
-int Nint=0 ;
-printf("result 002 ******\n");
-requete = stm.prepare("SELECT vdate, vnumeric, vtext , vkey FROM  typetable WHERE vkey = ?", 3681210);
-     std::cout<<requete<<std::endl;
 
  
-	res = fetchAll(conn,requete, cursorName);
+/*
+CREATE TABLE public.typetable (
+	vdate date NULL,
+	vnumeric numeric(8,2) NULL,
+	vtext text NULL,
+	vonchar bpchar(1) NULL,
+	vtime timetz NULL,
+	vtimestamp timestamp NULL,
+	heure time NULL,
+	vkey numeric(7) NOT NULL,
+	CONSTRAINT typetable_pk PRIMARY KEY (vkey),
+	CONSTRAINT typetable_un UNIQUE (vkey)
+)
+WITH (
+	OIDS=FALSE
+) ;
+INSERT INTO public.typetable
+(vdate, vnumeric, vtext, vonchar, vtime, vtimestamp, heure, vkey)
+VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '12:10:01', '1951-10-12 10:01:00.000', '13:12:10', 1);
+
+INSERT INTO public.typetable
+(vdate, vnumeric, vtext, vonchar, vtime, vtimestamp, heure, vkey)
+VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 10:01:00.000', '13:12:10', 3681210);
+
+
+*/
+																	
+
+	printf("\n016 traitement non  ZONED \n");
  
-    for (int row = 0; row < countrow(res) && fetchEOF ==false ; row++)
+
+
+ 
+	char *	vdate = new char[8];
+	double Ndouble =0;
+	char* Nchar = new char[30];
+	int Nint=0 ;
+
+
+	sql.begin();
+	requete = sql.prepare("SELECT vdate, vnumeric, vtext , vkey FROM  typetable WHERE vkey = ?", 3681210);
+	std::cout<<requete<<std::endl;
+
+ 
+	sql.fetchAll(requete, cursorName);
+ 
+    for (int row = 0; row < sql.countrow() && fetchEOF ==false ; row++)
     {
-		for (int nf = 0;nf < countfield(res); nf++)
+		for (int nf = 0;nf < sql.countfield(); nf++)
 			{ 
 
-				switch (HashStringToInt(cfield(res,nf)))
+				switch (HashStringToInt(sql.cfield(nf)))
 				{
-					case HashStringToInt(NAMEOF(vdate)):	vdate	=	fetch(res, row, nf);   break; //exemple avec le Nom de la Variable
+					case HashStringToInt(NAMEOF(vdate)):	vdate	=	sql.fetch( row, nf);   break; //exemple avec le Nom de la Variable
 					
-					case HashStringToInt("vnumeric"):		Ndouble	= 	fetchDbl(res, row, nf);   break;
+					case HashStringToInt("vnumeric"):		Ndouble	= 	sql.fetchDbl( row, nf);   break;
 					
-					case HashStringToInt("vtext"):			Nchar	=	fetch(res, row, nf);   break;
+					case HashStringToInt("vtext"):			Nchar	=	sql.fetch( row, nf);   break;
 					
-					case HashStringToInt("vkey"):			Nint	=	fetchInt(res, row, nf);
+					case HashStringToInt("vkey"):			Nint	=	sql.fetchInt( row, nf);
 															 
 
 															break;
 					
-					default : std::cout<<cfield(res,nf)<<std::endl;	break;
+					default : std::cout<<sql.cfield(nf)<<std::endl;	break;
 				}
-				//std::cout<<cfield(res,nf)<<std::endl;   
-				//std::cout<<fetch(res,row,nf)<<std::endl;
+				//std::cout<<sql.cfield(nf)<<std::endl;   
+				//std::cout<<sql.fetch(row,nf)<<std::endl;
 
 			}
-		std::cout << vdate <<" -- "<<setprecision(8)<<Ndouble<<" -- "<<Nchar<<"  --  "<<Nint<<std::endl;
-	}	
-end(conn);
-     
-begin(conn);
-	res = opensql(conn,requete, cursorName);
+		std::cout <<"NAMEOF(vdate)  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
+	}
+
+
+	sql.end();
+
+
+	printf("\n016 traitement non  ZONED  istream \n");
+
+	requete = sql.prepare("SELECT vdate, vnumeric, vtext , vkey FROM  typetable WHERE vkey = ?", 3681210);
+	std::cout<<requete<<std::endl;
+
+	sql.begin();
+	sql.opensql(requete, cursorName);
 	do
 	{
-		if ( fetchEOF ==false )  stm.result(res)>>vdate>>Ndouble>>Nchar>>Nint;
+		if ( fetchEOF ==false )  sql.result()>>vdate>>Ndouble>>Nchar>>Nint;
 
-std::cout << vdate <<" -- "<<Ndouble<<" -- "<<Nchar<<"  --  "<<Nint<<std::endl;
-		if ( fetchEOF ==false ) res = fechsql(conn);
+			std::cout <<"NAMEOF(vdate)  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
+			
+		if ( fetchEOF ==false ) sql.fechsql(cursorName);
  	}while  (fetchEOF ==false) ;	
 
-end(conn);
-
-
-begin(conn);
-requete = stm.prepare("UPDATE typetable  SET vnumeric = '?'  WHERE vkey = ?",36.04, 3681210);
-	res = query(conn,requete);
-printf("OK\n");
-commit(conn);
-end(conn);
-
-double Xdouble = std::stod(NBNDOS.ToChar());
-std::cout<<std::setprecision(NBNDOS.clen())<<Xdouble<<"   clen : "<<NBNDOS.clen()<<std::endl;
+	sql.end();
 
 
 
 
-Zdate   zDate;
-Zdcml   zNumeric(8,2);
-Ztext   zText ;
-Zdcml   zKey(7,0);
-requete = stm.prepare("SELECT vdate, vnumeric, vtext , vkey FROM  typetable WHERE vkey = ?", 3681210);
-//requete = stm.prepare("SELECT vnumeric FROM  typetable WHERE vint = ?", 1);
+	printf("\n017 traitement double entrer \n");
+	requete = sql.prepare("UPDATE typetable  SET vnumeric = '?'  WHERE vkey = ?",36.04, 3681210);
+	sql.begin();
+	sql.query(requete);
+	sql.commit();
+	sql.end();
+
+	double Xdouble = std::stod(NBNDOS.ToChar());
+	std::cout<<std::setprecision(NBNDOS.clen())<<Xdouble<<"   clen : "<<NBNDOS.clen()<<std::endl;
+
+
+
+
+	printf("\n018 traitement not ZONED istream  ZONED ostream \n");
+	Zdate   zDate;
+	Zdcml   zNumeric(8,2);
+	Ztext   zText ;
+	Zdcml   zKey(7,0);
+
+
+	requete = sql.prepare("SELECT vdate, vnumeric, vtext , vkey FROM  typetable WHERE vkey = ?", 3681210);
+
      std::cout<<requete<<std::endl;
 
      
-begin(conn);
-	res = opensql(conn,requete, cursorName);
+	sql.begin();
+	sql.opensql(requete, cursorName);
 	do
 	{
-		if ( fetchEOF ==false )  stm.result(res)>>zDate>>zNumeric>>zText>>zKey;
-//recd(res)>>vdate>>vnumeric>>vtext ;
-//			recd(res)>>vnumeric;
+		if ( fetchEOF ==false )  sql.result()>>zDate>>zNumeric>>zText>>zKey;
 
-std::cout << zDate <<" -- "<<zNumeric<<" -- "<<zText<<"  --  "<<zKey<<std::endl;
-		if ( fetchEOF ==false ) res = fechsql(conn);
- 	}while  (fetchEOF ==false) ;	
+		std::cout << zDate <<" -- "<<zNumeric<<" -- "<<zText<<"  --  "<<zKey<<std::endl;
+		
+		if ( fetchEOF ==false ) sql.fechsql(cursorName);
+ 	}while  (fetchEOF ==false) ;
 
-end(conn);
-
+	sql.end();
 
 
-begin(conn);
-int Nkey = 3681210;
-Ndouble = 345678.09;
-std::cout<<std::setprecision(10)<<Ndouble<<" affiche une double"<<std::endl;
-requete = stm.prepare("UPDATE typetable  SET vnumeric = ?  WHERE vkey = ?",DoubleToChar(Ndouble,2), DoubleToChar(Nkey) );
-     std::cout<<requete<<std::endl;
-	res = query(conn,requete);
 
-commit(conn);
-end(conn);
+	printf("\n019 traitementrequtte avec des doubles \n");
+	
+	int Nkey = 3681210;
+	Ndouble = 345678.09;
+	std::cout<<std::setprecision(10)<<Ndouble<<" affiche une double"<<std::endl;
 
-printf("OK\n");
-closeDB(conn);
-printf("fin\n");
 
+	requete = sql.prepare("UPDATE typetable  SET vnumeric = ?  WHERE vkey = ?",sql.DoubleToChar(Ndouble,2), sql.DoubleToChar(Nkey) );
+	std::cout<<requete<<std::endl;
+	
+	sql.begin();
+	sql.query(requete);
+
+	sql.commit();
+	sql.end();
+
+	
+
+	std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+	
+	printf("sql.closeDB \n");
+	sql.closeDB();
 
 
 } catch (const std::exception& e)

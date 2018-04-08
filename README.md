@@ -1,41 +1,65 @@
 # libpq-wrapper
 wrapper de base en c++
 
-il est basé sur libpq C API
+il est basé sur libpq C API<br>
 
-ce projet à pour but de simplifier l'accès au travers de libpq mise à disposition par PostGreSql
-
-
-projet 2018-03-15  (C) 2011   Copyright 2018 <laroche.jeanpierre@gmail.com>
-
-je voudrais remercier...
-
-THANK YOU   MERCI BEAUCOUP
+ce projet à pour but de simplifier l'accès au travers de libpq mise à disposition par PostGreSql<br>
 
 
- le site quebecois 					https://h-deb.clg.qc.ca/		pour son travaille de divulgation
- exemple:							https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/templates_variadiques.html
+projet 2018-03-15  (C) 2011   Copyright 2018 <laroche.jeanpierre@gmail.com><br>
 
- https://stackoverflow.com			une mine d'or pour comprendre avec des examples
+je voudrais remercier...<br>
 
- https://docs.postgresql.fr/		pour tous les efforts pour la traduction
+THANK YOU   MERCI BEAUCOUP<br>
+
+
+ le site quebecois 					https://h-deb.clg.qc.ca/		pour son travaille de divulgation<br>
+ exemple:							https://h-deb.clg.qc.ca/Sujets/Divers--cplusplus/templates_variadiques.html<br>
+
+ https://stackoverflow.com			une mine d'or pour comprendre avec des examples<br>
+
+ https://docs.postgresql.fr/		pour tous les efforts pour la traduction<br>
 
  
  le site Français wikiversity		https://fr.wikiversity.org/wiki/Langage_C%2B%2B<br>
  le site cppreference				http://en.cppreference.com/w/<br>
 									http://fr.cppreference.com/w/<br>
- le site cplusplus					http://www.cplusplus.com/reference/
+ le site cplusplus					http://www.cplusplus.com/reference/<br>
 
 
- et tout ceux qui part leur publication sur des sujets pointus mon permis d'avancé.
+ et tout ceux qui part leur publication sur des sujets pointus mon permis d'avancé.<br>
+
+ ce projet avec ZONED sont intimement lier et conjointement permettent d'approcher un langage de type 4G<br>
+
+ Le sujet qui sera développer après la validation du wrapper<br>
 
 
- le projet est encours
- seulement une ébauche est actuelement disponible
+ Le wrapper se base libpq de PostGreSql<br>
 
- ce projet avec ZONED sont intimement lier et conjointement permettent d'approcher un langage de type 4G
+ une class libPQwrp	library PQ (libpq)  wrp (wrapper)<br>
+ pour contenir les éléments qui permettent de rendre flexible l'ensemble du process.<br>
 
- sujet qui sera developper après la validation du wrapper
 
- plus de documentation .... à venir
+ pour avoir plusieurs connexions par exemple<br>
+ une pour les lock update<br>
+ une pour les read<br>
+ cela permet de rendre les commits independants etc.....<br>
+
+ de faire des pointeurs et de profiter de ses avantages pour le nettoyage de mémoire.<br>
+
+ le contrôle du clear de PGresult<br>
+ la possibilité de faire du istream ou ostream<br>
+ la récupération du nom avec traitement switch<br>
+ un type template de variadique pour les requêtes<br>
+ un autre type stringstream pour les résultats de requête<br>
+ possibilté d'avoir plusieurs cursor<br>
+ de traiter les double et int<br> 
+
+ je souhaite avoir été clair.<br>
+
+ il y a plusieurs approches et de façon de traiter les données<br>
+ 
+
+ il est certainement possible d'aller beaucoup plus loin,<br>
+ mais d'après moi cela serait autre chose qu'un wrapper<br>
 

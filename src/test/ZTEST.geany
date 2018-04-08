@@ -28,26 +28,25 @@ long_line_behaviour=1
 long_line_column=120
 
 [files]
-current_page=3
-FILE_NAME_0=0;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefile;0;4
-FILE_NAME_1=629;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Ffonc.h;0;4
-FILE_NAME_2=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.hpp;0;4
-FILE_NAME_3=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2FTiostream.cpp;0;4
+current_page=2
+FILE_NAME_0=1035;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTiostream.cpp;0;4
+FILE_NAME_1=336;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fhpp%2Flibpqwrp.hpp;0;4
+FILE_NAME_2=1029;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefile;0;4
 
 [VTE]
 last_dir=/home/soleil/Ztest/bin
 
 [build-menu]
 MakeFT_00_LB=Construire
-MakeFT_00_CM=make clean   all 
+MakeFT_00_CM=make clean --trace  TEST=1 all 
 MakeFT_00_WD=
 MakeFT_01_LB=Build
-MakeFT_01_CM=make mrproper PROD=1  all  build
+MakeFT_01_CM=make mrpropre  all  build
 MakeFT_01_WD=
 MakeFT_02_LB=nettoyage 
-MakeFT_02_CM=make mrproper
+MakeFT_02_CM=make mrpropre
 MakeFT_02_WD=
-filetypes=Make;C++;
+filetypes=Make;C++;None;
 NF_03_LB=GLADE
 NF_03_CM=/home/soleil/T_LIB/Pcall  -p %d  -f  %e -g
 NF_03_WD=
@@ -66,6 +65,15 @@ C++FT_02_WD=%p
 EX_00_LB=_Exécuter
 EX_00_CM=%p/bin/Tiostream
 EX_00_WD=%p/bin/
+NoneFT_00_LB=Construire
+NoneFT_00_CM=make  -f Makefile_T TEST=1  --trace clean all 
+NoneFT_00_WD=
+NoneFT_01_LB=Build
+NoneFT_01_CM=make  -f Makefile_T mrpropre all  build
+NoneFT_01_WD=
+NoneFT_02_LB=Nettoyage
+NoneFT_02_CM=make mrpropre
+NoneFT_02_WD=
 
 [prjorg]
 source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;

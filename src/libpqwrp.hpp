@@ -29,30 +29,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  * 
- */
+*/
+#ifndef LIBPQWRP_H_INCLUDED
+#define LIBPQWRP_H_INCLUDED
 
+#include <string.h>
 
-#ifndef LIBPQWRP_HPP_INCLUDED
-#define LIBPQWRP_HPP_INCLUDED
-
+#include <cstdio>
+#include <cstdlib>
+#include <string>
 
 #include <iostream>
 #include <ostream>
-#include <iomanip>
 #include <sstream>
+#include <iomanip>
+
 #include <stdexcept>
-#include <string>
 #include <libpq-fe.h>
-#include <cstdlib>
+#include <typeinfo>     // name
 
-
-namespace libpqsql
+namespace libpqwrp
 {
 
 
-#ifndef   DeLiMiTaTioN
-#define   DeLiMiTaTioN		'~'		///  caractère de délimitation multibuffer > stringstream
-#endif
 
 ///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 ///				fonction sql de libpq 
@@ -64,61 +63,9 @@ static bool delete0 ;
 static bool insert0 ;
 static bool fetchEOF ;
 
-struct	inforowcol
-{
-	int			rows;			/// initialise par les requetes
-	int			cols;			/// initialise par les requetes
-
-	int			Xrow;			/// variable de traitement
-	int			Xcol;			/// variable de traitement
-} records ;
 
 
 
-
-///****************************************************************************
-/// FONCTIONS util     --------------------------------------------------------
-///****************************************************************************
-/// retrieve  char stringstream
-
-std::istream& operator>>(std::istream& is ,char* t)
-	{
-		std::string _var_ ;
-		is >> _var_ ;
-		for (size_t i = 0; i < _var_.size(); ++i)
-			{
-				if (_var_[i] == DeLiMiTaTioN)
-				{
-				_var_[i] = ' ';
-				}
-			}
-		 
-		 t = (char*)_var_.c_str();
-		 _var_ = t; /// dumy
-		return is;
-	}
-/// Double to char -----------------------------
-char* DoubleToChar(double _X_ ,unsigned _precision_ = 0)
-{
-
-	char * X_value   = (char*) malloc(36  * sizeof(char*));   sprintf(X_value,"%c",'\0');
-	char * X_cmd     = (char*) malloc(36  * sizeof(char*));
-	char sign = _X_ >= 0 ? '+' : '-';
-
-	if ( sign == '-')  // signed -
-	{
-		 sprintf(X_cmd,"%s%c%d.0%d%c","%c",'%',0,_precision_,'f');
-		 snprintf(X_value + strlen(X_value), 16, X_cmd , sign, fabs(_X_));
-	}
-	else // not signed +
-	{
-		sprintf(X_cmd,"%c%d.0%d%c",'%',0,_precision_,'f');
-		snprintf(X_value + strlen(X_value), 16, X_cmd , fabs(_X_));
-	}
-
-	return (char*) X_value;
-
-}
 /// a function to make your alphanumeric switch
 constexpr unsigned long long int HashStringToInt(const char *str, unsigned long long int hash = 0)
 {
@@ -128,43 +75,149 @@ constexpr unsigned long long int HashStringToInt(const char *str, unsigned long 
 
 #define NAMEOF(variable) ((void)variable, #variable)
 
+#ifndef   DeLiMiTaTioN
+#define   DeLiMiTaTioN		'~'		///  caractère de délimitation multibuffer > stringstream
+#endif
 
 
 
 ///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-///			 prepare sql  formatage avec template variadique 
+///			 prepare sql  formatage avec template variadique  etc........
 ///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 
-class QueryPrint            /// gestion parametre sql 
+class libPQwrp																		/// gestion parametre sql 
 {
 	private:
+
+	PGconn* conn;
+
+	
 	static constexpr char FORMAT_SPECIFIER = '?';
 	
-	std::stringstream sql;
-	bool first = true ;
-	std::string fin_stage ;
+	std::stringstream sqlstream;
 	
+	bool first = true ;
+	
+	std::string fin_stage ;
+
+	bool clean ;																/// contrôle  PGresult 
+
+
 	protected :
 	
 	unsigned count_format_specifiers(std::string const& format);				/// count the number of parameters in the format
 
 	void prepare(std::string const& format);									/// format without parameters causes an error
 
-	void resultctrl(PGresult* res);												/// error not parameter query result
+
+
 
 	public:
+	
+
+	int			rows;			/// initialise par les requetes
+	int			cols;			/// initialise par les requetes
+
+	int			rown;			/// variable de traitement
+	int			coln;			/// variable de traitement
+
+	
+	PGresult* res;
+
+	libPQwrp(){
+	fetch0  =false ;
+	update0 =false ;
+	select0 =false ;
+	delete0 =false ;
+	insert0 =false ;
+	fetchEOF =false ;
+
+		};
+
+	~libPQwrp(){};
+
+
+	void connectDB(std::string info);												/// connect to the database
+	
+	void qexec( std::string sql);													/// PQexec
+
+	void query(std::string sql, bool binary = true );								/// PQquery
+
+	char* fetch(int row, int column);												/// get the value of the row and the column
+	
+	double fetchDbl(int row, int column);											/// get the value of the row and the column
+
+	int fetchInt(int row, int column);												/// get the value of the row and the column
+
+	int nfield(std::string field);													/// number column of the field
+
+	const char* cfield(int nfield);													/// name of the field
+
+	int countfield();																/// number of columns
+
+	int countrow();																	/// number of rows
+
+	bool is_Table(const char* table);												/// if exist table of the database
+
+	void closeDB();																	/// close to the database
+
+	void begin();																	/// start transction for commit
+
+	void commit();																	/// commit for transaction init
+
+	void rollback();																/// rollbck for transaction init
+
+	void end();																		/// end transaction for init
+
+	void clearRes();																/// clear PGresult
+
+	void savpoint();																/// point de sauvegarde
+
+	void savpointRollback();														/// roolback base savepoint
+
+	void savpointRelease();															/// delete savepoint
+
+	void fetchAll( std::string , std::string cursor = "mycursor" );					/// fetch ALL include requete
+
+	void opensql( std::string sql, std::string cursor = "mycursor" );				/// query for fetchsql record / record
+
+	void fechsql( std::string cursor = "mycursor");												/// fetch record use openSQL
+
+
 
 	template <typename Head, typename... Args>
 	std::string  prepare(std::string const& format, Head&& head, Args&&... args);	/// formatting the query with parameters
 
-	std::stringstream result(PGresult* res);										/// out buffer;
+	std::stringstream result();														/// out buffer;
+
+	char* DoubleToChar(double _X_ ,unsigned _precision_ = 0 );							/// Double to char
+
+	friend  std::istream& operator>>(std::istream& is ,char* t)						/// retrieve  char*  for stringstream
+	{
+		std::string _var_ ;
+		is >> _var_ ;
+		for (size_t i = 0; i < _var_.size(); ++i)
+		{
+			if (_var_[i] == DeLiMiTaTioN)
+			{
+				_var_[i] = ' ';
+			}
+		}
+		 
+		t = (char*)_var_.c_str();
+		 _var_ = t; /// dumy
+		return is;
+	}
 };
 
+///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+/// 						process
+///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-unsigned  QueryPrint::count_format_specifiers(std::string const& format)
+unsigned  libPQwrp::count_format_specifiers(std::string const& format)
 {
   unsigned count = 0;
   for (size_t i = 0; i < format.size(); ++i)
@@ -183,7 +236,7 @@ unsigned  QueryPrint::count_format_specifiers(std::string const& format)
 
 
 
-void QueryPrint::prepare(std::string const& format)
+void libPQwrp::prepare(std::string const& format)
 {
   if (count_format_specifiers(format) != 0)
     throw std::invalid_argument("number of arguments does not match the format string");
@@ -192,13 +245,13 @@ void QueryPrint::prepare(std::string const& format)
 
 
 template <typename Head, typename... Args>
-std::string QueryPrint::prepare(std::string const& format, Head&& head, Args&&... args)		/// formate la requete 
+std::string libPQwrp::prepare(std::string const& format, Head&& head, Args&&... args)		/// formate la requete 
 {
 
 	if (count_format_specifiers(format) > 0 && first == true)
 	{
 		
-		fin_stage = format ;  first = false ;  sql.str("");
+		fin_stage = format ;  first = false ;  sqlstream.str("");
 		auto last_format_pos = format.find_last_of(FORMAT_SPECIFIER);
 		fin_stage  =fin_stage.erase(0,  last_format_pos +1);
 		 
@@ -208,23 +261,23 @@ std::string QueryPrint::prepare(std::string const& format, Head&& head, Args&&..
     throw std::invalid_argument("number of arguments does not match the format string");
 
   // TODO: take care of escaped format specifiers
-  sql<<"";
+   sqlstream <<"";
   auto first_format_pos = format.find_first_of(FORMAT_SPECIFIER);
   
-  sql << format.substr(0, first_format_pos);  
-  sql << head;
+   sqlstream << format.substr(0, first_format_pos);  
+   sqlstream << head;
   
-  if ( count_format_specifiers(format) == 1 ) { sql<<fin_stage; first =true  ;}
+  if ( count_format_specifiers(format) == 1 ) {  sqlstream<<fin_stage; first =true  ;}
   
   prepare(format.substr(first_format_pos+1), std::forward<Args>(args)...);
-  return sql.str();
+  return  sqlstream.str();
  
 }
 
 
 
 
-std::stringstream  QueryPrint::result(PGresult* res)								/// retrieve values on the fields
+std::stringstream  libPQwrp::result()												/// retrieve values on the fields
 {	
 
 	char* tptr;
@@ -232,9 +285,9 @@ std::stringstream  QueryPrint::result(PGresult* res)								/// retrieve values 
 
 
     
-	for ( int i= 0 ; i <records.cols ; i ++ )
+	for ( int i= 0 ; i <cols ; i ++ )
 	{
-		tptr = PQgetvalue(res, records.Xrow, i);
+		tptr = PQgetvalue(res, rown, i);
 		
 
 		for (size_t i = 0; i < strlen(tptr); ++i)
@@ -253,51 +306,46 @@ std::stringstream  QueryPrint::result(PGresult* res)								/// retrieve values 
 	return  sql;
 }
 
-///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 
-
-
-///-------------------------------------------------------------------------------------------------------
-
-PGconn* connectDB(std::string info)											/// connect to the database
+void libPQwrp::connectDB(std::string info)											/// connect to the database
 {
-    PGconn* conn;
-	conn= PQconnectdb(info.c_str());  
+	
+	clean = true ;
+	
+	conn= PQconnectdb(info.c_str());  												/// init PGconn
     if (PQstatus(conn) != CONNECTION_OK)
     {  
         char const* msg = PQerrorMessage(conn);
         throw std::runtime_error(std::string(msg));
     }
-    return conn;
+    res = PQgetResult(conn);														/// init PGresult
 }
 
 
 
-
-bool qexec(PGconn* conn, std::string sql)									/// PQexec 
+void libPQwrp::qexec( std::string sql)												/// PQexec 
 {
-     PGresult* res = PQgetResult(conn);
-     res = PQexec(conn, sql.c_str());
+	
+	clean = true ;
+	
+    res = PQexec(conn, sql.c_str());
 
     if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
     {	PQclear(res); 
         char const* msg = PQresultErrorMessage(res);
         throw std::runtime_error(std::string(msg));
     }
-    
-	PQclear(res);
-    return true ;
 }
 
 
-
-PGresult* query(PGconn* conn, std::string sql, bool binary = true)			/// PQquery
+void libPQwrp::query(std::string sql, bool binary )									/// PQquery
 {
     int const fmt = binary ? 1 : 0;
  
-    PGresult* res = PQgetResult(conn);
+	clean = true ;
+	
     res = PQexecParams(conn, sql.c_str(), 0, 0, 0, 0, 0, fmt);
     
 	if ( PGRES_BAD_RESPONSE == PQresultStatus(res) || \
@@ -316,12 +364,10 @@ PGresult* query(PGconn* conn, std::string sql, bool binary = true)			/// PQquery
     if ( operation =="DELETE 0" ) delete0 = true; else delete0 =false ;
     if ( operation =="INSERT 0" ) insert0 = true; else insert0 =false ;
 
-    return res;
 }
 
 
-
-char* fetch(PGresult* res, int row, int column)								/// get the value of the row and the column
+char* libPQwrp::fetch( int row, int column)											/// get the value of the row and the column
 {
 	if (row < 0)
 		throw std::invalid_argument("row position is negative");
@@ -334,7 +380,7 @@ char* fetch(PGresult* res, int row, int column)								/// get the value of the 
 
 
 
-double fetchDbl(PGresult* res, int row, int column)							/// get the value of the row and the column
+double libPQwrp::fetchDbl(int row, int column)										/// get the value of the row and the column
 {
 	if (row < 0)
 		throw std::invalid_argument("row position is negative");
@@ -343,12 +389,11 @@ double fetchDbl(PGresult* res, int row, int column)							/// get the value of t
 		throw std::invalid_argument("column position is negative");
 
 	return atof(PQgetvalue(res, row, column));
-	throw std::invalid_argument("fetchDbl invalide argument");
 }
 
 
 
-int fetchInt(PGresult* res, int row, int column)							/// get the value of the row and the column
+int libPQwrp::fetchInt(int row, int column)											/// get the value of the row and the column
 {
 	if (row < 0)
 		throw std::invalid_argument("row position is negative");
@@ -357,12 +402,11 @@ int fetchInt(PGresult* res, int row, int column)							/// get the value of the 
 		throw std::invalid_argument("column position is negative");
 
 	return atoi(PQgetvalue(res, row, column));
-		throw std::invalid_argument("fetchInt invalide argument");
+
 }
 
 
-
-int nfield(PGresult* res, std::string field)								/// column of the field
+int libPQwrp::nfield(std::string field)												/// number column of the field
 {
 	int col =  PQfnumber(res, field.c_str());
 
@@ -375,8 +419,7 @@ int nfield(PGresult* res, std::string field)								/// column of the field
 }
 
 
-
-const char* cfield(PGresult* res,int nfield)								/// name of the field 
+const char* libPQwrp::cfield(int nfield)											/// name of the field 
 {
 	if (nfield < 0 || nfield > PQnfields(res) )
 	{
@@ -388,95 +431,103 @@ const char* cfield(PGresult* res,int nfield)								/// name of the field
 }
 
 
-
-int countfield(PGresult* res)												/// number of columns
+int libPQwrp::countfield()															/// number of columns
 {
 	return  PQnfields(res);
 }
 
 
 
-int countrow(PGresult* res)													/// number of rows
+int libPQwrp::countrow()															/// number of rows
 {
 	return PQntuples(res);	
 }
 
 
-
-bool is_Table(PGconn* conn , const char* table)						/// if exist table of the database ->fasle = does not exist
+bool libPQwrp::is_Table(const char* table)											/// if exist table of the database 
 {
 	static std::string const exist_Table = "SELECT count(*)  FROM pg_tables  WHERE  schemaname ='public' AND    tablename = '?'";
-	QueryPrint prep;
  
-	const std::string trt = prep.prepare(exist_Table ,table);
+	const std::string sql = prepare(exist_Table ,table);
 
-	PGresult* res;
+	bool binary = false;															/// false for return value count
 
-	res = query(conn,trt,false);									/// false for return value count 
-
-	return atoi(PQgetvalue(res, 0, 0));
-
+	int const fmt = binary ? 1 : 0;
+ 
+    res = PQexecParams(conn, sql.c_str(), 0, 0, 0, 0, 0, fmt);
+    
+	int count = atoi(PQgetvalue(res, 0, 0));
+	
+	PQclear(res);
+	
+	clean = false;
+	
+	
+	return count;
 }
 
 
-
-void closeDB(PGconn* conn)											/// close to the database 
+void libPQwrp::closeDB()															/// close to the database 
 {
-	PGresult* res = PQgetResult(conn);
-	PQclear(res);
-	qexec(conn,"ROLLBACK");
+	clearRes();
 	PQfinish(conn);
 }
 
 
 
-void begin(PGconn* conn )
+void libPQwrp::begin()																/// start transction for commit
 {
-	query(conn,"BEGIN");		/// full
+	PQexec(conn,"BEGIN");
 }
 
 
-
-
-void commit(PGconn* conn )
+void libPQwrp::commit()																/// commit for transaction init
 {
-	query(conn,"COMMIT");		/// full
+	PQexec(conn,"COMMIT");
+	clearRes();
 }
 
 
-
-void end(PGconn* conn )
+void libPQwrp::rollback()															/// rollbck for transaction init
 {
-	query(conn,"END");		/// full
+	PQexec(conn,"ROLLBACK");
+	clearRes();
 }
 
 
-
-void rollback(PGconn* conn )
+void libPQwrp::end()																/// end transaction for init 
 {
-	query(conn,"ROLLBACK");		/// full
+	PQexec(conn,"END");
+	clearRes();
 }
 
 
-
-void savpoint(PGconn* conn )
+void libPQwrp::clearRes()															/// clear PGresult
 {
-	query(conn,"SAVEPOINT full_savepoint");					/// point de sauvegarde  
+	if (clean) { PQclear(res); clean = false; }
 }
 
 
-
-void savpointRollback(PGconn* conn )
+void libPQwrp::savpoint()															/// point de sauvegarde
 {
-	query(conn,"ROLLBACK TO SAVEPOINT full_savepoint");		/// roolback sur savepoint
+	PQexec(conn,"SAVEPOINT full_savepoint");
+	clearRes(); 
 }
 
 
-
-void savpointRelease(PGconn* conn )
+void libPQwrp::savpointRollback()													/// roolback base savepoint
 {
-	query(conn,"RELEASE SAVEPOINT full_savepoint");			/// delete savepoint 
+	PQexec(conn,"ROLLBACK TO SAVEPOINT full_savepoint");
+	clearRes();
 }
+
+
+void libPQwrp::savpointRelease()													/// delete savepoint
+{
+	PQexec(conn,"RELEASE SAVEPOINT full_savepoint");
+	clearRes();
+}
+
 
 
 ///-------------------------------------------------------------------------------------------------------
@@ -484,15 +535,13 @@ void savpointRelease(PGconn* conn )
 ///-------------------------------------------------------------------------------------------------------
 
 
-
-
-
-PGresult * fetchAll(PGconn* conn, std::string sql, std::string cursor = "mycursor")		/// fetch ALL include requete 
+void libPQwrp::fetchAll( std::string sql, std::string cursor)						/// fetch ALL include requete 
 {
-     PGresult* res = PQgetResult(conn);
-	 std::string  ordreSQL;
+	std::string  ordreSQL;
+
+	clean = true ;
 	 
-     ordreSQL =  "DECLARE " + cursor + " CURSOR FOR "+ sql;
+    ordreSQL =  "DECLARE " + cursor + " CURSOR FOR "+ sql;
 
 	res = PQexec(conn, ordreSQL.c_str());
     if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
@@ -503,7 +552,7 @@ PGresult * fetchAll(PGconn* conn, std::string sql, std::string cursor = "mycurso
 	}
 	PQclear(res);
 
-	ordreSQL = "FETCH ALL in " + cursor ;	/// lecture full records  ??? memory 
+	ordreSQL = "FETCH ALL in " + cursor ;	/// lecture full rc  ??? memory 
      
  	res = PQexec(conn, ordreSQL.c_str());
  //    std::cout<<"code status  :"<<PQresultStatus(res)<<" OK:"<<PGRES_TUPLES_OK<<"  value result  "<<PQcmdStatus(res)<<std::endl;
@@ -521,24 +570,26 @@ PGresult * fetchAll(PGconn* conn, std::string sql, std::string cursor = "mycurso
 		ordreSQL = "close" + cursor ;		/// close cursor
 		PQexec(conn, ordreSQL.c_str());
 		PQclear(res);
+		clean = false ;
 	}
 	else fetchEOF  =false ;					/// no end of row
 
 
-	records.rows	= PQntuples(res);
-	records.cols	= PQnfields(res);
-	records.Xrow	= 0;
-	records.Xcol	= 0;
-	std::cout<<records.rows<<" - " << records.cols << std::endl;
-	return res ;
+	rows	= PQntuples(res);
+	cols	= PQnfields(res);
+	rown	= 0;
+	coln	= 0;
+
+
 }
 
 
 
-PGresult * opensql(PGconn* conn, std::string sql, std::string cursor = "mycursor")	///  query for fetchsql record / record 
+void libPQwrp::opensql( std::string sql, std::string cursor)						///  query for fetchsql record / record 
 {
-	PGresult* res = PQgetResult(conn);
 	std::string  ordreSQL;
+
+	clean = true ;
 	 
     ordreSQL =  "DECLARE " + cursor + " CURSOR FOR "+ sql;
 
@@ -558,6 +609,7 @@ PGresult * opensql(PGconn* conn, std::string sql, std::string cursor = "mycursor
 		ordreSQL = "close" + cursor ;		/// close cursor
 		PQexec(conn, ordreSQL.c_str());
 		PQclear(res);
+		clean = false ;
 	}
 	else
 	{
@@ -566,21 +618,22 @@ PGresult * opensql(PGconn* conn, std::string sql, std::string cursor = "mycursor
 		ordreSQL = "FETCH FIRST in " + cursor ;	/// read a line record only
 		res = PQexec(conn, ordreSQL.c_str());
 	}
-	records.rows	= PQntuples(res);
-	records.cols	= PQnfields(res);
-	records.Xrow	= 0;
-	records.Xcol	= 0;
+	rows	= PQntuples(res);
+	cols	= PQnfields(res);
+	rown	= 0;
+	coln	= 0;
 
-	return res;
 }
 
 
 
-PGresult * fechsql(PGconn* conn, std::string cursor = "mycursor")			/// fetch record use openSQL
-{
-     PGresult* res = PQgetResult(conn);
-	 std::string  ordreSQL;
 
+void libPQwrp::fechsql(std::string cursor )											/// fetch record use openSQL
+{
+	std::string  ordreSQL;
+
+	clean = true ;
+	
      ordreSQL = "FETCH NEXT in " + cursor ;	/// read a line record only
 
 	res = PQexec(conn, ordreSQL.c_str());
@@ -591,22 +644,46 @@ PGresult * fechsql(PGconn* conn, std::string cursor = "mycursor")			/// fetch re
 		ordreSQL = "close" + cursor ;		/// close cursor
 		PQexec(conn, ordreSQL.c_str());
 		PQclear(res);
-		
+		clean = false;
 	}
 	else fetchEOF  =false ;					/// no end of row
 
-	records.rows	= PQntuples(res);
-	records.cols	= PQnfields(res);
-	records.Xrow	= 0;
-	records.Xcol	= 0; 
-    return res;
+	rows	= PQntuples(res);
+	cols	= PQnfields(res);
+	rown	= 0;
+	coln	= 0; 
 }
 
 
 
 
-} // namespace libpqsql
+char* libPQwrp::DoubleToChar(double _X_ ,unsigned _precision_)						/// Double to char 
+{
 
-using namespace libpqsql ;
+	char * X_value   = (char*) malloc(36  * sizeof(char*));   sprintf(X_value,"%c",'\0');
+	char * X_cmd     = (char*) malloc(36  * sizeof(char*));
+	char sign = _X_ >= 0 ? '+' : '-';
 
-#endif // LIBPQWRP_HPP_INCLUDED
+	if ( sign == '-')  // signed -
+	{
+		 sprintf(X_cmd,"%s%c%d.0%d%c","%c",'%',0,_precision_,'f');
+		 
+		 snprintf(X_value + strlen(X_value), 16, X_cmd , sign, fabs(_X_));
+	}
+	else // not signed +
+	{
+		sprintf(X_cmd,"%c%d.0%d%c",'%',0,_precision_,'f');
+		
+		snprintf(X_value + strlen(X_value), 16, X_cmd , fabs(_X_));
+	}
+
+	return (char*) X_value;
+
+}
+
+
+} // namespace libpqwrp
+
+using namespace libpqwrp ;
+
+#endif // LIBPQWRP_H_INCLUDED

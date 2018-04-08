@@ -1,5 +1,5 @@
 # définition des cibles particulières
-.PHONY: all mrproper build  clean
+.PHONY: all mrpropre build  clean
 
 # désactivation des règles implicites
 .SUFFIXES:
@@ -9,16 +9,18 @@ EXEC = Tiostream
 
 
 # Adresse des sources, des objets et des includes :
-SRCDIR = $(CURDIR)/src/
+SRCDIR = $(CURDIR)/test/
 OBJDIR = $(CURDIR)/obj/
 BINDIR = $(CURDIR)/bin/
 OBJLIB = $(CURDIR)/lib/
-
+ 
 
 INCLUDES = \
 -I/usr/include/postgresql/ \
--I/home/soleil/ZONED/src \
--I$(SRCDIR)
+-I/home/soleil/ZONED/src/ \
+-I$(CURDIR)/src/ \
+
+
 
 OBJ = $(OBJDIR)$(EXEC).o  
 EXECUTABLE = $(BINDIR)$(EXEC)
@@ -26,14 +28,12 @@ EXECUTABLE = $(BINDIR)$(EXEC)
 # choix du compilateur :
 CXX = g++
 # options compilations :
-#CPPFLAGS=  -Wall -fexpensive-optimizations -O2  -pedantic-errors  -Wextra -std=c++11 -fPIC  -Wparentheses 
-CPPFLAGS=  -Wall -fexpensive-optimizations -O2  -pedantic-errors  -Wextra -std=c++11 -fPIC  -Wparentheses -ftree-coalesce-vars  -fstack-protector
-LDFLAGS=   -lpthread -lctemplate  -lX11 -lpq  
+
+CPPFLAGS=  -Wall -fexpensive-optimizations -O2  -pedantic-errors  -Wextra -std=c++17 -fPIC  -Wparentheses -ftree-coalesce-vars  -fstack-protector 
+LDFLAGS=   -lpthread -lctemplate  -lX11 -lpq 
 
 INCLIB=\
-/home/soleil/ZONED/lib/libZONED.a 
-
-
+/home/soleil/ZONED/lib/libZONED.a \
 
 
 # -------------------------------------------------------------------
@@ -46,10 +46,10 @@ INCLIB=\
 # regle edition de liens  
 all: $(OBJ)
 	
-ifdef PROD	
-	$(CXX)  $(OBJ) -o $(EXECUTABLE)   $(LDFLAGS) -s $(INCLIB)  
+ifdef TEST	
+	$(CXX)  $(OBJ) -o $(EXECUTABLE)  $(LDFLAGS)   $(INCLIB) 
 else
-	$(CXX)   $(OBJ) -o $(EXECUTABLE)   $(LDFLAGS)   -s $(INCLIB) 
+	$(CXX)   $(OBJ) -o $(EXECUTABLE) $(LDFLAGS)   -s $(INCLIB) 
 endif 
 # regle de compilation des sources objet
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
@@ -69,7 +69,7 @@ clean_b:
 	rm -rf  $(OBJDIR)*.o
 
 # pour effacer tous les objet et les executables :
-mrproper: clean_a   
+mrpropre: clean_a   
 	rm -rf $(EXECUTABLE)
 
 # efface objet(s) et affiche la taille de l'objet résultant

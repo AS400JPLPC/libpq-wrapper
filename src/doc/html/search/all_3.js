@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['end',['end',['../classlibpqwrp_1_1libPQwrp.html#ab4978d69bbf4c5169179cce0cd43eecf',1,'libpqwrp::libPQwrp']]]
+  ['doubletochar',['DoubleToChar',['../classlibpqwrp_1_1libPQwrp.html#a0892785a16344fda051d1b067fb1c161',1,'libpqwrp::libPQwrp']]]
 ];

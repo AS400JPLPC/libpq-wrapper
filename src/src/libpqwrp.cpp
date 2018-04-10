@@ -107,19 +107,33 @@ void libPQwrp::query(std::string sql, bool binary )									/// PQquery
     int const fmt = binary ? 1 : 0;
     
 	clean = true ;
+
+	errorSQL=false;
 	
     res = PQexecParams(conn, sql.c_str(), 0, 0, 0, 0, 0, fmt);
-    
+ std::cout<<"code status  :"<<PQresultStatus(res)<<" OK:"<<PGRES_TUPLES_OK<<" QUERY value result  "<<PQcmdStatus(res)<<"  PGRES_COMMAND_OK   "<<PGRES_COMMAND_OK<<std::endl;
+    std::cout<<PGRES_BAD_RESPONSE<<"  --  "<<PGRES_NONFATAL_ERROR<<"  --  "<<PGRES_FATAL_ERROR<<std::endl;
+
+    	std::string operation = PQcmdStatus(res); 
 	if ( PGRES_BAD_RESPONSE == PQresultStatus(res) || \
 		PGRES_NONFATAL_ERROR == PQresultStatus(res) || \
 		PGRES_FATAL_ERROR ==PQresultStatus(res) )
 		{
-			PQclear(res);
-			char const* msg =PQresultErrorMessage(res) ;      
-			throw std::runtime_error(std::string(msg));
+			if ( (operation =="UPDATE" && PGRES_FATAL_ERROR ==PQresultStatus(res)) ||				///lock for update 
+				 (operation =="DELETE" && PGRES_FATAL_ERROR ==PQresultStatus(res)) ||
+				 (operation =="SELECT" && PGRES_FATAL_ERROR ==PQresultStatus(res))  )
+				{
+					errorSQL=true;
+					return;
+				}
+			else
+			{
+				PQclear(res);
+				char const* msg =PQresultErrorMessage(res) ;   
+				throw std::runtime_error(std::string(msg));
+			}
 		}
-
-	std::string operation = PQcmdStatus(res); 
+ 
 	if ( operation =="FETCH 0"  ) fetchEOF =true; else fetchEOF =false ;   
     if ( operation =="UPDATE 0" ) fetchEOF =true; else fetchEOF =false ;  
     if ( operation =="SELECT 0" ) fetchEOF =true; else fetchEOF =false ;
@@ -235,11 +249,23 @@ void libPQwrp::closeDB()															/// close to the database
 	PQfinish(conn);
 }
 
+void libPQwrp::autocommitON()														/// set auotcommit ON
+{
+	PQexec(conn,"SET AUTOCOMMIT TO ON");
+	clearRes();
+}
+
+void libPQwrp::autocommitOFF()														/// set auotcommit OFF
+{
+	PQexec(conn,"SET AUTOCOMMIT TO OFF");
+	clearRes();
+}
 
 
 void libPQwrp::begin()																/// start transction for commit
 {
 	PQexec(conn,"BEGIN");
+		PQexec(conn,"SET SESSION CHARACTERISTICS AS TRANSACTION  ISOLATION LEVEL SERIALIZABLE ;");  /// FOR UPDATE LOCK ENRG.
 }
 
 
@@ -304,7 +330,6 @@ void libPQwrp::fetchAll( std::string sql, std::string cursor)						/// fetch ALL
 	clean = true ;
 	 
     ordreSQL =  "DECLARE " + cursor + " CURSOR FOR "+ sql;
- std::cout<<"code status  :"<<PQresultStatus(res)<<" OK:"<<PGRES_TUPLES_OK<<"  value result  "<<PQcmdStatus(res)<<"  PGRES_COMMAND_OK   "<<PGRES_COMMAND_OK<<std::endl;
 
 	res = PQexec(conn, ordreSQL.c_str());
     if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
@@ -316,7 +341,6 @@ void libPQwrp::fetchAll( std::string sql, std::string cursor)						/// fetch ALL
 
 	ordreSQL = "FETCH ALL in " + cursor ;	/// lecture full rc  ??? memory   
  	res = PQexec(conn, ordreSQL.c_str());
- std::cout<<"code status  :"<<PQresultStatus(res)<<" OK:"<<PGRES_TUPLES_OK<<"  value result  "<<PQcmdStatus(res)<<"  PGRES_COMMAND_OK   "<<PGRES_COMMAND_OK<<std::endl;
 
     if (!res || PQresultStatus(res) != PGRES_TUPLES_OK)
     {
@@ -389,7 +413,7 @@ void libPQwrp::opensql( std::string sql, std::string cursor)						///  query for
 
 
 
-void libPQwrp::fechsql(std::string cursor )											/// fetch record use openSQL
+void libPQwrp::fetchsql(std::string cursor )											/// fetch record use openSQL
 {
 	std::string  ordreSQL;
 
@@ -415,6 +439,34 @@ void libPQwrp::fechsql(std::string cursor )											/// fetch record use openS
 	coln	= 0; 
 }
 
+void libPQwrp::fetchupd( std::string sql)											///  query for fetchsql record / record 
+{
+	std::string  ordreSQL;
+
+	clean = true ;
+		 
+
+	ordreSQL = sql 	;	/// read a line record only for update 
+	res = PQexec(conn, ordreSQL.c_str());    
+//std::cout<<"code status  :"<<PQresultStatus(res)<<" OK:"<<PGRES_TUPLES_OK<<" UPDATE   value result  "<<PQcmdStatus(res)<<"  PGRES_COMMAND_OK   "<<PGRES_COMMAND_OK<<std::endl;
+
+	std::string operation = PQcmdStatus(res); 
+	if (!res ||  PQresultStatus(res) != PGRES_TUPLES_OK || operation =="FETCH 0"  )
+	{
+		fetchEOF  =true ;					/// end of row or without row
+		PQclear(res);
+		clean = false ;
+	}
+	else
+	{
+		fetchEOF  =false ;					/// no end of row
+	}
+	rows	= PQntuples(res);
+	cols	= PQnfields(res);
+	rown	= 0;
+	coln	= 0;
+
+}
 
 
 

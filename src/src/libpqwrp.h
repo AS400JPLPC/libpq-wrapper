@@ -117,11 +117,8 @@ class libPQwrp																		/// gestion parametre sql
 
 	public:
 	
-	bool fetch0  ;				/// pas / plus d'enrg en lecture
-	bool update0 ;				/// pas / plus d'nerg en update
-	bool select0 ;				/// pas / plus d'enrg select
-	bool delete0 ;				/// pas / plus d'enrg delete
-	bool insert0 ;				/// pas / plus d'enrg insert
+	bool errorSQL ;				/// fatal_error
+
 	bool fetchEOF ;				/// fin de traitenent get reccords 
 
 	int			rows;			/// initialise par les requetes
@@ -134,11 +131,8 @@ class libPQwrp																		/// gestion parametre sql
 	PGresult* res;
 
 	libPQwrp(){
-	fetch0  =false ;
-	update0 =false ;
-	select0 =false ;
-	delete0 =false ;
-	insert0 =false ;
+	errorSQL =false ;
+
 	fetchEOF =false ;
 
 		};
@@ -169,7 +163,11 @@ class libPQwrp																		/// gestion parametre sql
 	bool is_Table(const char* table);												/// if exist table of the database
 
 	void closeDB();																	/// close to the database
-
+	
+	void autocommitON();															/// set auotcommit ON
+	
+	void autocommitOFF();															/// set auotcommit OFF
+		
 	void begin();																	/// start transction for commit
 
 	void commit();																	/// commit for transaction init
@@ -190,7 +188,9 @@ class libPQwrp																		/// gestion parametre sql
 
 	void opensql( std::string sql, std::string cursor = "mycursor" );				/// query for fetchsql record / record
 
-	void fechsql( std::string cursor = "mycursor");									/// fetch record use openSQL
+	void fetchsql( std::string cursor = "mycursor");									/// fetch record use openSQL
+
+	void fetchupd( std::string sql);													/// fetch select for update
 
 	void prepare(std::string const& format);										/// format without parameters causes an error
 

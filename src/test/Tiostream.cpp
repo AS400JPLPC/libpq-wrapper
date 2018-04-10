@@ -154,7 +154,7 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 	sql.query(requete);
      
     printf("\n006 select incorrect  ou list de la selection \n");
-    if (sql.select0 ) std::cout<<"tartuf select"<<std::endl; else std::cout<<"table employeesx un enrg "<<std::endl;
+    if (sql.fetchEOF ) std::cout<<"tartuf select"<<std::endl; else std::cout<<"table employeesx un enrg "<<std::endl;
     				
 		 for (int i = 0; i < sql.countrow(); i++)
 			
@@ -168,17 +168,17 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 	printf("\n007.1 update is error \n");
 	
 	requete = sql.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1); sql.query(requete);
-	if (sql.update0 ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
+	if (!sql.fetchEOF) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
 
 
 	printf("\n007.2 delete is error \n");
 	requete = sql.prepare("DELETE FROM patron WHERE emp_id = ?", 1);  sql.query(requete);
-	if (sql.delete0 ) std::cout<<"tartuf delete"<<std::endl;else std::cout<<"table patron un enrg delete "<<std::endl;
+	if (!sql.fetchEOF) std::cout<<"tartuf delete"<<std::endl;else std::cout<<"table patron un enrg delete "<<std::endl;
 
 
 	printf("\n007.3 insert is error \n");
 	requete = sql.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); sql.query(requete);
-	if (sql.insert0 ) std::cout<<"tartuf insert"<<std::endl; else std::cout<<"table patron un enrg insert "<<std::endl;
+	if (!sql.fetchEOF) std::cout<<"tartuf insert"<<std::endl; else std::cout<<"table patron un enrg insert "<<std::endl;
 
 
 
@@ -189,7 +189,7 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 
 	printf("\n008 update is error\n");
 	requete =sql.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1);  sql.query(requete); // CHG  2
-	if (sql.update0 ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
+	if (!sql.fetchEOF ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
 
 
 
@@ -211,15 +211,14 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 	requete = sql.prepare("UPDATE employees SET name = 'laroche'  WHERE emp_id = ?;", 1);
   
 	sql.query(requete);
-		
+ 
+
 	requete = lock->prepare("UPDATE patron SET name = 'Moi'  WHERE emp_id = ?;",1);
 
  
 
   
 	lock->query(requete); // le commit impacte que la connexion de begin conn
-
-
 
 	printf("sql.commit \n");
 	sql.commit();
@@ -242,7 +241,6 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 	printf("lock.closeDB \n"); 
 	lock->closeDB();
 	delete lock;
-
 
 
 
@@ -448,7 +446,7 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 // mprv = 6.95
 /// fetch all 
 	sql.fetchAll(requete, cursorName);
-	if ( !sql.fetch0)
+	if ( !sql.fetchEOF)
 	{
 		printf("-- %s --\n", "FNBDOS");
 
@@ -516,8 +514,8 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 					std::cout<< PQgetvalue(sql.res, row, col) <<std::endl;
 				}
 			}
-		if (!sql.fetchEOF) sql.fechsql(cursorName);
-			std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+		if (!sql.fetchEOF) sql.fetchsql(cursorName);
+
 	}	while  (!sql.fetchEOF) ;
 
 	sql.end();
@@ -552,7 +550,7 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 
 		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
 		
-		if ( sql.fetchEOF ==false ) sql.fechsql();
+		if ( sql.fetchEOF ==false ) sql.fetchsql();
  	}	while  (sql.fetchEOF ==false) ;
 	
 
@@ -653,7 +651,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 			std::cout <<"NAMEOF(vdate)  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
 			
-		if ( sql.fetchEOF ==false ) sql.fechsql(cursorName);
+		if ( sql.fetchEOF ==false ) sql.fetchsql(cursorName);
  	}while  (sql.fetchEOF ==false) ;	
 
 	sql.end();
@@ -694,7 +692,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 		std::cout << zDate <<" -- "<<zNumeric<<" -- "<<zText<<"  --  "<<zKey<<std::endl;
 		
-		if ( sql.fetchEOF ==false ) sql.fechsql(cursorName);
+		if ( sql.fetchEOF ==false ) sql.fetchsql(cursorName);
  	}while  (sql.fetchEOF ==false) ;
 
 	sql.end();
@@ -735,7 +733,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
 		
-		if ( sql.fetchEOF ==false ) sql.fechsql();
+		if ( sql.fetchEOF ==false ) sql.fetchsql();
  	}	while  (sql.fetchEOF ==false) ;
 	
 	sql.end();
@@ -761,12 +759,49 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 		if ( sql.fetchEOF ==false )  std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
 		//std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
 		
-		if ( sql.fetchEOF ==false ) sql.fechsql();
+		if ( sql.fetchEOF ==false ) sql.fetchsql();
  	}	while  (sql.fetchEOF ==false) ;
 	
 
 	sql.end();
+
+
+
+	char* Xname = new char[30];
+	sql.begin();
+
+	std::cout<<"***********   select for update ****************"<<std::endl;
+		requete = sql.prepare("SELECT   name   from patron  WHERE emp_id = ? FOR UPDATE NOWAIT;",5);
+		
+	sql.fetchupd(requete);
+
+		if ( sql.fetchEOF ==false && sql.errorSQL == false  ) sql.result()>>Xname;
+
+		if ( sql.fetchEOF ==false && sql.errorSQL == false)  std::cout<<Xname<<" <- name   "<<std::endl;
+		else std::cout<<"update non fait "<<std::endl;
+		//std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
+
+    if (sql.fetchEOF ==false && sql.errorSQL == false) {
+		std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+
+	requete = sql.prepare("UPDATE patron SET name = 'Moi'  WHERE emp_id = ?;",5);
+
+	sql.query(requete);
+
 	
+	sql.commit();
+		}
+ 	
+
+	sql.end();
+	//	std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+	
+	requete = sql.prepare("UPDATE patron SET name = 'JPL'  WHERE emp_id = ?;",1);
+	sql.begin();
+	sql.query(requete);
+		sql.commit();
+
+	sql.end();
 	printf("sql.closeDB \n");
 	sql.closeDB();
 

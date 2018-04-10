@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nfield',['nfield',['../classlibpqwrp_1_1libPQwrp.html#a6c0414e2822e3a36c8571849c3550a32',1,'libpqwrp::libPQwrp']]]
+  ['is_5ftable',['is_Table',['../classlibpqwrp_1_1libPQwrp.html#ad93aa27c39078f6fcdb110a99fa4be23',1,'libpqwrp::libPQwrp']]]
 ];

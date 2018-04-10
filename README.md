@@ -58,7 +58,11 @@ THANK YOU   MERCI BEAUCOUP<br>
  un type template de variadique pour les requêtes<br>
  un autre type stringstream pour les résultats de requête<br>
  possibilté d'avoir plusieurs cursor<br>
- de traiter les double et int<br> 
+ de traiter les double et int<br>
+
+ traitement lock enregistrement   select for update avec serialisation <br>
+
+ il me reste à voir comment récuperer les "sqlcode" 
 
  je souhaite avoir été clair.<br>
 
@@ -66,7 +70,7 @@ THANK YOU   MERCI BEAUCOUP<br>
  
 
  il est certainement possible d'aller beaucoup plus loin,<br>
- soit dans les traitements d'erreurs .....<br>
+ soit dans les traitements d'erreurs .....sachez que sous pgsql ECPG on peut aller beaucoup plus loin <br>
  ou insérer des particularités en relation avec le metier....<br> 
  mais d'après moi cela serait autre chose qu'un wrapper<br>
 

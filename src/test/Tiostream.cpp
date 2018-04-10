@@ -35,18 +35,22 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+ 
+
 
 #include <ZONED.hpp>
 
-#include <libpqwrp.hpp>
+#include <libpqwrp.h>
+
+using namespace libpqwrp ;
 
 
 ///*************************************************
  
 
 
- 
- 
+
+
 int main()
 {
  
@@ -150,7 +154,7 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 	sql.query(requete);
      
     printf("\n006 select incorrect  ou list de la selection \n");
-    if (select0 ) std::cout<<"tartuf select"<<std::endl; else std::cout<<"table employeesx un enrg "<<std::endl;
+    if (sql.select0 ) std::cout<<"tartuf select"<<std::endl; else std::cout<<"table employeesx un enrg "<<std::endl;
     				
 		 for (int i = 0; i < sql.countrow(); i++)
 			
@@ -164,28 +168,28 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 	printf("\n007.1 update is error \n");
 	
 	requete = sql.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1); sql.query(requete);
-	if (update0 ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
+	if (sql.update0 ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
 
 
 	printf("\n007.2 delete is error \n");
 	requete = sql.prepare("DELETE FROM patron WHERE emp_id = ?", 1);  sql.query(requete);
-	if (delete0 ) std::cout<<"tartuf delete"<<std::endl;else std::cout<<"table patron un enrg delete "<<std::endl;
+	if (sql.delete0 ) std::cout<<"tartuf delete"<<std::endl;else std::cout<<"table patron un enrg delete "<<std::endl;
 
 
 	printf("\n007.3 insert is error \n");
 	requete = sql.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); sql.query(requete);
-	if (insert0 ) std::cout<<"tartuf insert"<<std::endl; else std::cout<<"table patron un enrg insert "<<std::endl;
+	if (sql.insert0 ) std::cout<<"tartuf insert"<<std::endl; else std::cout<<"table patron un enrg insert "<<std::endl;
 
 
 
 	printf("\n007.4 insert is error  force error trow \n");
-//	requete = sql.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); sql.query(requete);
+//	requete = sql.sql.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); sql.query(requete);
 
 
 
 	printf("\n008 update is error\n");
-	requete = sql.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1);  sql.query(requete); // CHG  2
-	if (update0 ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
+	requete =sql.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?", 1);  sql.query(requete); // CHG  2
+	if (sql.update0 ) std::cout<<"tartuf update"<<std::endl;else std::cout<<"table patron un enrg update "<<std::endl;
 
 
 
@@ -208,7 +212,7 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
   
 	sql.query(requete);
 		
-	requete = lock->prepare("UPDATE patron SET name = 'Moi'  WHERE emp_id = ?;", 1);
+	requete = lock->prepare("UPDATE patron SET name = 'Moi'  WHERE emp_id = ?;",1);
 
  
 
@@ -301,8 +305,8 @@ cl.column_name \
 from pg_catalog.pg_class c \
 where c.relname=cl.table_name) as column_comment \
 FROM information_schema.columns cl \
-WHERE cl.table_catalog='?'  and cl.table_name='?' and cl.column_name= '?' order by 4 ;", \
-"CGIFCH","FC0CLI","C0NCLI");
+WHERE cl.table_catalog='?'  and cl.table_name='?' and cl.column_name= '?' order by 4 ;" \
+,"CGIFCH","FC0CLI","C0NCLI");
 
 
 	std::cout<<requete<<std::endl;
@@ -444,7 +448,7 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 // mprv = 6.95
 /// fetch all 
 	sql.fetchAll(requete, cursorName);
-	if ( !fetch0)
+	if ( !sql.fetch0)
 	{
 		printf("-- %s --\n", "FNBDOS");
 
@@ -496,14 +500,14 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 
 	printf("\n014 traitement display field db2 \n");
 
-	requete = sql.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",21071110);
+	requete = sql.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = ?",21071110);
 	std::cout<<requete<<std::endl;
 
 	sql.begin();
 	sql.opensql(requete, cursorName);
 	do
 	{
-		if ( fetchEOF ==false )
+		if (!sql.fetchEOF)
 			for (int row = 0; row < sql.rows; row++)
 			{
 				for (int col = 0; col < sql.cols; col++)
@@ -512,8 +516,9 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 					std::cout<< PQgetvalue(sql.res, row, col) <<std::endl;
 				}
 			}
-		sql.fechsql(cursorName);
-	}	while  (fetchEOF ==false) ;
+		if (!sql.fetchEOF) sql.fechsql(cursorName);
+			std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+	}	while  (!sql.fetchEOF) ;
 
 	sql.end();
 
@@ -543,12 +548,12 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 	sql.opensql(requete);
 	do
 	{
-		if ( fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
+		if ( sql.fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
 
 		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
 		
-		if ( fetchEOF ==false ) sql.fechsql();
- 	}	while  (fetchEOF ==false) ;
+		if ( sql.fetchEOF ==false ) sql.fechsql();
+ 	}	while  (sql.fetchEOF ==false) ;
 	
 
 	sql.end();
@@ -586,7 +591,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 */
 																	
 
-	printf("\n016 traitement non  ZONED \n");
+	printf("\n017 traitement non  ZONED \n");
  
 
 
@@ -604,7 +609,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
  
 	sql.fetchAll(requete, cursorName);
  
-    for (int row = 0; row < sql.countrow() && fetchEOF ==false ; row++)
+    for (int row = 0; row < sql.countrow() && sql.fetchEOF ==false ; row++)
     {
 		for (int nf = 0;nf < sql.countfield(); nf++)
 			{ 
@@ -635,29 +640,29 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.end();
 
 
-	printf("\n016 traitement non  ZONED  istream \n");
+	printf("\n018 traitement non  ZONED  istream \n");
 
-	requete = sql.prepare("SELECT vdate, vnumeric, vtext , vkey FROM  typetable WHERE vkey = ?", 3681210);
+	requete = sql.prepare("SELECT vdate, vnumeric, vtext , vkey FROM  typetable WHERE vkey = ?",3681210);
 	std::cout<<requete<<std::endl;
 
 	sql.begin();
 	sql.opensql(requete, cursorName);
 	do
 	{
-		if ( fetchEOF ==false )  sql.result()>>vdate>>Ndouble>>Nchar>>Nint;
+		if ( sql.fetchEOF ==false )  sql.result()>>vdate>>Ndouble>>Nchar>>Nint;
 
 			std::cout <<"NAMEOF(vdate)  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
 			
-		if ( fetchEOF ==false ) sql.fechsql(cursorName);
- 	}while  (fetchEOF ==false) ;	
+		if ( sql.fetchEOF ==false ) sql.fechsql(cursorName);
+ 	}while  (sql.fetchEOF ==false) ;	
 
 	sql.end();
 
 
 
 
-	printf("\n017 traitement double entrer \n");
-	requete = sql.prepare("UPDATE typetable  SET vnumeric = '?'  WHERE vkey = ?",36.04, 3681210);
+	printf("\n019 traitement double entrer \n");
+	requete = sql.prepare("UPDATE typetable  SET vnumeric = '?'  WHERE vkey = ?",36.04,3681210);
 	sql.begin();
 	sql.query(requete);
 	sql.commit();
@@ -669,7 +674,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 
 
-	printf("\n018 traitement not ZONED istream  ZONED ostream \n");
+	printf("\n020 traitement not ZONED istream  ZONED ostream \n");
 	Zdate   zDate;
 	Zdcml   zNumeric(8,2);
 	Ztext   zText ;
@@ -685,25 +690,25 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.opensql(requete, cursorName);
 	do
 	{
-		if ( fetchEOF ==false )  sql.result()>>zDate>>zNumeric>>zText>>zKey;
+		if ( sql.fetchEOF ==false )  sql.result()>>zDate>>zNumeric>>zText>>zKey;
 
 		std::cout << zDate <<" -- "<<zNumeric<<" -- "<<zText<<"  --  "<<zKey<<std::endl;
 		
-		if ( fetchEOF ==false ) sql.fechsql(cursorName);
- 	}while  (fetchEOF ==false) ;
+		if ( sql.fetchEOF ==false ) sql.fechsql(cursorName);
+ 	}while  (sql.fetchEOF ==false) ;
 
 	sql.end();
 
 
 
-	printf("\n019 traitementrequtte avec des doubles \n");
+	printf("\n021 traitementrequtte avec des doubles \n");
 	
 	int Nkey = 3681210;
 	Ndouble = 345678.09;
 	std::cout<<std::setprecision(10)<<Ndouble<<" affiche une double"<<std::endl;
 
 
-	requete = sql.prepare("UPDATE typetable  SET vnumeric = ?  WHERE vkey = ?",sql.DoubleToChar(Ndouble,2), sql.DoubleToChar(Nkey) );
+	requete = sql.prepare("UPDATE typetable  SET vnumeric = ?  WHERE vkey = ?",sql.DoubleToChar(Ndouble,2), sql.DoubleToChar(Nkey));
 	std::cout<<requete<<std::endl;
 	
 	sql.begin();
@@ -714,7 +719,53 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 	
 
-	std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+
+	printf("\n022 traitement istream field db2  avec cursor name default\n");
+	
+	requete = sql.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",10871092);
+	std::cout<<requete<<std::endl;
+	
+
+	sql.begin();
+	
+	sql.opensql(requete);
+	do
+	{
+		if ( sql.fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
+
+		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
+		
+		if ( sql.fetchEOF ==false ) sql.fechsql();
+ 	}	while  (sql.fetchEOF ==false) ;
+	
+	sql.end();
+
+
+	NBNDOS =0;
+	NBMPRV = 0;
+	NBZIMP = "";
+
+	printf("\n023 traitement istream field db2  avec cursor name default\n");
+	
+	requete = sql.prepare("SELECT \"NBNDOS\", \"NBMPRV\", \"NBZIMP\" FROM  public.\"FNBDOS\" WHERE \"NBNDOS\" = '?'",192);
+	std::cout<<requete<<std::endl;
+	
+
+	sql.begin();
+	
+	sql.opensql(requete);
+	do
+	{
+		if ( sql.fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
+
+		if ( sql.fetchEOF ==false )  std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
+		//std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
+		
+		if ( sql.fetchEOF ==false ) sql.fechsql();
+ 	}	while  (sql.fetchEOF ==false) ;
+	
+
+	sql.end();
 	
 	printf("sql.closeDB \n");
 	sql.closeDB();

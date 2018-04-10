@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['qexec',['qexec',['../classlibpqwrp_1_1libPQwrp.html#a1279516ec847f70d42a7d7fb96faada5',1,'libpqwrp::libPQwrp']]],
-  ['query',['query',['../classlibpqwrp_1_1libPQwrp.html#afcbedf8aee2de028b48608c664ed81c5',1,'libpqwrp::libPQwrp']]]
+  ['savpoint',['savpoint',['../classlibpqwrp_1_1libPQwrp.html#a79d8952eed8b9760a622daee7abc4d12',1,'libpqwrp::libPQwrp']]],
+  ['savpointrelease',['savpointRelease',['../classlibpqwrp_1_1libPQwrp.html#a4fa4105549c445cb75dbe5ba22ee8caa',1,'libpqwrp::libPQwrp']]],
+  ['savpointrollback',['savpointRollback',['../classlibpqwrp_1_1libPQwrp.html#a6d8186843d1a9d68b5ab5a530e78c0d2',1,'libpqwrp::libPQwrp']]]
 ];

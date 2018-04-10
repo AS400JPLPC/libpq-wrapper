@@ -1,0 +1,92 @@
+[editor]
+line_wrapping=false
+line_break_column=120
+auto_continue_multiline=true
+
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=false
+replace_tabs=false
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=Tiostream
+base_path=/home/soleil/ZLIBPQ
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=120
+
+[files]
+current_page=2
+FILE_NAME_0=9202;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cpp;0;4
+FILE_NAME_1=3051;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.h;0;4
+FILE_NAME_2=608;None;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefilea;0;4
+
+[VTE]
+last_dir=/home/soleil/Ztest/bin
+
+[build-menu]
+MakeFT_00_LB=Construire
+MakeFT_00_CM=make clean --trace  TEST=1 all 
+MakeFT_00_WD=
+MakeFT_01_LB=Build
+MakeFT_01_CM=make mrpropre  all  build
+MakeFT_01_WD=
+MakeFT_02_LB=nettoyage 
+MakeFT_02_CM=make mrpropre
+MakeFT_02_WD=
+filetypes=Make;C++;None;
+NF_03_LB=GLADE
+NF_03_CM=/home/soleil/T_LIB/Pcall  -p %d  -f  %e -g
+NF_03_WD=
+EX_01_LB=
+EX_01_CM=
+EX_01_WD=
+C++FT_00_LB=_Compile
+C++FT_00_CM=make -f Makefile clean  all
+C++FT_00_WD=%p
+C++FT_01_LB=_Build
+C++FT_01_CM=make -f Makefile mrproper  all  build
+C++FT_01_WD=%p
+C++FT_02_LB=Clean
+C++FT_02_CM=make -f Makefile mrproper
+C++FT_02_WD=%p
+EX_00_LB=_Exécuter
+EX_00_CM=%p/bin/Tiostream
+EX_00_WD=%p/bin/
+NoneFT_00_LB=Construire
+NoneFT_00_CM=make  -f Makefilea TEST=1  --trace mrpropre all 
+NoneFT_00_WD=
+NoneFT_01_LB=Build
+NoneFT_01_CM=make  -f Makefilea mrpropre all  build
+NoneFT_01_WD=
+NoneFT_02_LB=Nettoyage
+NoneFT_02_CM=make mrpropre
+NoneFT_02_WD=
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+external_dirs=
+
+[debugger]
+target=
+debugger=GDB
+arguments=
+envvar_count=0
+watches_count=0
+breaks_count=0

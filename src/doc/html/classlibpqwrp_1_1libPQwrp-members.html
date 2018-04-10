@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -38,7 +46,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -66,6 +73,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classlibpqwrp_1_1libPQwrp.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -80,11 +102,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacelibpqwrp.html">libpqwrp</a></li><li class="navelem"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libPQwrp</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">libpqwrp::libPQwrp Member List</div>  </div>
@@ -95,34 +112,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ac891bac917e1a77b7b677f5dd36e19d8">begin</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a019f8a50b361ecbe94866787974b8208">cfield</a>(int nfield)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#af7608fafefc75db18f72d0014b58c149">clean</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>clean</b> (defined in <a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a>)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a4c5f41e14ab55900f997f274afa38fd0">clearRes</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa0ef5678f2ac3c73bd97c822da601572">closeDB</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a3e1cdefba5d8e0b0c2e7b121350bd788">coln</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a8d202a96e62375faa98b9ca34cda7689">cols</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#afaa5c418df6a079c9f23f5e77816794d">commit</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aac0255d83ab7ca2624e18e0c03e56462">conn</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>conn</b> (defined in <a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a>)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a7739e5b16bd7a1f04c7a9e3144696604">connectDB</a>(std::string info)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#af1ba94a518b85f8a4f81d6c9f62b12be">count_format_specifiers</a>(std::string const &amp;format)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ae29b160e526b13717f0753249eae59b1">countfield</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#abc2a2b22493add0d56b66dbab9ad8f9c">countrow</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0892785a16344fda051d1b067fb1c161">DoubleToChar</a>(double _X_, unsigned _precision_=0)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ab4978d69bbf4c5169179cce0cd43eecf">end</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ab2e650d1ccaf28857c692176f1a8b7fe">fechsql</a>(std::string cursor=&quot;mycursor&quot;)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ad7999f218a73fe7c704aa930ca40260c">fetch</a>(int row, int column)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a723682dd99b9bb7874f7b8c46247e533">delete0</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0892785a16344fda051d1b067fb1c161">DoubleToChar</a>(double _X_, unsigned _precision_=0)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ab4978d69bbf4c5169179cce0cd43eecf">end</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ab2e650d1ccaf28857c692176f1a8b7fe">fechsql</a>(std::string cursor=&quot;mycursor&quot;)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ad7999f218a73fe7c704aa930ca40260c">fetch</a>(int row, int column)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ac3d7dac6f7768b06b058789407ab42d2">fetch0</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa15110556d35e0fa01013807c15a1c04">fetchAll</a>(std::string, std::string cursor=&quot;mycursor&quot;)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa87d2ca30339b7b6b09e739ec8977391">fetchDbl</a>(int row, int column)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0d4742471877f9081820a66fbe6e6015">fetchInt</a>(int row, int column)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ab024035cc0937401ffac6946b186b219">fin_stage</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a51f0da0a38a8769da630bdd52a2ea983">first</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aafd6822dbc92f3ea79d692fbdfbcf51d">FORMAT_SPECIFIER</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a930af5ba5af1bb111250a0e085a5f044">fetchEOF</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0d4742471877f9081820a66fbe6e6015">fetchInt</a>(int row, int column)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>fin_stage</b> (defined in <a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a>)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>first</b> (defined in <a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a>)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>FORMAT_SPECIFIER</b> (defined in <a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a>)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a040c061450780e83e868ecbdbb644286">insert0</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ad93aa27c39078f6fcdb110a99fa4be23">is_Table</a>(const char *table)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#af9b7cc389fa79e66768b630c980dc5a1">libPQwrp</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>libPQwrp</b>() (defined in <a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a>)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a6c0414e2822e3a36c8571849c3550a32">nfield</a>(std::string field)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0e1558f685cf2e119f94c6d9bc194cfe">opensql</a>(std::string sql, std::string cursor=&quot;mycursor&quot;)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a62cba10bbe83c7df32d21c2d4a20b234">operator&gt;&gt;</a>(std::istream &amp;is, char *t)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa54afc321bd8accf35306b516d2649bc">prepare</a>(std::string const &amp;format)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a38eef26710b4c0e8f42d21e811303d1a">prepare</a>(std::string const &amp;format, Head &amp;&amp;head, Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa54afc321bd8accf35306b516d2649bc">prepare</a>(std::string const &amp;format)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a38eef26710b4c0e8f42d21e811303d1a">prepare</a>(std::string const &amp;format, Head &amp;&amp;head, Args &amp;&amp;...args)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a1279516ec847f70d42a7d7fb96faada5">qexec</a>(std::string sql)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#afcbedf8aee2de028b48608c664ed81c5">query</a>(std::string sql, bool binary=true)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a89eb858384a02d5c54a8279311f04361">res</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
@@ -133,14 +154,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a79d8952eed8b9760a622daee7abc4d12">savpoint</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a4fa4105549c445cb75dbe5ba22ee8caa">savpointRelease</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a6d8186843d1a9d68b5ab5a530e78c0d2">savpointRollback</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a64f78a7e738629e937670006aba1efe8">sqlstream</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a8bcc53883f8fa02865c232513f40dea7">~libPQwrp</a>()</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#acc99f80ffc2eec6d47679fd46189b6f1">select0</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>sqlstream</b> (defined in <a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a>)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a1c65571f504a326aed0eb1edb88e20b2">update0</a></td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>~libPQwrp</b>() (defined in <a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a>)</td><td class="entry"><a class="el" href="classlibpqwrp_1_1libPQwrp.html">libpqwrp::libPQwrp</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

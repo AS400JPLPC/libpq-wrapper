@@ -19,7 +19,7 @@ indent_mode=2
 
 [project]
 name=Tiostream
-base_path=/home/soleil/ZLIBPQ
+base_path=/home/soleil/ZLIBPQa
 description=
 file_patterns=
 
@@ -28,17 +28,16 @@ long_line_behaviour=1
 long_line_column=120
 
 [files]
-current_page=2
-FILE_NAME_0=1035;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTiostream.cpp;0;4
-FILE_NAME_1=336;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fhpp%2Flibpqwrp.hpp;0;4
-FILE_NAME_2=1029;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefile;0;4
+current_page=1
+FILE_NAME_0=14312;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQa%2Ftest%2FTiostream.cpp;0;4
+FILE_NAME_1=686;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQa%2FMakefile;0;4
 
 [VTE]
 last_dir=/home/soleil/Ztest/bin
 
 [build-menu]
 MakeFT_00_LB=Construire
-MakeFT_00_CM=make clean --trace  TEST=1 all 
+MakeFT_00_CM=make msg --trace  TEST=1 all 
 MakeFT_00_WD=
 MakeFT_01_LB=Build
 MakeFT_01_CM=make mrpropre  all  build
@@ -66,10 +65,10 @@ EX_00_LB=_Exécuter
 EX_00_CM=%p/bin/Tiostream
 EX_00_WD=%p/bin/
 NoneFT_00_LB=Construire
-NoneFT_00_CM=make  -f Makefile_T TEST=1  --trace clean all 
+NoneFT_00_CM=make  -f Makefilea TEST=1  --trace mrpropre all 
 NoneFT_00_WD=
 NoneFT_01_LB=Build
-NoneFT_01_CM=make  -f Makefile_T mrpropre all  build
+NoneFT_01_CM=make  -f Makefilea mrpropre all  build
 NoneFT_01_WD=
 NoneFT_02_LB=Nettoyage
 NoneFT_02_CM=make mrpropre

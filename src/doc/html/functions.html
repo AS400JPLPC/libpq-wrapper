@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -38,7 +46,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -82,17 +89,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_e"><span>e</span></a></li>
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
-      <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_n"><span>n</span></a></li>
       <li><a href="#index_o"><span>o</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
       <li><a href="#index_q"><span>q</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
-      <li class="current"><a href="#index_0x7e"><span>~</span></a></li>
+      <li class="current"><a href="#index_u"><span>u</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -108,7 +128,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="contents">
-<div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
+<div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
 <li>begin()
@@ -120,9 +140,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>cfield()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a019f8a50b361ecbe94866787974b8208">libpqwrp::libPQwrp</a>
-</li>
-<li>clean
-: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#af7608fafefc75db18f72d0014b58c149">libpqwrp::libPQwrp</a>
 </li>
 <li>clearRes()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a4c5f41e14ab55900f997f274afa38fd0">libpqwrp::libPQwrp</a>
@@ -138,9 +155,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>commit()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#afaa5c418df6a079c9f23f5e77816794d">libpqwrp::libPQwrp</a>
-</li>
-<li>conn
-: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#aac0255d83ab7ca2624e18e0c03e56462">libpqwrp::libPQwrp</a>
 </li>
 <li>connectDB()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a7739e5b16bd7a1f04c7a9e3144696604">libpqwrp::libPQwrp</a>
@@ -158,6 +172,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>delete0
+: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a723682dd99b9bb7874f7b8c46247e533">libpqwrp::libPQwrp</a>
+</li>
 <li>DoubleToChar()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0892785a16344fda051d1b067fb1c161">libpqwrp::libPQwrp</a>
 </li>
@@ -178,37 +195,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>fetch()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#ad7999f218a73fe7c704aa930ca40260c">libpqwrp::libPQwrp</a>
 </li>
+<li>fetch0
+: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#ac3d7dac6f7768b06b058789407ab42d2">libpqwrp::libPQwrp</a>
+</li>
 <li>fetchAll()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa15110556d35e0fa01013807c15a1c04">libpqwrp::libPQwrp</a>
 </li>
 <li>fetchDbl()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa87d2ca30339b7b6b09e739ec8977391">libpqwrp::libPQwrp</a>
 </li>
+<li>fetchEOF
+: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a930af5ba5af1bb111250a0e085a5f044">libpqwrp::libPQwrp</a>
+</li>
 <li>fetchInt()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0d4742471877f9081820a66fbe6e6015">libpqwrp::libPQwrp</a>
-</li>
-<li>fin_stage
-: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#ab024035cc0937401ffac6946b186b219">libpqwrp::libPQwrp</a>
-</li>
-<li>first
-: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a51f0da0a38a8769da630bdd52a2ea983">libpqwrp::libPQwrp</a>
-</li>
-<li>FORMAT_SPECIFIER
-: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#aafd6822dbc92f3ea79d692fbdfbcf51d">libpqwrp::libPQwrp</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
+<li>insert0
+: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a040c061450780e83e868ecbdbb644286">libpqwrp::libPQwrp</a>
+</li>
 <li>is_Table()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#ad93aa27c39078f6fcdb110a99fa4be23">libpqwrp::libPQwrp</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
-<li>libPQwrp()
-: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#af9b7cc389fa79e66768b630c980dc5a1">libpqwrp::libPQwrp</a>
 </li>
 </ul>
 
@@ -276,23 +286,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>savpointRollback()
 : <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a6d8186843d1a9d68b5ab5a530e78c0d2">libpqwrp::libPQwrp</a>
 </li>
-<li>sqlstream
-: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a64f78a7e738629e937670006aba1efe8">libpqwrp::libPQwrp</a>
+<li>select0
+: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#acc99f80ffc2eec6d47679fd46189b6f1">libpqwrp::libPQwrp</a>
 </li>
 </ul>
 
 
-<h3><a class="anchor" id="index_0x7e"></a>- ~ -</h3><ul>
-<li>~libPQwrp()
-: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a8bcc53883f8fa02865c232513f40dea7">libpqwrp::libPQwrp</a>
+<h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
+<li>update0
+: <a class="el" href="classlibpqwrp_1_1libPQwrp.html#a1c65571f504a326aed0eb1edb88e20b2">libpqwrp::libPQwrp</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
+  </ul>
+</div>
 </body>
 </html>

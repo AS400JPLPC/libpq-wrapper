@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['opensql',['opensql',['../classlibpqwrp_1_1libPQwrp.html#a0e1558f685cf2e119f94c6d9bc194cfe',1,'libpqwrp::libPQwrp']]],
-  ['operator_3e_3e',['operator&gt;&gt;',['../classlibpqwrp_1_1libPQwrp.html#a62cba10bbe83c7df32d21c2d4a20b234',1,'libpqwrp::libPQwrp']]]
+  ['prepare',['prepare',['../classlibpqwrp_1_1libPQwrp.html#aa54afc321bd8accf35306b516d2649bc',1,'libpqwrp::libPQwrp::prepare(std::string const &amp;format)'],['../classlibpqwrp_1_1libPQwrp.html#a38eef26710b4c0e8f42d21e811303d1a',1,'libpqwrp::libPQwrp::prepare(std::string const &amp;format, Head &amp;&amp;head, Args &amp;&amp;...args)']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['insert0',['insert0',['../namespacelibpqwrp.html#a159793b9a49adf35fb551463f6a6f07a',1,'libpqwrp']]]
+  ['insert0',['insert0',['../classlibpqwrp_1_1libPQwrp.html#a040c061450780e83e868ecbdbb644286',1,'libpqwrp::libPQwrp']]]
 ];

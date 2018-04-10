@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['libpqwrp',['libPQwrp',['../classlibpqwrp_1_1libPQwrp.html',1,'libpqwrp']]],
-  ['libpqwrp',['libpqwrp',['../namespacelibpqwrp.html',1,'libpqwrp'],['../classlibpqwrp_1_1libPQwrp.html#af9b7cc389fa79e66768b630c980dc5a1',1,'libpqwrp::libPQwrp::libPQwrp()']]],
-  ['libpqwrp_2ehpp',['libpqwrp.hpp',['../libpqwrp_8hpp.html',1,'']]]
+  ['nfield',['nfield',['../classlibpqwrp_1_1libPQwrp.html#a6c0414e2822e3a36c8571849c3550a32',1,'libpqwrp::libPQwrp']]]
 ];

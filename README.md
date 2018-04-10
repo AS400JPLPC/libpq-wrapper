@@ -1,5 +1,7 @@
 # libpq-wrapper
-wrapper de base en c++
+wrapper de base en c++ une class<br> 
+
+travail avec gcc7.2  c++11... c++17      avec option  -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0<br>
 
 il est basé sur libpq C API<br>
 
@@ -26,6 +28,9 @@ THANK YOU   MERCI BEAUCOUP<br>
 									http://fr.cppreference.com/w/<br>
  le site cplusplus					http://www.cplusplus.com/reference/<br>
 
+ le site beaver						https://dbeaver.com/			pour sa simplicité<br>
+
+ le site pgadmin4					https://www.pgadmin.org/		pour tous ses efforts de migrations<br>  
 
  et tout ceux qui part leur publication sur des sujets pointus mon permis d'avancé.<br>
 
@@ -61,5 +66,9 @@ THANK YOU   MERCI BEAUCOUP<br>
  
 
  il est certainement possible d'aller beaucoup plus loin,<br>
+ soit dans les traitement d'erreur .....<br>
+ ou insérer des particularités en relation vaec le metier....<br> 
  mais d'après moi cela serait autre chose qu'un wrapper<br>
+
+ ps j'ai laissé en commentaire une ligne pour connaitre les code s retour d'interroguation .... <br> 
 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['libpqwrp',['libPQwrp',['../classlibpqwrp_1_1libPQwrp.html#af9b7cc389fa79e66768b630c980dc5a1',1,'libpqwrp::libPQwrp']]]
+  ['opensql',['opensql',['../classlibpqwrp_1_1libPQwrp.html#a0e1558f685cf2e119f94c6d9bc194cfe',1,'libpqwrp::libPQwrp']]]
 ];

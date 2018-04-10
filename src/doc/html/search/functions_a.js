@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['prepare',['prepare',['../classlibpqwrp_1_1libPQwrp.html#aa54afc321bd8accf35306b516d2649bc',1,'libpqwrp::libPQwrp::prepare(std::string const &amp;format)'],['../classlibpqwrp_1_1libPQwrp.html#a38eef26710b4c0e8f42d21e811303d1a',1,'libpqwrp::libPQwrp::prepare(std::string const &amp;format, Head &amp;&amp;head, Args &amp;&amp;...args)']]]
+  ['result',['result',['../classlibpqwrp_1_1libPQwrp.html#a937e35ca7085e88d87108e004bb76799',1,'libpqwrp::libPQwrp']]],
+  ['rollback',['rollback',['../classlibpqwrp_1_1libPQwrp.html#aa9e903b4f93d00e5090f143c7882829c',1,'libpqwrp::libPQwrp']]]
 ];

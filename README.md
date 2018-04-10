@@ -66,9 +66,9 @@ THANK YOU   MERCI BEAUCOUP<br>
  
 
  il est certainement possible d'aller beaucoup plus loin,<br>
- soit dans les traitement d'erreur .....<br>
- ou insérer des particularités en relation vaec le metier....<br> 
+ soit dans les traitements d'erreurs .....<br>
+ ou insérer des particularités en relation avec le metier....<br> 
  mais d'après moi cela serait autre chose qu'un wrapper<br>
 
- ps j'ai laissé en commentaire une ligne pour connaitre les code s retour d'interroguation .... <br> 
+ ps j'ai laissé en commentaire une ligne pour connaitre les codes retour d'interoguation .... <br> 
 

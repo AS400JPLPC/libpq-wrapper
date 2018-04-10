@@ -194,38 +194,49 @@ class libPQwrp																		/// gestion parametre sql
 
 	void prepare(std::string const& format);										/// format without parameters causes an error
 
-template <typename Head, typename... Args>
-std::string prepare(std::string const& format, Head&& head, Args&&... args)			/// formatting the query with parameters
-{
 
-	if (count_format_specifiers(format) > 0 && first == true)
+
+
+	template <typename Head, typename... Args>
+	std::string prepare(std::string const& format, Head&& head, Args&&... args)		/// formatting the query with parameters
 	{
-		
-		fin_stage = format ;  first = false ;  sqlstream.str("");
-		auto last_format_pos = format.find_last_of(FORMAT_SPECIFIER);
-		fin_stage  =fin_stage.erase(0,  last_format_pos +1);
-		 
+
+		if (count_format_specifiers(format) > 0 && first == true)
+		{
+			fin_stage = format ;  first = false ;  sqlstream.str("");
+			auto last_format_pos = format.find_last_of(FORMAT_SPECIFIER);
+			fin_stage  =fin_stage.erase(0,  last_format_pos +1);
+		}
+
+		if (count_format_specifiers(format) != sizeof...(Args) + 1)
+		throw std::invalid_argument("number of arguments does not match the format string");
+
+		// TODO: take care of escaped format specifiers
+		sqlstream <<"";
+		auto first_format_pos = format.find_first_of(FORMAT_SPECIFIER);
+  
+		sqlstream << format.substr(0, first_format_pos);  
+		sqlstream << head;
+  
+		if ( count_format_specifiers(format) == 1 )
+		{
+			sqlstream<<fin_stage; first =true ;
+		}
+  
+		prepare(format.substr(first_format_pos+1), std::forward<Args>(args)...);
+		return  sqlstream.str();
+ 
 	}
 
-  if (count_format_specifiers(format) != sizeof...(Args) + 1)
-    throw std::invalid_argument("number of arguments does not match the format string");
 
-  // TODO: take care of escaped format specifiers
-   sqlstream <<"";
-  auto first_format_pos = format.find_first_of(FORMAT_SPECIFIER);
-  
-   sqlstream << format.substr(0, first_format_pos);  
-   sqlstream << head;
-  
-  if ( count_format_specifiers(format) == 1 ) {  sqlstream<<fin_stage; first =true  ;}
-  
-  prepare(format.substr(first_format_pos+1), std::forward<Args>(args)...);
-  return  sqlstream.str();
- 
-}	
+
+
+		
 	std::stringstream result();														/// out buffer;
 
 	char* DoubleToChar(double _X_ ,unsigned _precision_ = 0 );						/// Double to char
+
+
 
 	friend  std::istream& operator>>(std::istream& is ,char* t)						/// retrieve  char*  for stringstream
 	{

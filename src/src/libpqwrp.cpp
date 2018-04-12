@@ -78,9 +78,8 @@ void libPQwrp::connectDB(std::string info)											/// connect to the database
 	
 	conn= PQconnectdb(info.c_str());  												/// init PGconn
     if (PQstatus(conn) != CONNECTION_OK)
-    {  
-        char const* msg = PQerrorMessage(conn);
-        throw std::runtime_error(std::string(msg));
+    {
+        throw std::runtime_error(std::string(PQerrorMessage( conn)));
     }
     res = PQgetResult(conn);														/// init PGresult
 }
@@ -91,14 +90,55 @@ void libPQwrp::qexec( std::string sql)												/// PQexec
 {
 	
 	clean = true ;
+
+	rown	= -1;
+	coln	= -1;
+	rown	= 0;
+	coln	= 0;
 	
     res = PQexec(conn, sql.c_str());
+    std::string operation = PQcmdStatus(res);
+	switch (PQresultStatus(res))
+	{
+		case PGRES_COMMAND_OK :
+		case PGRES_TUPLES_OK :
+							if ( operation =="FETCH 0"  ) fetchEOF =true; else fetchEOF =false ;   
+							if ( operation =="UPDATE 0" ) fetchEOF =true; else fetchEOF =false ;  
+							if ( operation =="SELECT 0" ) fetchEOF =true; else fetchEOF =false ;
+							if ( operation =="DELETE 0" ) fetchEOF =true; else fetchEOF =false ;
+							if ( operation =="INSERT 0" ) fetchEOF =true; else fetchEOF =false ;
+							rows	= PQntuples(res);
+							cols	= PQnfields(res);
+							break;
 
-    if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
-    {	PQclear(res); 
-        char const* msg = PQresultErrorMessage(res);
-        throw std::runtime_error(std::string(msg));
-    }
+		case PGRES_FATAL_ERROR:
+
+							if ( (operation =="UPDATE") || (operation =="DELETE") || (operation =="SELECT") )
+							{
+								errorSQL=true;
+								break ;
+							}
+							else
+							{
+								PQclear(res);
+								clean = false;
+								throw std::runtime_error(std::string(PQresultErrorMessage(res)));
+							}
+							break;
+
+
+//	PGRES_BAD_RESPONSE
+//	PGRES_NONFATAL_ERROR
+//	PGRES_COPY_OUT
+//	PGRES_COPY_IN
+//	PGRES_COPY_BOTH
+//	PGRES_SINGLE_TUPLE
+		default:
+							PQclear(res);
+							clean = false;
+							throw std::runtime_error(std::string(PQresultErrorMessage(res)));
+							break;
+	}
 }
 
 
@@ -107,39 +147,60 @@ void libPQwrp::query(std::string sql, bool binary )									/// PQquery
     int const fmt = binary ? 1 : 0;
     
 	clean = true ;
-
+	rown	= -1;
+	coln	= -1;
+	rown	= 0;
+	coln	= 0;
 	errorSQL=false;
 	
     res = PQexecParams(conn, sql.c_str(), 0, 0, 0, 0, 0, fmt);
- std::cout<<"code status  :"<<PQresultStatus(res)<<" OK:"<<PGRES_TUPLES_OK<<" QUERY value result  "<<PQcmdStatus(res)<<"  PGRES_COMMAND_OK   "<<PGRES_COMMAND_OK<<std::endl;
-    std::cout<<PGRES_BAD_RESPONSE<<"  --  "<<PGRES_NONFATAL_ERROR<<"  --  "<<PGRES_FATAL_ERROR<<std::endl;
+    
+/*std::cout<<"code status  :"<<PQresultStatus(res)<<"  value : "<<PQcmdStatus(res)<<std::endl;
+std::cout<<PGRES_EMPTY_QUERY<<"-"<<PGRES_COMMAND_OK<<"-"<<PGRES_TUPLES_OK<<"-"<<PGRES_COPY_OUT<<"-"<< \
+PGRES_COPY_IN<<"-"<<PGRES_BAD_RESPONSE<<"-"<<PGRES_NONFATAL_ERROR<<"-"<<PGRES_FATAL_ERROR<<"-"<<PGRES_COPY_BOTH<<"-"<<PGRES_SINGLE_TUPLE<<std::endl;
+*/
 
-    	std::string operation = PQcmdStatus(res); 
-	if ( PGRES_BAD_RESPONSE == PQresultStatus(res) || \
-		PGRES_NONFATAL_ERROR == PQresultStatus(res) || \
-		PGRES_FATAL_ERROR ==PQresultStatus(res) )
-		{
-			if ( (operation =="UPDATE" && PGRES_FATAL_ERROR ==PQresultStatus(res)) ||				///lock for update 
-				 (operation =="DELETE" && PGRES_FATAL_ERROR ==PQresultStatus(res)) ||
-				 (operation =="SELECT" && PGRES_FATAL_ERROR ==PQresultStatus(res))  )
-				{
-					errorSQL=true;
-					return;
-				}
-			else
-			{
-				PQclear(res);
-				char const* msg =PQresultErrorMessage(res) ;   
-				throw std::runtime_error(std::string(msg));
-			}
-		}
- 
-	if ( operation =="FETCH 0"  ) fetchEOF =true; else fetchEOF =false ;   
-    if ( operation =="UPDATE 0" ) fetchEOF =true; else fetchEOF =false ;  
-    if ( operation =="SELECT 0" ) fetchEOF =true; else fetchEOF =false ;
-    if ( operation =="DELETE 0" ) fetchEOF =true; else fetchEOF =false ;
-    if ( operation =="INSERT 0" ) fetchEOF =true; else fetchEOF =false ;
+    std::string operation = PQcmdStatus(res);
+	switch (PQresultStatus(res))
+	{
+		case PGRES_COMMAND_OK :
+		case PGRES_TUPLES_OK :
+							if ( operation =="FETCH 0"  ) fetchEOF =true; else fetchEOF =false ;   
+							if ( operation =="UPDATE 0" ) fetchEOF =true; else fetchEOF =false ;  
+							if ( operation =="SELECT 0" ) fetchEOF =true; else fetchEOF =false ;
+							if ( operation =="DELETE 0" ) fetchEOF =true; else fetchEOF =false ;
+							if ( operation =="INSERT 0" ) fetchEOF =true; else fetchEOF =false ;
+							rows	= PQntuples(res);
+							cols	= PQnfields(res);
+							break;
 
+		case PGRES_FATAL_ERROR:
+
+							if ( (operation =="UPDATE") || (operation =="DELETE") || (operation =="SELECT") )
+							{
+								errorSQL=true;
+								break ;
+							}
+							else
+							{
+								PQclear(res);
+								clean = false;
+								throw std::runtime_error(std::string(PQresultErrorMessage(res)));
+							}
+							break;
+
+//	PGRES_BAD_RESPONSE
+//	PGRES_NONFATAL_ERROR
+//	PGRES_COPY_OUT
+//	PGRES_COPY_IN
+//	PGRES_COPY_BOTH
+//	PGRES_SINGLE_TUPLE
+		default:
+							PQclear(res);
+							clean = false;
+							throw std::runtime_error(std::string(PQresultErrorMessage(res)));
+							break;
+	}
 }
 
 
@@ -328,6 +389,11 @@ void libPQwrp::fetchAll( std::string sql, std::string cursor)						/// fetch ALL
 	std::string  ordreSQL;
 
 	clean = true ;
+	
+	rown	= -1;
+	coln	= -1;
+	rown	= 0;
+	coln	= 0;
 	 
     ordreSQL =  "DECLARE " + cursor + " CURSOR FOR "+ sql;
 
@@ -335,36 +401,47 @@ void libPQwrp::fetchAll( std::string sql, std::string cursor)						/// fetch ALL
     if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
     {
 		PQclear(res);
-		char const* msg = PQresultErrorMessage(res);
-		throw std::runtime_error(std::string(msg));
+		clean = false;
+		throw std::runtime_error(std::string(PQresultErrorMessage(res)));
 	}
 
 	ordreSQL = "FETCH ALL in " + cursor ;	/// lecture full rc  ??? memory   
  	res = PQexec(conn, ordreSQL.c_str());
 
-    if (!res || PQresultStatus(res) != PGRES_TUPLES_OK)
-    {
-		PQclear(res);
-		char const* msg = PQresultErrorMessage(res);
-		throw std::runtime_error(std::string(msg));
-    }
-
-	std::string operation = PQcmdStatus(res);  
-	if ( !res ||  PQresultStatus(res) != PGRES_TUPLES_OK || operation =="FETCH 0"  )
+	std::string operation = PQcmdStatus(res);
+	switch (PQresultStatus(res))
 	{
-		fetchEOF  =true ;   				/// end of row or without row
-		ordreSQL = "close" + cursor ;		/// close cursor
-		PQexec(conn, ordreSQL.c_str());
-		PQclear(res);
-		clean = false ;
+		case PGRES_COMMAND_OK :
+		case PGRES_TUPLES_OK :
+							if ( operation =="FETCH 0"  )
+							{
+								fetchEOF  =true ;					/// end of row or without row
+								ordreSQL = "close" + cursor ;		/// close cursor
+								PQexec(conn, ordreSQL.c_str());
+								PQclear(res);
+								clean = false;
+							}
+							else
+							{
+								fetchEOF  =false ;					/// no end of row
+								rows	= PQntuples(res);
+								cols	= PQnfields(res); 
+							}
+							break;
+//	PGRES_FATAL_ERROR
+//	PGRES_BAD_RESPONSE
+//	PGRES_NONFATAL_ERROR
+//	PGRES_COPY_OUT
+//	PGRES_COPY_IN
+//	PGRES_COPY_BOTH
+//	PGRES_SINGLE_TUPLE
+		default:
+							PQclear(res);
+							clean = false;
+							throw std::runtime_error(std::string(PQresultErrorMessage(res)));
+							break;
 	}
-	else fetchEOF  =false ;					/// no end of row
 
-
-	rows	= PQntuples(res);
-	cols	= PQnfields(res);
-	rown	= 0;
-	coln	= 0;
 
 
 }
@@ -376,37 +453,58 @@ void libPQwrp::opensql( std::string sql, std::string cursor)						///  query for
 	std::string  ordreSQL;
 
 	clean = true ;
-		 
+	
+	rown	= -1;
+	coln	= -1;
+	rown	= 0;
+	coln	= 0;
+	
     ordreSQL =  "DECLARE " + cursor + " CURSOR FOR "+ sql;
 
     res = PQexec(conn, ordreSQL.c_str()); 
 	if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
 	{
 		PQclear(res);
-		char const* msg = PQresultErrorMessage(res);
-		throw std::runtime_error(std::string(msg));
+		clean = false;
+		throw std::runtime_error(std::string(PQresultErrorMessage(res)));
 	}
 	
 	ordreSQL = "FETCH FIRST in " + cursor ;	/// read a line record only
-	res = PQexec(conn, ordreSQL.c_str());    
+	res = PQexec(conn, ordreSQL.c_str());
 
-	std::string operation = PQcmdStatus(res); 
-	if (!res ||  PQresultStatus(res) != PGRES_TUPLES_OK || operation =="FETCH 0"  )
+	std::string operation = PQcmdStatus(res);
+	switch (PQresultStatus(res))
 	{
-		fetchEOF  =true ;					/// end of row or without row
-		ordreSQL = "close" + cursor ;		/// close cursor
-		PQexec(conn, ordreSQL.c_str());
-		PQclear(res);
-		clean = false ;
+		case PGRES_COMMAND_OK :
+		case PGRES_TUPLES_OK :
+							if ( operation =="FETCH 0"  )
+							{
+								fetchEOF  =true ;					/// end of row or without row
+								ordreSQL = "close" + cursor ;		/// close cursor
+								PQexec(conn, ordreSQL.c_str());
+								PQclear(res);
+								clean = false;
+							}
+							else
+							{
+								fetchEOF  =false ;					/// no end of row
+								rows	= PQntuples(res);
+								cols	= PQnfields(res); 
+							}
+							break;
+//	PGRES_FATAL_ERROR
+//	PGRES_BAD_RESPONSE
+//	PGRES_NONFATAL_ERROR
+//	PGRES_COPY_OUT
+//	PGRES_COPY_IN
+//	PGRES_COPY_BOTH
+//	PGRES_SINGLE_TUPLE
+		default:
+							PQclear(res);
+							clean = false;
+							throw std::runtime_error(std::string(PQresultErrorMessage(res)));
+							break;
 	}
-	else
-	{
-		fetchEOF  =false ;					/// no end of row
-	}
-	rows	= PQntuples(res);
-	cols	= PQnfields(res);
-	rown	= 0;
-	coln	= 0;
 
 }
 
@@ -416,56 +514,95 @@ void libPQwrp::opensql( std::string sql, std::string cursor)						///  query for
 void libPQwrp::fetchsql(std::string cursor )											/// fetch record use openSQL
 {
 	std::string  ordreSQL;
-
+	
 	clean = true ;
-		
+	
+	rown	= -1;
+	coln	= -1;
+	rown	= 0;
+	coln	= 0;
+	
     ordreSQL = "FETCH NEXT in " + cursor ;	/// read a line record only
 
 	res = PQexec(conn, ordreSQL.c_str());
- 	std::string operation = PQcmdStatus(res);   
-	if (!res ||  PQresultStatus(res) != PGRES_TUPLES_OK ||operation =="FETCH 0"  )
+	
+    std::string operation = PQcmdStatus(res);
+	switch (PQresultStatus(res))
 	{
-		fetchEOF  =true ;					/// end of row or without row
-		ordreSQL = "close" + cursor ;		/// close cursor
-		PQexec(conn, ordreSQL.c_str());
-		PQclear(res);
-		clean = false;
+		case PGRES_COMMAND_OK :
+		case PGRES_TUPLES_OK :
+							if ( operation =="FETCH 0"  )
+							{
+								fetchEOF  =true ;					/// end of row or without row
+								ordreSQL = "close" + cursor ;		/// close cursor
+								PQexec(conn, ordreSQL.c_str());
+								PQclear(res);
+								clean = false;
+							}
+							else
+							{
+								fetchEOF  =false ;					/// no end of row
+								rows	= PQntuples(res);
+								cols	= PQnfields(res); 
+							}
+							break;
+//	PGRES_FATAL_ERROR
+//	PGRES_BAD_RESPONSE
+//	PGRES_NONFATAL_ERROR
+//	PGRES_COPY_OUT
+//	PGRES_COPY_IN
+//	PGRES_COPY_BOTH
+//	PGRES_SINGLE_TUPLE
+		default:
+							PQclear(res);
+							clean = false;
+							throw std::runtime_error(std::string(PQresultErrorMessage(res)));
+							break;
 	}
-	else fetchEOF  =false ;					/// no end of row
-
-	rows	= PQntuples(res);
-	cols	= PQnfields(res);
-	rown	= 0;
-	coln	= 0; 
+ 
 }
 
 void libPQwrp::fetchupd( std::string sql)											///  query for fetchsql record / record 
-{
+{																					///  select FOR UPDATE NOWAIT
 	std::string  ordreSQL;
-
+	
 	clean = true ;
-		 
 
-	ordreSQL = sql 	;	/// read a line record only for update 
+	ordreSQL = sql + " FOR UPDATE NOWAIT;" 	;	/// read a line record only for update 
 	res = PQexec(conn, ordreSQL.c_str());    
-//std::cout<<"code status  :"<<PQresultStatus(res)<<" OK:"<<PGRES_TUPLES_OK<<" UPDATE   value result  "<<PQcmdStatus(res)<<"  PGRES_COMMAND_OK   "<<PGRES_COMMAND_OK<<std::endl;
-
-	std::string operation = PQcmdStatus(res); 
-	if (!res ||  PQresultStatus(res) != PGRES_TUPLES_OK || operation =="FETCH 0"  )
+	
+    std::string operation = PQcmdStatus(res);
+	switch (PQresultStatus(res))
 	{
-		fetchEOF  =true ;					/// end of row or without row
-		PQclear(res);
-		clean = false ;
-	}
-	else
-	{
-		fetchEOF  =false ;					/// no end of row
-	}
-	rows	= PQntuples(res);
-	cols	= PQnfields(res);
-	rown	= 0;
-	coln	= 0;
+		case PGRES_COMMAND_OK :
+		case PGRES_TUPLES_OK :
+							if ( operation =="FETCH 0"  )
+							{
+								fetchEOF  =true ;					/// end of row or without row
+								PQclear(res);
+								clean = false;
+							}
+							else
+							{
+								fetchEOF  =false ;					/// no end of row
+								rows	= PQntuples(res);
+								cols	= PQnfields(res); 
+							} 
 
+							break;
+//	PGRES_FATAL_ERROR
+//	PGRES_BAD_RESPONSE
+//	PGRES_NONFATAL_ERROR
+//	PGRES_COPY_OUT
+//	PGRES_COPY_IN
+//	PGRES_COPY_BOTH
+//	PGRES_SINGLE_TUPLE
+		default:
+							PQclear(res);
+							clean = false;
+							throw std::runtime_error(std::string(PQresultErrorMessage(res)));
+							break;;
+	}
 }
 
 

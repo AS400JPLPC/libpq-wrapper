@@ -55,7 +55,6 @@ int main()
 {
  
  
- 
 	const char *conninfo;
 
 	libPQwrp sql;
@@ -112,11 +111,11 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 ;
 
  try{
-	conninfo = "dbname =CGIFCH host=localhost port=5432 user=postgres password=pgmr";
+	conninfo = "host=localhost port=5432 dbname =CGIFCH user=postgres password=pgmr application_name=Tiostream";
   
 	sql.connectDB(conninfo);
 	/// deux exemple pour count(*) 
-
+ 
 					printf("\n000    count\n");
 	if ( ! sql.is_Table("employees") ) sql.qexec("CREATE TABLE employees (emp_id integer not null, name varchar(32));"); 
 	// nbr employe 
@@ -183,7 +182,7 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 
 
 	printf("\n007.4 insert is error  force error trow \n");
-//	requete = sql.sql.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); sql.query(requete);
+//	requete = sql.prepare("INSERT INTO patron (emp_id , name ) VALUES ( ? , ?);",1,"'NOM'"); sql.query(requete);
 
 
 
@@ -771,7 +770,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.begin();
 
 	std::cout<<"***********   select for update ****************"<<std::endl;
-		requete = sql.prepare("SELECT   name   from patron  WHERE emp_id = ? FOR UPDATE NOWAIT;",5);
+		requete = sql.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);
 		
 	sql.fetchupd(requete);
 
@@ -802,17 +801,17 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 		sql.commit();
 
 	sql.end();
+	
 	printf("sql.closeDB \n");
 	sql.closeDB();
 
 
-} catch (const std::exception& e)
-{
+}
+catch (const std::exception& e)
+	{
 	  std::cerr<<e.what()<<"fin de procedure catch"<<std::endl;
 	  return EXIT_FAILURE ;
- }
-
-
+	}
 std::cout<<"fin de programme  EXIT_SUCCESS "<<std::endl;
 
 

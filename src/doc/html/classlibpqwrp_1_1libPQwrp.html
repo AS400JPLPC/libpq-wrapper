@@ -132,8 +132,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afcbedf8aee2de028b48608c664ed81c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#afcbedf8aee2de028b48608c664ed81c5">query</a> (std::string sql, bool binary=true)</td></tr>
 <tr class="memdesc:afcbedf8aee2de028b48608c664ed81c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">PQexec.  <a href="#afcbedf8aee2de028b48608c664ed81c5">More...</a><br /></td></tr>
 <tr class="separator:afcbedf8aee2de028b48608c664ed81c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa15110556d35e0fa01013807c15a1c04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa15110556d35e0fa01013807c15a1c04">fetchAll</a> (std::string, std::string cursor=&quot;mycursor&quot;)</td></tr>
+<tr class="memdesc:aa15110556d35e0fa01013807c15a1c04"><td class="mdescLeft">&#160;</td><td class="mdescRight">PQquery.  <a href="#aa15110556d35e0fa01013807c15a1c04">More...</a><br /></td></tr>
+<tr class="separator:aa15110556d35e0fa01013807c15a1c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e1558f685cf2e119f94c6d9bc194cfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0e1558f685cf2e119f94c6d9bc194cfe">opensql</a> (std::string sql, std::string cursor=&quot;mycursor&quot;)</td></tr>
+<tr class="memdesc:a0e1558f685cf2e119f94c6d9bc194cfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch ALL include requete  <a href="#a0e1558f685cf2e119f94c6d9bc194cfe">More...</a><br /></td></tr>
+<tr class="separator:a0e1558f685cf2e119f94c6d9bc194cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4bba94cb75f201907bf1a843c422be2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ac4bba94cb75f201907bf1a843c422be2">fetchsql</a> (std::string cursor=&quot;mycursor&quot;)</td></tr>
+<tr class="memdesc:ac4bba94cb75f201907bf1a843c422be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">query for fetchsql record / record  <a href="#ac4bba94cb75f201907bf1a843c422be2">More...</a><br /></td></tr>
+<tr class="separator:ac4bba94cb75f201907bf1a843c422be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fd0fa9887536f92d5737503e5198d68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a6fd0fa9887536f92d5737503e5198d68">fetchupd</a> (std::string sql)</td></tr>
+<tr class="memdesc:a6fd0fa9887536f92d5737503e5198d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch record use openSQL  <a href="#a6fd0fa9887536f92d5737503e5198d68">More...</a><br /></td></tr>
+<tr class="separator:a6fd0fa9887536f92d5737503e5198d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7999f218a73fe7c704aa930ca40260c"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ad7999f218a73fe7c704aa930ca40260c">fetch</a> (int row, int column)</td></tr>
-<tr class="memdesc:ad7999f218a73fe7c704aa930ca40260c"><td class="mdescLeft">&#160;</td><td class="mdescRight">PQquery.  <a href="#ad7999f218a73fe7c704aa930ca40260c">More...</a><br /></td></tr>
+<tr class="memdesc:ad7999f218a73fe7c704aa930ca40260c"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch select for update  <a href="#ad7999f218a73fe7c704aa930ca40260c">More...</a><br /></td></tr>
 <tr class="separator:ad7999f218a73fe7c704aa930ca40260c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa87d2ca30339b7b6b09e739ec8977391"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa87d2ca30339b7b6b09e739ec8977391"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa87d2ca30339b7b6b09e739ec8977391">fetchDbl</a> (int row, int column)</td></tr>
@@ -191,25 +203,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:a4fa4105549c445cb75dbe5ba22ee8caa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a4fa4105549c445cb75dbe5ba22ee8caa">savpointRelease</a> ()</td></tr>
 <tr class="memdesc:a4fa4105549c445cb75dbe5ba22ee8caa"><td class="mdescLeft">&#160;</td><td class="mdescRight">roolback base savepoint  <a href="#a4fa4105549c445cb75dbe5ba22ee8caa">More...</a><br /></td></tr>
 <tr class="separator:a4fa4105549c445cb75dbe5ba22ee8caa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa15110556d35e0fa01013807c15a1c04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa15110556d35e0fa01013807c15a1c04">fetchAll</a> (std::string, std::string cursor=&quot;mycursor&quot;)</td></tr>
-<tr class="memdesc:aa15110556d35e0fa01013807c15a1c04"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete savepoint  <a href="#aa15110556d35e0fa01013807c15a1c04">More...</a><br /></td></tr>
-<tr class="separator:aa15110556d35e0fa01013807c15a1c04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e1558f685cf2e119f94c6d9bc194cfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a0e1558f685cf2e119f94c6d9bc194cfe">opensql</a> (std::string sql, std::string cursor=&quot;mycursor&quot;)</td></tr>
-<tr class="memdesc:a0e1558f685cf2e119f94c6d9bc194cfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch ALL include requete  <a href="#a0e1558f685cf2e119f94c6d9bc194cfe">More...</a><br /></td></tr>
-<tr class="separator:a0e1558f685cf2e119f94c6d9bc194cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4bba94cb75f201907bf1a843c422be2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ac4bba94cb75f201907bf1a843c422be2">fetchsql</a> (std::string cursor=&quot;mycursor&quot;)</td></tr>
-<tr class="memdesc:ac4bba94cb75f201907bf1a843c422be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">query for fetchsql record / record  <a href="#ac4bba94cb75f201907bf1a843c422be2">More...</a><br /></td></tr>
-<tr class="separator:ac4bba94cb75f201907bf1a843c422be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fd0fa9887536f92d5737503e5198d68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a6fd0fa9887536f92d5737503e5198d68">fetchupd</a> (std::string sql)</td></tr>
-<tr class="memdesc:a6fd0fa9887536f92d5737503e5198d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch record use openSQL  <a href="#a6fd0fa9887536f92d5737503e5198d68">More...</a><br /></td></tr>
-<tr class="separator:a6fd0fa9887536f92d5737503e5198d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa54afc321bd8accf35306b516d2649bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa54afc321bd8accf35306b516d2649bc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa54afc321bd8accf35306b516d2649bc">prepare</a> (std::string const &amp;format)</td></tr>
-<tr class="memdesc:aa54afc321bd8accf35306b516d2649bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch select for update <br /></td></tr>
-<tr class="separator:aa54afc321bd8accf35306b516d2649bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38eef26710b4c0e8f42d21e811303d1a"><td class="memTemplParams" colspan="2">template&lt;typename Head , typename... Args&gt; </td></tr>
 <tr class="memitem:a38eef26710b4c0e8f42d21e811303d1a"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a38eef26710b4c0e8f42d21e811303d1a">prepare</a> (std::string const &amp;format, Head &amp;&amp;head, Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:a38eef26710b4c0e8f42d21e811303d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">format without parameters causes an error  <a href="#a38eef26710b4c0e8f42d21e811303d1a">More...</a><br /></td></tr>
+<tr class="memdesc:a38eef26710b4c0e8f42d21e811303d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete savepoint  <a href="#a38eef26710b4c0e8f42d21e811303d1a">More...</a><br /></td></tr>
 <tr class="separator:a38eef26710b4c0e8f42d21e811303d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a937e35ca7085e88d87108e004bb76799"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a937e35ca7085e88d87108e004bb76799"></a>
 std::stringstream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a937e35ca7085e88d87108e004bb76799">result</a> ()</td></tr>
@@ -223,7 +219,7 @@ std::stringstream&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 Public Attributes</h2></td></tr>
 <tr class="memitem:ac591159c9ac1008b86de3953a9b46bcf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac591159c9ac1008b86de3953a9b46bcf"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#ac591159c9ac1008b86de3953a9b46bcf">errorSQL</a></td></tr>
-<tr class="memdesc:ac591159c9ac1008b86de3953a9b46bcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">count the number of parameters in the format <br /></td></tr>
+<tr class="memdesc:ac591159c9ac1008b86de3953a9b46bcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">format without parameters causes an error <br /></td></tr>
 <tr class="separator:ac591159c9ac1008b86de3953a9b46bcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a930af5ba5af1bb111250a0e085a5f044"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a930af5ba5af1bb111250a0e085a5f044"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#a930af5ba5af1bb111250a0e085a5f044">fetchEOF</a></td></tr>
@@ -255,6 +251,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:af1ba94a518b85f8a4f81d6c9f62b12be"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#af1ba94a518b85f8a4f81d6c9f62b12be">count_format_specifiers</a> (std::string const &amp;format)</td></tr>
 <tr class="memdesc:af1ba94a518b85f8a4f81d6c9f62b12be"><td class="mdescLeft">&#160;</td><td class="mdescRight">contrôle PGresult  <a href="#af1ba94a518b85f8a4f81d6c9f62b12be">More...</a><br /></td></tr>
 <tr class="separator:af1ba94a518b85f8a4f81d6c9f62b12be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa54afc321bd8accf35306b516d2649bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa54afc321bd8accf35306b516d2649bc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibpqwrp_1_1libPQwrp.html#aa54afc321bd8accf35306b516d2649bc">prepare</a> (std::string const &amp;format)</td></tr>
+<tr class="memdesc:aa54afc321bd8accf35306b516d2649bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">count the number of parameters in the format <br /></td></tr>
+<tr class="separator:aa54afc321bd8accf35306b516d2649bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -290,7 +290,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p>gestion parametre sql </p>
 <p>$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ prepare sql formatage avec template variadique etc........ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8h_source.html#l00095">95</a> of file <a class="el" href="libpqwrp_8h_source.html">libpqwrp.h</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8h_source.html#l00098">98</a> of file <a class="el" href="libpqwrp_8h_source.html">libpqwrp.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a554d0898c4e49de19f1fca75351feb91"></a>
 <div class="memitem">
@@ -308,7 +308,7 @@ Friends</h2></td></tr>
 <p>set auotcommit ON </p>
 <p>set auotcommit OFF </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00258">258</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00319">319</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -328,7 +328,7 @@ Friends</h2></td></tr>
 <p>close to the database </p>
 <p>set auotcommit ON </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00252">252</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00313">313</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -349,7 +349,7 @@ Friends</h2></td></tr>
 <p>start transction for commit </p>
 <p>FOR UPDATE LOCK ENRG. </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00265">265</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00326">326</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -370,7 +370,7 @@ Friends</h2></td></tr>
 <p>number column of the field </p>
 <p>name of the field </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00198">198</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00259">259</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -390,7 +390,7 @@ Friends</h2></td></tr>
 <p>end transaction for init </p>
 <p>clear PGresult </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00293">293</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00354">354</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -410,7 +410,7 @@ Friends</h2></td></tr>
 <p>if exist table of the database </p>
 <p>close to the database </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00246">246</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00307">307</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -430,7 +430,7 @@ Friends</h2></td></tr>
 <p>start transction for commit </p>
 <p>commit for transaction init </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00272">272</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00333">333</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -501,7 +501,7 @@ Friends</h2></td></tr>
 <p>name of the field </p>
 <p>number of columns </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00210">210</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00271">271</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -521,7 +521,7 @@ Friends</h2></td></tr>
 <p>number of columns </p>
 <p>number of rows </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00217">217</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00278">278</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -552,7 +552,7 @@ Friends</h2></td></tr>
 <p>out buffer; </p>
 <p>Double to char. </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00473">473</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00610">610</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -572,7 +572,7 @@ Friends</h2></td></tr>
 <p>rollbck for transaction init </p>
 <p>end transaction for init </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00286">286</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00347">347</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -600,10 +600,10 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>PQquery. </p>
+<p>fetch select for update </p>
 <p>get the value of the row and the column </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00146">146</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00207">207</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -631,7 +631,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>delete savepoint </p>
+<p>PQquery. </p>
 <p>fetch ALL include requete</p>
 <hr/>
  <h2>&ndash;&mdash;&mdash;&mdash;&mdash; process complex </h2>
@@ -640,7 +640,7 @@ Friends</h2></td></tr>
 <p>close cursor</p>
 <p>no end of row </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00326">326</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00387">387</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -665,7 +665,7 @@ Friends</h2></td></tr>
 <p>close cursor</p>
 <p>no end of row </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00416">416</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00514">514</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -685,11 +685,12 @@ Friends</h2></td></tr>
 
 <p>fetch record use openSQL </p>
 <p>query for fetchsql record / record </p>
+<p>select FOR UPDATE NOWAIT</p>
 <p>read a line record only for update</p>
 <p>end of row or without row</p>
 <p>no end of row </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00442">442</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00565">565</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -711,7 +712,7 @@ Friends</h2></td></tr>
 <p>if exist table of the database </p>
 <p>false for return value count </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00223">223</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00284">284</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -732,7 +733,7 @@ Friends</h2></td></tr>
 <p>get the value of the row and the column </p>
 <p>number column of the field </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00185">185</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00246">246</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -767,7 +768,7 @@ Friends</h2></td></tr>
 <p>close cursor</p>
 <p>no end of row </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00374">374</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00451">451</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -811,10 +812,10 @@ template&lt;typename Head , typename... Args&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>format without parameters causes an error </p>
+<p>delete savepoint </p>
 <p>formatting the query with parameters </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8h_source.html#l00201">201</a> of file <a class="el" href="libpqwrp_8h_source.html">libpqwrp.h</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8h_source.html#l00204">204</a> of file <a class="el" href="libpqwrp_8h_source.html">libpqwrp.h</a>.</p>
 
 </div>
 </div>
@@ -835,7 +836,7 @@ template&lt;typename Head , typename... Args&gt; </div>
 <p>connect to the database </p>
 <p>PQexec. </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00090">90</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00089">89</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -865,9 +866,8 @@ template&lt;typename Head , typename... Args&gt; </div>
 
 <p>PQexec. </p>
 <p>PQquery. </p>
-<p>lock for update </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00105">105</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00145">145</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -887,7 +887,7 @@ template&lt;typename Head , typename... Args&gt; </div>
 <p>commit for transaction init </p>
 <p>rollbck for transaction init </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00279">279</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00340">340</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -907,7 +907,7 @@ template&lt;typename Head , typename... Args&gt; </div>
 <p>clear PGresult </p>
 <p>point de sauvegarde </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00299">299</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00360">360</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -927,7 +927,7 @@ template&lt;typename Head , typename... Args&gt; </div>
 <p>roolback base savepoint </p>
 <p>delete savepoint </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00313">313</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00374">374</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -947,7 +947,7 @@ template&lt;typename Head , typename... Args&gt; </div>
 <p>point de sauvegarde </p>
 <p>roolback base savepoint </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00306">306</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8cpp_source.html#l00367">367</a> of file <a class="el" href="libpqwrp_8cpp_source.html">libpqwrp.cpp</a>.</p>
 
 </div>
 </div>
@@ -988,7 +988,7 @@ template&lt;typename Head , typename... Args&gt; </div>
 <p>retrieve char* for stringstream </p>
 <p>dumy </p>
 
-<p>Definition at line <a class="el" href="libpqwrp_8h_source.html#l00241">241</a> of file <a class="el" href="libpqwrp_8h_source.html">libpqwrp.h</a>.</p>
+<p>Definition at line <a class="el" href="libpqwrp_8h_source.html#l00244">244</a> of file <a class="el" href="libpqwrp_8h_source.html">libpqwrp.h</a>.</p>
 
 </div>
 </div>

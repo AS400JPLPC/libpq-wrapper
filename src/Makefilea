@@ -11,7 +11,7 @@ OBJLIB = $(PROJET).a
 # Addresse   , sources, lib , objets , includes :
 SRCDIR = $(CURDIR)/src/
  
-BINDIR = $(CURDIR)/lib/
+LIBDIR = $(CURDIR)/lib/
 
 OBJDIR = $(CURDIR)/obj/
 
@@ -37,10 +37,10 @@ OBJCPP = $(patsubst %.cpp,$(OBJDIR)%.o,$(notdir $(wildcard $(SRCDIR)*.cpp)))
 all : $(PROJET)
  
 $(PROJET) : $(OBJCPP)
-		ar -r -s $(BINDIR)$(OBJLIB)  $^
+		ar -r -s $(LIBDIR)$(OBJLIB)  $^
  
 ifdef TEST
-	ar -t $(BINDIR)$(OBJLIB)
+	ar -t $(LIBDIR)$(OBJLIB)
 endif
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
@@ -53,10 +53,10 @@ msg: mrpropre
 mrpropre:
 	
 	rm -rf $(OBJDIR)*.*  
-	rm -rf $(BINDIR)*.*
+	rm -rf $(LIBDIR)*.*
 
 	
 # affiche la taille de l'objet résultant
 build: 
 
-	du -sh $(BINDIR)$(OBJLIB)
+	du -sh $(LIBDIR)$(OBJLIB)

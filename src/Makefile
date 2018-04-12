@@ -25,7 +25,7 @@ INCLUDES = \
  
 
 OBJ = $(OBJDIR)$(EXEC).o  
-EXECUTABLE = $(BINDIR)$(EXEC)
+ 
  
 # choix du compilateur :
 CXX = g++
@@ -47,9 +47,9 @@ INCLIB= $(OBJLIB)libpqwrp.a \
 # regle edition de liens  
 all: $(OBJ)
 ifdef TEST	
-	$(CXX)  $(OBJ) -o $(EXECUTABLE)   $(LDFLAGS)        $(INCLIB) 
+	$(CXX)  $(OBJ) -o $(BINDIR)*.$(EXEC)    $(LDFLAGS)        $(INCLIB) 
 else
-	$(CXX)  $(OBJ) -o $(EXECUTABLE)   $(LDFLAGS)     -s $(INCLIB)
+	$(CXX)  $(OBJ) -o $(BINDIR)*.$(EXEC)    $(LDFLAGS)     -s $(INCLIB)
 endif 
 # regle de compilation des sources objet
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
@@ -67,21 +67,21 @@ msg: mrpropre
 	
 # pour effacer tous les objets :
 clean: 
-	rm -rf  $(OBJDIR)$(EXEC).o
+	rm -rf  $(OBJDIR)*.o
 
 	
 clean_a: 
-	rm -rf  $(OBJDIR)$(EXEC).o
+	rm -rf  $(OBJDIR)*.o
 
 
 clean_b:  
-	rm -rf  $(OBJDIR)$(EXEC).o
+	rm -rf  $(OBJDIR)*.o
 
 # pour effacer tous les objet et les executables :
 mrpropre: clean_a   
-	rm -rf $(EXECUTABLE)
+	rm -rf $(BINDIR)*.$(EXEC) 
 
 # efface objet(s) et affiche la taille de l'objet résultant
 build: clean_b
-	 du -sh $(EXECUTABLE)
+	 du -sh $(BINDIR)*.$(EXEC) 
 

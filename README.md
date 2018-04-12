@@ -3,6 +3,8 @@ wrapper de base en c++ une class<br>
 
 travail avec gcc7.2  c++11... c++17      avec option  -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0<br>
 
+fait avec XUBUNTU / DEBIAN / MANJARO 
+
 il est basé sur libpq C API<br>
 
 ce projet à pour but de simplifier l'accès au travers de libpq mise à disposition par PostGreSql<br>
@@ -62,7 +64,7 @@ THANK YOU   MERCI BEAUCOUP<br>
 
  traitement lock enregistrement   select for update avec serialisation <br>
 
- il me reste à voir comment récuperer les "sqlcode" 
+ traitement des erreurs...
 
  je souhaite avoir été clair.<br>
 
@@ -71,8 +73,8 @@ THANK YOU   MERCI BEAUCOUP<br>
 
  il est certainement possible d'aller beaucoup plus loin,<br>
  soit dans les traitements d'erreurs .....sachez que sous pgsql ECPG on peut aller beaucoup plus loin <br>
- ou insérer des particularités en relation avec le metier....<br> 
+ ou insérer des particularitées en relation avec le metier....<br> 
  mais d'après moi cela serait autre chose qu'un wrapper<br>
 
- ps j'ai laissé en commentaire une ligne pour connaitre les codes retour d'interoguation .... <br> 
+ ps j'ai laissé en commentaire une ligne pour connaitre les codes retour d'intérroguation .... <br> 
 

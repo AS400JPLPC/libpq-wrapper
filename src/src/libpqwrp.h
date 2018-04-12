@@ -46,10 +46,13 @@
 #include <sstream>
 #include <iomanip>
 
+#include <exception>
+#include <typeinfo>
 #include <stdexcept>
+
 #include <libpq-fe.h>
-#include <typeinfo>     // name
-#include <libpq-fs.h>
+//#include <libpq-fs.h>
+
 #include <type_traits>
 
 
@@ -113,7 +116,8 @@ class libPQwrp																		/// gestion parametre sql
 	protected :
 	
 	unsigned count_format_specifiers(std::string const& format);				/// count the number of parameters in the format
-
+	
+	void prepare(std::string const& format);									/// format without parameters causes an error
 
 	public:
 	
@@ -139,12 +143,19 @@ class libPQwrp																		/// gestion parametre sql
 
 	~libPQwrp(){};
 
-
 	void connectDB(std::string info);												/// connect to the database
 	
 	void qexec( std::string sql);													/// PQexec
 
 	void query(std::string sql, bool binary = true );								/// PQquery
+	
+	void fetchAll( std::string , std::string cursor = "mycursor" );					/// fetch ALL include requete
+
+	void opensql( std::string sql, std::string cursor = "mycursor" );				/// query for fetchsql record / record
+
+	void fetchsql( std::string cursor = "mycursor");								/// fetch record use openSQL
+
+	void fetchupd( std::string sql);												/// fetch select for update
 
 	char* fetch(int row, int column);												/// get the value of the row and the column
 	
@@ -184,15 +195,7 @@ class libPQwrp																		/// gestion parametre sql
 
 	void savpointRelease();															/// delete savepoint
 
-	void fetchAll( std::string , std::string cursor = "mycursor" );					/// fetch ALL include requete
 
-	void opensql( std::string sql, std::string cursor = "mycursor" );				/// query for fetchsql record / record
-
-	void fetchsql( std::string cursor = "mycursor");									/// fetch record use openSQL
-
-	void fetchupd( std::string sql);													/// fetch select for update
-
-	void prepare(std::string const& format);										/// format without parameters causes an error
 
 
 

@@ -43,7 +43,7 @@ THANK YOU   MERCI BEAUCOUP<br>
 
  Le wrapper se base libpq de PostGreSql<br>
 
- une class libPQwrp	library PQ (libpq)  wrp (wrapper)<br>
+ une class libpqwrp.a	library PQ (libpq)  wrp (wrapper)<br>
  pour contenir les éléments qui permettent de rendre flexible l'ensemble du process.<br>
 
 

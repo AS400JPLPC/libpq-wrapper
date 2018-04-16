@@ -77,4 +77,15 @@ THANK YOU   MERCI BEAUCOUP<br>
  mais d'après moi cela serait autre chose qu'un wrapper<br>
 
  ps j'ai laissé en commentaire une ligne pour connaitre les codes retour d'intérroguation .... <br> 
+ 
+ 
+ N'oubliez pas d'ouvrir un role pour la lecture seulement (read only)  par exemple : <br>
+ 
+ CREATE ROLE Read_Only_User WITH LOGIN PASSWORD 'read' <br>
+NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION VALID UNTIL 'infinity'; <br>
+
+GRANT CONNECT ON DATABASE "CGIFCH" TO Read_Only_User; <br>
+GRANT USAGE ON SCHEMA public TO Read_Only_User; <br>
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO Read_Only_User; <br>
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO Read_Only_User;
 

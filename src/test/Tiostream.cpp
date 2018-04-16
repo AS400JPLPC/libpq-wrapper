@@ -831,6 +831,9 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 			slc.begin();
 			requete = slc.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);			/// pas de point virgule ";"
 			slc.fetchupd(requete); // le commit impacte que la connexion de begin conn
+			
+			or
+			
  			requete = slc.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?",5);
  			slc.query(requete);
 			slc.commit();

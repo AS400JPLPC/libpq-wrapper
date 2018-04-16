@@ -111,9 +111,10 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 ;
 
  try{
-	conninfo = "host=localhost port=5432 dbname =CGIFCH user=postgres password=pgmr application_name=Tiostream";
-  
+	conninfo = "host=localhost port=5432 dbname =CGIFCH user=postgres password=pgmr application_name=Tiostream ";
+
 	sql.connectDB(conninfo);
+	
 	/// deux exemple pour count(*) 
  
 					printf("\n000    count\n");
@@ -644,14 +645,14 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 	sql.begin();
 	sql.opensql(requete, cursorName);
-	do
+	if ( !sql.errorSQL ) do
 	{
-		if ( sql.fetchEOF ==false )  sql.result()>>vdate>>Ndouble>>Nchar>>Nint;
+		if ( ! sql.fetchEOF )  sql.result()>>vdate>>Ndouble>>Nchar>>Nint;
 
 			std::cout <<"NAMEOF(vdate)  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
 			
-		if ( sql.fetchEOF ==false ) sql.fetchsql(cursorName);
- 	}while  (sql.fetchEOF ==false) ;	
+		if ( !sql.fetchEOF ) sql.fetchsql(cursorName);
+ 	}while  ( !sql.fetchEOF ) ;	
 
 	sql.end();
 
@@ -685,14 +686,14 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
      
 	sql.begin();
 	sql.opensql(requete, cursorName);
-	do
+	if ( !sql.errorSQL ) do
 	{
-		if ( sql.fetchEOF ==false )  sql.result()>>zDate>>zNumeric>>zText>>zKey;
+		if ( !sql.fetchEOF )  sql.result()>>zDate>>zNumeric>>zText>>zKey;
 
 		std::cout << zDate <<" -- "<<zNumeric<<" -- "<<zText<<"  --  "<<zKey<<std::endl;
 		
-		if ( sql.fetchEOF ==false ) sql.fetchsql(cursorName);
- 	}while  (sql.fetchEOF ==false) ;
+		if ( !sql.fetchEOF ) sql.fetchsql(cursorName);
+ 	}while  ( !sql.fetchEOF ) ;
 
 	sql.end();
 
@@ -726,14 +727,14 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.begin();
 	
 	sql.opensql(requete);
-	do
+	if ( !sql.errorSQL ) do
 	{
 		if ( sql.fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
 
 		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
 		
-		if ( sql.fetchEOF ==false ) sql.fetchsql();
- 	}	while  (sql.fetchEOF ==false) ;
+		if ( !sql.fetchEOF  ) sql.fetchsql();
+ 	}	while  ( !sql.fetchEOF ) ;
 	
 	sql.end();
 
@@ -751,15 +752,15 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.begin();
 	
 	sql.opensql(requete);
-	do
+	if ( !sql.errorSQL ) do
 	{
-		if ( sql.fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
+		if ( !sql.fetchEOF ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
 
-		if ( sql.fetchEOF ==false )  std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
+		if ( !sql.fetchEOF )  std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
 		//std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
 		
-		if ( sql.fetchEOF ==false ) sql.fetchsql();
- 	}	while  (sql.fetchEOF ==false) ;
+		if ( !sql.fetchEOF ) sql.fetchsql();
+ 	}	while  ( !sql.fetchEOF ) ;
 	
 
 	sql.end();
@@ -770,38 +771,72 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.begin();
 
 	std::cout<<"***********   select for update ****************"<<std::endl;
-		requete = sql.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);
+	
+		requete = sql.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);			/// pas de point virgule ";"
 		
 	sql.fetchupd(requete);
+	if ( !sql.errorSQL )
+	{
+		if ( !sql.fetchEOF )
+		{
+			sql.result()>>Xname;
 
-		if ( sql.fetchEOF ==false && sql.errorSQL == false  ) sql.result()>>Xname;
-
-		if ( sql.fetchEOF ==false && sql.errorSQL == false)  std::cout<<Xname<<" <- name   "<<std::endl;
+			std::cout<<Xname<<" <- name   "<<std::endl;
+		}
 		else std::cout<<"update non fait "<<std::endl;
 		//std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
 
-    if (sql.fetchEOF ==false && sql.errorSQL == false) {
-		std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+		if ( !sql.fetchEOF )
+		{
+			std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
 
-	requete = sql.prepare("UPDATE patron SET name = 'Moi'  WHERE emp_id = ?;",5);
+			requete = sql.prepare("UPDATE patron SET name = 'Moi'  WHERE emp_id = ?",5);
 
-	sql.query(requete);
+			sql.query(requete);
 
 	
-	sql.commit();
+			sql.commit();
 		}
+	}
  	
 
 	sql.end();
 	//	std::cout << "Appuyez sur ENTER pour quitter";    std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
-	
-	requete = sql.prepare("UPDATE patron SET name = 'JPL'  WHERE emp_id = ?;",1);
-	sql.begin();
-	sql.query(requete);
-		sql.commit();
 
-	sql.end();
-	
+	/// test simple contrôle ecriture 
+			requete = sql.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);
+			sql.begin();
+			sql.opensql(requete);
+			sql.result()>>Xname;
+			std::cout<<Xname<<" <- name   "<<std::endl;
+			
+			requete = sql.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?",5);
+			sql.query(requete);
+			sql.commit();
+
+			requete = sql.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);
+			sql.query(requete);
+			sql.result()>>Xname;
+			std::cout<<Xname<<" <- name   "<<std::endl;
+
+		libPQwrp slc;
+		slc.connectDB("host=localhost port=5432 dbname =CGIFCH user=readonly password=read application_name=Tiostream");
+			requete = slc.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);
+			slc.query(requete);
+			slc.result()>>Xname;
+			std::cout<<Xname<<" <- name  LGF  "<<std::endl;
+
+
+/* erreur
+			slc.begin();
+			requete = slc.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);			/// pas de point virgule ";"
+			slc.fetchupd(requete); // le commit impacte que la connexion de begin conn
+ 			requete = slc.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?",5);
+ 			slc.query(requete);
+			slc.commit();
+*/
+
+
 	printf("sql.closeDB \n");
 	sql.closeDB();
 

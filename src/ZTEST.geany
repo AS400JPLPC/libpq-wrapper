@@ -28,13 +28,14 @@ long_line_behaviour=1
 long_line_column=120
 
 [files]
-current_page=2
-FILE_NAME_0=9202;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cpp;0;4
-FILE_NAME_1=3051;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.h;0;4
-FILE_NAME_2=608;None;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefilea;0;4
+current_page=3
+FILE_NAME_0=2234;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.h;0;4
+FILE_NAME_1=1260;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cpp;0;4
+FILE_NAME_2=845;None;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefilea;0;4
+FILE_NAME_3=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTiostream.cpp;0;4
 
 [VTE]
-last_dir=/home/soleil/Ztest/bin
+last_dir=/home/soleil/CGIFCH
 
 [build-menu]
 MakeFT_00_LB=Construire

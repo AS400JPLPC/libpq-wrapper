@@ -29,8 +29,8 @@ long_line_column=120
 
 [files]
 current_page=1
-FILE_NAME_0=14312;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTiostream.cpp;0;4
-FILE_NAME_1=686;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefile;0;4
+FILE_NAME_0=6824;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTiostream.cpp;0;4
+FILE_NAME_1=1531;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefile;0;4
 
 [VTE]
 last_dir=/home/soleil/Ztest/bin
@@ -40,10 +40,10 @@ MakeFT_00_LB=Construire
 MakeFT_00_CM=make msg --trace  TEST=1 all 
 MakeFT_00_WD=
 MakeFT_01_LB=Build
-MakeFT_01_CM=make mrpropre  all  build
+MakeFT_01_CM=make mrproper  all  build
 MakeFT_01_WD=
 MakeFT_02_LB=nettoyage 
-MakeFT_02_CM=make mrpropre
+MakeFT_02_CM=make mrproper
 MakeFT_02_WD=
 filetypes=Make;C++;None;
 NF_03_LB=GLADE

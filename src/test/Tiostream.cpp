@@ -37,14 +37,12 @@
 
  
 
-
 #include <ZONED.hpp>
 
 #include <libpqwrp.h>
 
-using namespace libpqwrp ;
-
-
+using namespace std;
+ 
 ///*************************************************
  
 
@@ -118,7 +116,7 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 	/// deux exemple pour count(*) 
  
 					printf("\n000    count\n");
-	if ( ! sql.is_Table("employees") ) sql.qexec("CREATE TABLE employees (emp_id integer not null, name varchar(32));"); 
+	if ( ! sql.is_Table("employees") ) sql.qexec("CREATE TABLE employees (emp_id integer not //name varchar(32));"); 
 	// nbr employe 
 	sql.query(" select count(*) from \"employees\" where \"emp_id\" = 1;",false);  	// false oblogatoire pour return valeur count(*)
 		 for (int i = 0; i < sql.countrow(); i++)
@@ -820,7 +818,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 			std::cout<<Xname<<" <- name   "<<std::endl;
 
 		libPQwrp slc;
-		slc.connectDB("host=localhost port=5432 dbname =CGIFCH user=readonly password=read application_name=Tiostream");
+		slc.connectDB("host=localhost port=5432 dbname=CGIFCH user=readonly password=read application_name=Tiostream");
 			requete = slc.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);
 			slc.query(requete);
 			slc.result()>>Xname;
@@ -831,13 +829,58 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 			slc.begin();
 			requete = slc.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);			/// pas de point virgule ";"
 			slc.fetchupd(requete); // le commit impacte que la connexion de begin conn
-			
-			or
-			
  			requete = slc.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?",5);
  			slc.query(requete);
 			slc.commit();
 */
+
+
+
+struct fc0cli
+{
+ 	Zchar CDEP = Zchar(3);	 	//-- CODE DEPARTEMENT
+	Zchar CFAC = Zchar(1);	 	//-- CODE FACTURATION
+	Zchar CJRD = Zchar(4);	 	//-- CODE FORME JURIDIQUE
+	Zchar CPAY = Zchar(3);	 	//-- CODE PAYS
+	Zdcml CRGE = Zdcml(2,0);	//-- CODE REGION ECONOMIQ
+	Zdcml CRGL = Zdcml(3,0);	//-- CODE REGLEMENT
+	Zdcml CRGS = Zdcml(2,0);	//-- CODE REGION  STAT.
+	Zdcml CSCT = Zdcml(2,0);	//-- CODE SECTEUR STAT.
+	Zdcml CTRS = Zdcml(2,0);	//-- CODE TRESORERIE
+	Zchar CEXO = Zchar(1);		//-- CODE TVA EXO EXPORT
+	Zdate E999 = Zdate();		//-- DATE DE CREATION ENR
+	Zdate M999 = Zdate();		//-- DATE DE MODIFCATION
+	Zdcml NARR = Zdcml(3,0);	//-- N. ARRONDISSEMENT
+	Zdcml NCLI = Zdcml(6,0);	//-- N° CLIENT					KEY	-> 1 
+	Zdcml NPTT = Zdcml(5,0);	//-- N. CODE POSTAL
+	Zdcml NESC = Zdcml(2,1);	//-- N. ESCOMPTE
+	Zdcml SHS  = Zdcml(1,0);	//-- 0/1  N=0 O=1 H.SERVC
+	Zchar SLCR = Zchar(1);		//-- O/N  L.C.R.
+	Zchar SMLG = Zchar(1);		//-- O/N MAILING
+	Zchar TRPL = Zchar(1);		//-- TYPE BLOCAGE RAPPEL
+	Zchar ZPTT = Zchar(10);		//-- Z. CODE POSTAL
+	Zchar ZCTC = Zchar(30);		//-- PERSONNE A CONTACTER
+	Zchar ZDST = Zchar(30);		//-- PERSONNE DESTINATAIR
+	Zchar ZNOM = Zchar(30);		//-- NOM / RAISON SOCIAL
+	Zchar ZOBS = Zchar(30);		//-- OBSERVATIONS
+	Zchar ZTVA = Zchar(15);		//-- REFERENCE TVA
+	Zchar ZRU1 = Zchar(30);		//-- NOM / RUE1
+	Zchar ZRU2 = Zchar(30);		//-- SUITE NOM / RUE1
+	Zchar ZTL1 = Zchar(15);		//-- N. TEL. PERS. A CONT
+	Zchar ZTLX = Zchar(15);		//-- N. TELEX / TELECOPIE
+	Zchar ZVIL = Zchar(25);		//-- VILLE
+} fc0cli;
+ 
+
+fc0cli.CDEP="95";
+std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<<std::endl;
+
+
+
+
+
+
+
 
 
 	printf("sql.closeDB \n");

@@ -1,5 +1,5 @@
 # définition des cibles particulières
-.PHONY: all mrpropre build  clean
+.PHONY: all mrproper build  clean
 
 # désactivation des règles implicites
 .SUFFIXES:
@@ -30,7 +30,7 @@ OBJ = $(OBJDIR)$(EXEC).o
 # choix du compilateur :
 CXX = g++
 # options compilations :
-CPPFLAGS=  -Wall -fexpensive-optimizations -O2 -Os -pedantic-errors  -Wextra -std=c++17 -fPIC  -Wparentheses -ftree-coalesce-vars  -fstack-protector -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0
+CPPFLAGS=  -Wall -fexpensive-optimizations -O2 -Os -pedantic-errors  -Wextra -std=c++17    -Wparentheses -ftree-coalesce-vars  -fstack-protector -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0
 
 LDFLAGS=     -lpthread -lctemplate  -lX11   -lpq  -ldl 
 
@@ -47,7 +47,7 @@ INCLIB= $(OBJLIB)libpqwrp.a \
 # regle edition de liens  
 all: $(OBJ)
 ifdef TEST	
-	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)        $(INCLIB) 
+	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)      -s  $(INCLIB) 
 else
 	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)     -s $(INCLIB)
 endif 
@@ -56,7 +56,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.cpp
 	$(CXX)  $(CPPFLAGS) $(INCLUDES)  -o $@ -c $<   
 
 
-msg: mrpropre
+msg: mrproper
 	@echo "$(OBJ)"
 	@echo "$(CURDIR)"
 	@echo "$(SRCDIR)"
@@ -78,7 +78,7 @@ clean_b:
 	rm -rf  $(OBJDIR)$(EXEC).o
 
 # pour effacer tous les objet et les executables :
-mrpropre: clean_a   
+mrproper: clean_a   
 	rm -rf $(BINDIR)$(EXEC) 
 
 # efface objet(s) et affiche la taille de l'objet résultant

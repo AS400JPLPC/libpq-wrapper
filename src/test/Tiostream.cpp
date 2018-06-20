@@ -612,16 +612,14 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 				switch (HashStringToInt(sql.cfield(nf)))
 				{
-					case HashStringToInt(NAMEOF(vdate)):	vdate	=	sql.fetch( row, nf);   break; //exemple avec le Nom de la Variable
+					case HashStringToInt(NAMEOF(vdate)):	vdate	=	sql.fetch( row, nf);  std::cout<< PQftype(sql.res, nf) <<std::endl; break; //exemple avec le Nom de la Variable
 					
-					case HashStringToInt("vnumeric"):		Ndouble	= 	sql.fetchDbl( row, nf);   break;
+					case HashStringToInt("vnumeric"):		Ndouble	= 	sql.fetchDbl( row, nf); std::cout<< PQftype(sql.res, nf) <<std::endl;  break;
 					
-					case HashStringToInt("vtext"):			Nchar	=	sql.fetch( row, nf);   break;
+					case HashStringToInt("vtext"):			Nchar	=	sql.fetch( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;   break;
 					
-					case HashStringToInt("vkey"):			Nint	=	sql.fetchInt( row, nf);
-															 
+					case HashStringToInt("vkey"):			Nint	=	sql.fetchInt( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;break;
 
-															break;
 					
 					default : std::cout<<sql.cfield(nf)<<std::endl;	break;
 				}
@@ -766,6 +764,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 
 	char* Xname = new char[30];
+
 	sql.begin();
 
 	std::cout<<"***********   select for update ****************"<<std::endl;
@@ -833,7 +832,9 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
  			slc.query(requete);
 			slc.commit();
 */
+	printf("sql.closeDB \n");
 
+	sql.closeDB();
 
 
 struct fc0cli
@@ -880,11 +881,50 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
 
 
 
+	std::cout<<"***********   define table column ****************"<<std::endl;
+
+	std::string	column_name		="";
+	int			column_ordre	=0;
+	std::string	column_type		="";
+	int			column_length	=0;
+	int			column_precision	=0;
+	int			column_scale	=0;
+ 	std::string	column_comment	="";
+//	char *	column_comment ;
+	slc.begin();
+	requete = slc.prepare( \
+"SELECT " \
+"cl.column_name,cl.ORDINAL_POSITION,cl.DATA_TYPE,cl.CHARACTER_MAXIMUM_LENGTH,cl.NUMERIC_PRECISION,cl.NUMERIC_SCALE " \
+",(select pg_catalog.col_description(oid,cl.ordinal_position::int) from pg_catalog.pg_class c where c.relname=cl.table_name) as column_comment " \
+"FROM information_schema.columns cl " \
+"WHERE cl.table_catalog='?'  and cl.table_name='?' " \
+"  order by 2 ; " ,"CGIFCH" ,"FC0CLI" );
 
 
+	
 
-	printf("sql.closeDB \n");
-	sql.closeDB();
+
+	slc.begin();
+	slc.opensql(requete, cursorName); 	 
+	if ( !slc.errorSQL ) do
+	{
+		if ( ! slc.fetchEOF )
+		{
+			slc.result()>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;
+
+			slc.rmvD(column_comment);
+		
+			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
+
+			slc.fetchsql(cursorName);
+		}
+ 	}while  ( !slc.fetchEOF ) ;	
+
+	slc.end();
+
+	slc.closeDB();
+
+
 
 
 }

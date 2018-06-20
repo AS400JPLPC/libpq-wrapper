@@ -85,7 +85,7 @@ constexpr unsigned long long int HashStringToInt(const char *str, unsigned long 
 #define NAMEOF(variable) ((void)variable, #variable)
 
 #ifndef   DeLiMiTaTioN
-#define   DeLiMiTaTioN		'~'		///  caractère de délimitation multibuffer > stringstream
+#define   DeLiMiTaTioN		'|'		///  remplace caractère space  de délimitation multibuffer > stringstream
 #endif
 
 
@@ -236,28 +236,13 @@ class libPQwrp																		/// gestion parametre sql
 
 		
 	std::stringstream result();														/// out buffer;
-
+	void rmvD(std::string &tstr);													/// remove delimiter
+	void rmvD(char * &tptr);														/// remove delimiter
 	char* DoubleToChar(double _X_ ,unsigned _precision_ = 0 );						/// Double to char
-
-
-
-	friend  std::istream& operator>>(std::istream& is ,char* t)						/// retrieve  char*  for stringstream
-	{
-		std::string _var_ ;
-		is >> _var_ ;
-		for (size_t i = 0; i < _var_.size(); ++i)
-		{
-			if (_var_[i] == DeLiMiTaTioN)
-			{
-				_var_[i] = ' ';
-			}
-		}
-		 
-		t = (char*)_var_.c_str();
-		 _var_ = t; /// dumy
-		return is;
-	}
+ 
+ 
 };
+
 
 
 } // namespace libpqwrp

@@ -37,35 +37,85 @@ void libPQwrp::prepare(std::string const& format)
 }
 
 
+void libPQwrp::rmvD(std::string &tstr)												/// remove delimiter
+{	
 
 
-std::stringstream  libPQwrp::result()												/// retrieve values on the fields
+char *tptr = (char*)tstr.c_str();
+
+ 
+
+ 			for (size_t l = 0; l < strlen(tptr); ++l)
+			{
+				if (tptr[l] == DeLiMiTaTioN)
+				{
+					tptr[l] = ' ';
+				}	
+			}
+
+tstr = (const char*) tptr;
+
+}
+
+
+void libPQwrp::rmvD(char* &tptr)														/// remove delimiter
+{	
+
+ 			for (size_t l = 0; l < strlen(tptr); ++l)
+			{
+				if (tptr[l] == DeLiMiTaTioN)
+				{
+					tptr[l] = ' ';
+				}	
+			}
+
+}
+
+
+
+std::stringstream libPQwrp::result()												/// retrieve values on the fields
 {	
 
 	char* tptr;
-	std::stringstream sql;
-
-
-    
+	std::string svar;
+	std::stringstream sqls;
+ 
 	for ( int i= 0 ; i <cols ; i ++ )
 	{
-		tptr = PQgetvalue(res, rown, i);
-		
 
-		for (size_t i = 0; i < strlen(tptr); ++i)
+		tptr = PQgetvalue(res, 0, i);
+
+		if ( PQgetisnull(res,0,i) == true )
 		{
-			if (tptr[i] == ' ')
-			{
-				tptr[i] =DeLiMiTaTioN;
-			}
+				switch (PQftype(res, i))
+				{
+					case 20:	//int
+					case 21:
+					case 22:
+					case 23:
+					case 700:	// float
+					case 701:
+					case 702:
+					case 1700:	// numeric
+					// process value as an integer
+					sprintf(tptr ,"%s","0");
+					break;
+				}
 		}
+  		else
+ 			for (size_t l = 0; l < strlen(tptr); ++l)
+			{
+				if (tptr[l] == ' ')
+				{
+					tptr[l] =DeLiMiTaTioN;
+				}	
+			}
 
-
-		if ( i == 0 ) sql << tptr;
-		else sql <<' '<< tptr;
-
+		if ( i == 0 ) sqls <<(const char*) tptr;
+		else  sqls <<'\n'<<(const char*) tptr;
 	}
-	return  sql;
+ 
+	return  sqls;
 }
 
 

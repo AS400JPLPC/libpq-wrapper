@@ -7,7 +7,7 @@ fait avec XUBUNTU / DEBIAN / MANJARO
 
 il est basé sur libpq C API<br>
 
-ce projet à pour but de simplifier l'accès au travers de libpq mise à disposition par PostGreSql<br>
+ce projet à pour but de simplifier l'accès au travers de libpq mise à disposition par PostGreSql.<br>
 
 
 projet 2018-03-15  (C) 2011   Copyright 2018 <laroche.jeanpierre@gmail.com><br>

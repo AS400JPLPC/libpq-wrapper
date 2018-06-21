@@ -89,13 +89,15 @@ GRANT USAGE ON SCHEMA public TO Read_Only_User; <br>
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO Read_Only_User; <br>
 GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO Read_Only_User;
 <br>
+
+
 	slc.begin();
-	requete = slc.prepare( \
-"SELECT " \
-"cl.column_name,cl.ORDINAL_POSITION,cl.DATA_TYPE,cl.CHARACTER_MAXIMUM_LENGTH,cl.NUMERIC_PRECISION,cl.NUMERIC_SCALE " \
-",(select pg_catalog.col_description(oid,cl.ordinal_position::int) from pg_catalog.pg_class c where c.relname=cl.table_name) as column_comment " \
-"FROM information_schema.columns cl " \
-"WHERE cl.table_catalog='?'  and cl.table_name='?' " \
+	requete = slc.prepare( 
+"SELECT " 
+"cl.column_name,cl.ORDINAL_POSITION,cl.DATA_TYPE,cl.CHARACTER_MAXIMUM_LENGTH,cl.NUMERIC_PRECISION,cl.NUMERIC_SCALE " 
+",(select pg_catalog.col_description(oid,cl.ordinal_position::int) from pg_catalog.pg_class c where c.relname=cl.table_name) as column_comment " 
+"FROM information_schema.columns cl " 
+"WHERE cl.table_catalog='?'  and cl.table_name='?' " 
 "  order by 2 ; " ,(char*) gtk_entry_get_text(eDATABASE) ,(char*) gtk_label_get_text(eTABLE) );
 
 

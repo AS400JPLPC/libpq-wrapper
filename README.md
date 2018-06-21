@@ -89,3 +89,57 @@ GRANT USAGE ON SCHEMA public TO Read_Only_User; <br>
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO Read_Only_User; <br>
 GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO Read_Only_User;
 
+
+	slc.begin();
+	requete = slc.prepare( \
+	"SELECT " \
+	"cl.column_name,cl.ORDINAL_POSITION,cl.DATA_TYPE,cl.CHARACTER_MAXIMUM_LENGTH,cl.NUMERIC_PRECISION,cl.NUMERIC_SCALE " \
+	",(select pg_catalog.col_description(oid,cl.ordinal_position::int) from pg_catalog.pg_class c where c.relname=cl.table_name) as column_comment " \
+	"FROM information_schema.columns cl " \
+	"WHERE cl.table_catalog='?'  and cl.table_name='?' " \
+	"  order by 2 ; " ,(char*) gtk_entry_get_text(eDATABASE) ,(char*) gtk_label_get_text(eTABLE) );
+
+
+	slc.begin();
+	slc.opensql(requete, cursorName); 	printMsg("Generator_Field");
+	if ( !slc.errorSQL ) do
+	{
+		if ( ! slc.fetchEOF )
+		{
+			slc.result()>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;
+
+			slc.rmvD(column_comment);
+		
+			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
+
+			slc.fetchsql(cursorName);
+		}
+ 	}while  ( !slc.fetchEOF ) ;	
+
+	slc.end();
+
+
+	or
+
+	slc.begin();
+	slc.fetchAll(requete, cursorName);
+	printMsg("Generator_Field"); 
+    for (int row = 0; row < slc.countrow() && slc.fetchEOF ==false ; row++)
+    {
+		for (int nf = 0;nf < slc.countfield(); nf++)
+			{ 
+
+				switch (HashStringToInt(slc.cfield(nf)))
+				{
+					case HashStringToInt(NAMEOF(column_name)):			column_name			=	slc.fetch( row, nf);	break; //exemple avec le Nom de la Variable
+					case HashStringToInt("ordinal_position"):			column_ordre		=	slc.fetchInt( row, nf);	break;
+					case HashStringToInt("data_type"):					column_type			=	slc.fetch( row, nf);	break;
+					case HashStringToInt("character_maximum_length"):	column_length		=	slc.fetchInt( row, nf);	break;
+					case HashStringToInt("numeric_precision"):			column_precision	=	slc.fetchInt( row, nf);	break;
+					case HashStringToInt("numeric_scale"):				column_scale		=	slc.fetchInt( row, nf);	break;
+					case HashStringToInt(NAMEOF(column_comment)):		column_comment		=	slc.fetch( row, nf);	break;
+				}
+			}
+			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
+	}
+

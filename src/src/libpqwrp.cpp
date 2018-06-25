@@ -37,42 +37,6 @@ void libPQwrp::prepare(std::string const& format)
 }
 
 
-void libPQwrp::rmvD(std::string &tstr)												/// remove delimiter
-{	
-
-
-char *tptr = (char*)tstr.c_str();
-
- 
-
- 			for (size_t l = 0; l < strlen(tptr); ++l)
-			{
-				if (tptr[l] == DeLiMiTaTioN)
-				{
-					tptr[l] = ' ';
-				}	
-			}
-
-tstr = (const char*) tptr;
-
-}
-
-
-void libPQwrp::rmvD(char* &tptr)														/// remove delimiter
-{	
-
- 			for (size_t l = 0; l < strlen(tptr); ++l)
-			{
-				if (tptr[l] == DeLiMiTaTioN)
-				{
-					tptr[l] = ' ';
-				}	
-			}
-
-}
-
-
-
 std::stringstream libPQwrp::result()												/// retrieve values on the fields
 {	
 
@@ -102,20 +66,11 @@ std::stringstream libPQwrp::result()												/// retrieve values on the field
 					break;
 				}
 		}
-  		else
- 			for (size_t l = 0; l < strlen(tptr); ++l)
-			{
-				if (tptr[l] == ' ')
-				{
-					tptr[l] =DeLiMiTaTioN;
-				}	
-			}
 
 		if ( i == 0 ) sqls <<(const char*) tptr;
-		else  sqls <<'\n'<<(const char*) tptr;
+		else  sqls <<_separator_<<(const char*) tptr;
 	}
- 
-	return  sqls;
+	return  sqls; 
 }
 
 

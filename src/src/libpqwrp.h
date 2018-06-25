@@ -51,13 +51,9 @@
 #include <stdexcept>
 
 #include <libpq-fe.h>
-//#include <libpq-fs.h>
+
 
 #include <type_traits>
-
-
-
-
 
 namespace libpqwrp
 {
@@ -84,8 +80,8 @@ constexpr unsigned long long int HashStringToInt(const char *str, unsigned long 
 
 #define NAMEOF(variable) ((void)variable, #variable)
 
-#ifndef   DeLiMiTaTioN
-#define   DeLiMiTaTioN		'|'		///  remplace caractère space  de délimitation multibuffer > stringstream
+#ifndef   _separator_
+#define   _separator_		'|'		///  remplace caractère space  de délimitation multibuffer > stringstream
 #endif
 
 
@@ -236,12 +232,14 @@ class libPQwrp																		/// gestion parametre sql
 
 		
 	std::stringstream result();														/// out buffer;
-	void rmvD(std::string &tstr);													/// remove delimiter
-	void rmvD(char * &tptr);														/// remove delimiter
 	char* DoubleToChar(double _X_ ,unsigned _precision_ = 0 );						/// Double to char
- 
- 
+
+
+
+
+
 };
+
 
 
 

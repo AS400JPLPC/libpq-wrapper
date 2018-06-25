@@ -40,6 +40,8 @@
 #include <ZONED.hpp>
 
 #include <libpqwrp.h>
+#include <outstream.h>
+
 
 using namespace std;
  
@@ -62,7 +64,7 @@ int main()
 	std::string cursorName = "MYcursor";
 
 
-
+	std::stringstream sqlz ;
 
 
 
@@ -544,7 +546,7 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 	sql.opensql(requete);
 	do
 	{
-		if ( sql.fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
+		if ( sql.fetchEOF ==false ) {sqlz= sql.result(); sqlz>>NBNDOS>>NBMPRV>>NBZIMP;}
 
 		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
 		
@@ -643,7 +645,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.opensql(requete, cursorName);
 	if ( !sql.errorSQL ) do
 	{
-		if ( ! sql.fetchEOF )  sql.result()>>vdate>>Ndouble>>Nchar>>Nint;
+		if ( ! sql.fetchEOF )  {sqlz=sql.result(); sqlz>>vdate>>Ndouble>>Nchar>>Nint;}
 
 			std::cout <<"NAMEOF(vdate)  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
 			
@@ -657,13 +659,14 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 	printf("\n019 traitement double entrer \n");
 	requete = sql.prepare("UPDATE typetable  SET vnumeric = '?'  WHERE vkey = ?",36.04,3681210);
+
+
 	sql.begin();
 	sql.query(requete);
 	sql.commit();
 	sql.end();
 
-	double Xdouble = std::stod(NBNDOS.ToChar());
-	std::cout<<std::setprecision(NBNDOS.clen())<<Xdouble<<"   clen : "<<NBNDOS.clen()<<std::endl;
+
 
 
 
@@ -684,7 +687,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.opensql(requete, cursorName);
 	if ( !sql.errorSQL ) do
 	{
-		if ( !sql.fetchEOF )  sql.result()>>zDate>>zNumeric>>zText>>zKey;
+		if ( !sql.fetchEOF ) { sqlz=sql.result(); sqlz>>zDate>>zNumeric>>zText>>zKey;}
 
 		std::cout << zDate <<" -- "<<zNumeric<<" -- "<<zText<<"  --  "<<zKey<<std::endl;
 		
@@ -725,7 +728,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.opensql(requete);
 	if ( !sql.errorSQL ) do
 	{
-		if ( sql.fetchEOF ==false ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
+		if ( sql.fetchEOF ==false ) {sqlz=sql.result(); sqlz>>NBNDOS>>NBMPRV>>NBZIMP;}
 
 		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
 		
@@ -750,7 +753,8 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.opensql(requete);
 	if ( !sql.errorSQL ) do
 	{
-		if ( !sql.fetchEOF ) sql.result()>>NBNDOS>>NBMPRV>>NBZIMP;
+		if ( !sql.fetchEOF ) { sqlz = sql.result() ; sqlz>>NBNDOS>>NBMPRV>>NBZIMP; }
+								 
 
 		if ( !sql.fetchEOF )  std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
 		//std::cout<<NBNDOS<<"    "<<NBMPRV<<"    "<<NBZIMP<<std::endl;
@@ -891,6 +895,8 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
 	int			column_scale	=0;
  	std::string	column_comment	="";
 //	char *	column_comment ;
+
+	std::stringstream sqlx ;
 	slc.begin();
 	requete = slc.prepare( \
 "SELECT " \
@@ -910,10 +916,18 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
 	{
 		if ( ! slc.fetchEOF )
 		{
-			slc.result()>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;
+			
 
-			slc.rmvD(column_comment);
-		
+			sqlx = slc.result();
+
+			sqlx>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;
+
+			
+/*
+   or
+		slc.result()>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;
+  		slc.rmvD(column_comment);
+*/		
 			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
 
 			slc.fetchsql(cursorName);
@@ -921,12 +935,130 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
  	}while  ( !slc.fetchEOF ) ;	
 
 	slc.end();
+//	contrôle veracité stringstream function result()
 
-	slc.closeDB();
+	slc.begin();
+	slc.fetchAll(requete, cursorName);
+
+    for (int row = 0; row < slc.countrow() && slc.fetchEOF ==false ; row++)
+    {
+		for (int nf = 0;nf < slc.countfield(); nf++)
+			{ 
+
+				switch (HashStringToInt(slc.cfield(nf)))
+				{
+					case HashStringToInt(NAMEOF(column_name)):			column_name			=	slc.fetch( row, nf);	break; //exemple avec le Nom de la Variable
+					case HashStringToInt("ordinal_position"):			column_ordre		=	slc.fetchInt( row, nf);	break;
+					case HashStringToInt("data_type"):					column_type			=	slc.fetch( row, nf);	break;
+					case HashStringToInt("character_maximum_length"):	column_length		=	slc.fetchInt( row, nf);	break;
+					case HashStringToInt("numeric_precision"):			column_precision	=	slc.fetchInt( row, nf);	break;
+					case HashStringToInt("numeric_scale"):				column_scale		=	slc.fetchInt( row, nf);	break;
+					case HashStringToInt(NAMEOF(column_comment)):		column_comment		=	slc.fetch( row, nf);	break;
+				}
+			}
+			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
+	}
+	slc.end();
+	
+
+
+	std::cout<<"***********  liste tabletype ****************"<<std::endl;
+
+	std::string	column_vdate	="";
+	double		column_vnumeric	=0;
+	std::string	column_vtext	="";
+	char		column_vonchar	=' ';
+	std::string	column_vheure	="";
+	double		column_vkey		=0;
+ 	bool		column_vbool	=false;
+	char*		column_vchar =(char *) malloc(30);;
+  
+ 
+	slc.begin();
+ 	requete = 
+"SELECT vdate, vnumeric, vtext, vonchar, heure, vkey, bol, vchar " \
+"FROM tabletype " ;
+ 
+
+/*	requete = 
+"SELECT vdate, vnumeric, vtext, heure, vkey, bol, vchar " \
+"FROM tabletype " ;
+*/
+//"  order by vkey ; " ;
+
+
+	slc.begin();
+	slc.opensql(requete, cursorName); 	  
+	if ( !slc.errorSQL ) do
+	{ 
+		if ( ! slc.fetchEOF )
+		{
+			
+
+			sqlx = slc.result();
+
+ 			sqlx>>column_vdate>>column_vnumeric>>column_vtext>>column_vonchar>>column_vheure>>column_vkey>>column_vbool>>column_vchar;
+
+//sqlx>>column_vdate>>column_vnumeric>>column_vtext>>column_vheure>>column_vkey>>column_vbool>>column_vchar;
+			std::cout<<column_vdate<<"  "<<column_vnumeric<<"  "<<column_vtext<<"  "<<column_vonchar<<"  "<<column_vheure<<"  "<<column_vkey<<"  "<<column_vbool<<"  "<<column_vchar<<std::endl;
+
+			
+			slc.fetchsql(cursorName);
+		}
+ 	}while  ( !slc.fetchEOF ) ;
+
+	slc.end();
 
 
 
+	std::cout<<"***********  liste tabletype ****************"<<std::endl;
 
+	Zdate		column_zdate	;
+	Zdcml		column_znumeric(8,2);
+	Ztext		column_ztext	;
+	Zchar		column_zonchar(1);
+	Ztime		column_zheure	;
+	Zdcml		column_zkey(7,0);
+ 	Zbool		column_zbool	;
+	Zchar		column_zchar(10);
+  
+ 
+	slc.begin();
+ 	requete = 
+"SELECT vdate, vnumeric, vtext, vonchar, heure, vkey, bol, vchar " \
+"FROM tabletype " ;
+ 
+
+/*	requete = 
+"SELECT vdate, vnumeric, vtext, heure, vkey, bol, vchar " \
+"FROM tabletype " ;
+*/
+//"  order by vkey ; " ;
+
+
+	slc.begin();
+	slc.opensql(requete, cursorName); 	  
+	if ( !slc.errorSQL ) do
+	{ 
+		if ( ! slc.fetchEOF )
+		{
+			
+
+			sqlx = slc.result();
+
+ 			sqlx>>column_zdate>>column_znumeric>>column_ztext>>column_zonchar>>column_zheure>>column_zkey>>column_zbool>>column_zchar;
+
+//sqlx>>column_vdate>>column_vnumeric>>column_vtext>>column_vheure>>column_vkey>>column_vbool>>column_vchar;
+			std::cout<<column_zdate<<"  "<<column_znumeric<<"  "<<column_ztext<<"  "<<column_zonchar<<"  "<<column_zheure<<"  "<<column_zkey<<"  "<<column_zbool<<"  "<<column_zchar<<std::endl;
+
+			
+			slc.fetchsql(cursorName);
+		}
+ 	}while  ( !slc.fetchEOF ) ;
+
+	slc.end();
+
+ 	slc.closeDB();
 }
 catch (const std::exception& e)
 	{

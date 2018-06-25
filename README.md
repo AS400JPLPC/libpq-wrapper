@@ -92,35 +92,6 @@ GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO Read_Only_User;
 
 
 	slc.begin();
-	requete = slc.prepare(\ 
-"SELECT " \
-"cl.column_name,cl.ORDINAL_POSITION,cl.DATA_TYPE,cl.CHARACTER_MAXIMUM_LENGTH,cl.NUMERIC_PRECISION,cl.NUMERIC_SCALE " \
-",(select pg_catalog.col_description(oid,cl.ordinal_position::int) from pg_catalog.pg_class c where c.relname=cl.table_name) as column_comment " 
-"FROM information_schema.columns cl " \
-"WHERE cl.table_catalog='?'  and cl.table_name='?' " \
-"  order by 2 ; " ,(char*) gtk_entry_get_text(eDATABASE) ,(char*) gtk_label_get_text(eTABLE) );
-
-
-	slc.begin();
-	slc.opensql(requete, cursorName); 	printMsg("Generator_Field");
-	if ( !slc.errorSQL ) do
-	{
-		if ( ! slc.fetchEOF )
-		{
-			slc.result()>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;
-
-			slc.rmvD(column_comment);
-		
-			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
-
-			slc.fetchsql(cursorName);
-		}
- 	}while  ( !slc.fetchEOF ) ;	
-
-	slc.end();
-
-
-	slc.begin();
 	requete = slc.prepare( \
 	"SELECT " \
 	"cl.column_name,cl.ORDINAL_POSITION,cl.DATA_TYPE,cl.CHARACTER_MAXIMUM_LENGTH,cl.NUMERIC_PRECISION,cl.NUMERIC_SCALE " \
@@ -137,8 +108,6 @@ GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO Read_Only_User;
 		if ( ! slc.fetchEOF )
 		{
 			slc.result()>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;
-
-			slc.rmvD(column_comment);
 		
 			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
 

@@ -999,7 +999,6 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
 
  			sqlx>>column_vdate>>column_vnumeric>>column_vtext>>column_vonchar>>column_vheure>>column_vkey>>column_vbool>>column_vchar;
 
-//sqlx>>column_vdate>>column_vnumeric>>column_vtext>>column_vheure>>column_vkey>>column_vbool>>column_vchar;
 			std::cout<<column_vdate<<"  "<<column_vnumeric<<"  "<<column_vtext<<"  "<<column_vonchar<<"  "<<column_vheure<<"  "<<column_vkey<<"  "<<column_vbool<<"  "<<column_vchar<<std::endl;
 
 			
@@ -1048,7 +1047,6 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
 
  			sqlx>>column_zdate>>column_znumeric>>column_ztext>>column_zonchar>>column_zheure>>column_zkey>>column_zbool>>column_zchar;
 
-//sqlx>>column_vdate>>column_vnumeric>>column_vtext>>column_vheure>>column_vkey>>column_vbool>>column_vchar;
 			std::cout<<column_zdate<<"  "<<column_znumeric<<"  "<<column_ztext<<"  "<<column_zonchar<<"  "<<column_zheure<<"  "<<column_zkey<<"  "<<column_zbool<<"  "<<column_zchar<<std::endl;
 
 			

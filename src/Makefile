@@ -5,7 +5,7 @@
 .SUFFIXES:
 # nom de l'executable :
 EXEC =Tiostream
- 
+
 # Adresse des sources, des objets et des includes :
 SRCDIR = $(CURDIR)/test/
 OBJDIR = $(CURDIR)/obj/

@@ -25,10 +25,12 @@ INCLUDES = \
 -I $(SRCDIR) \
 -I $(OBJDIR)
 
+
 # choix du compilateur :
 CXX = g++
 # options compilations :   
-CXXFLAGS=  -fexpensive-optimizations -O2 -Os  -Wmain -pedantic-errors -Wfatal-errors -Wall -Wextra -std=c++17   -Wparentheses -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0
+CXXFLAGS=  -fexpensive-optimizations -O2 -Os  -Wmain -pedantic-errors -Wfatal-errors -Wall -Wextra -std=c++17   -Wparentheses 
+
 
 
 OBJCPP = $(patsubst %.cpp,$(OBJDIR)%.o,$(notdir $(wildcard $(SRCDIR)*.cpp)))

@@ -46,6 +46,8 @@
 #include <sstream>
 #include <iomanip>
 
+#include <type_traits>
+
 #include <exception>
 #include <typeinfo>
 #include <stdexcept>
@@ -53,7 +55,6 @@
 #include <libpq-fe.h>
 
 
-#include <type_traits>
 
 
 namespace libpqwrp

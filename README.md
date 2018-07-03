@@ -1,7 +1,7 @@
 # libpq-wrapper
 wrapper de base en c++ une class<br> 
 
-travail avec gcc-8 c++11... c++17      avec option  -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0<br>
+travail avec gcc-8 c++11... c++17  <br>
 
 fait avec XUBUNTU / DEBIAN / MANJARO 
 

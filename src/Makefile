@@ -4,8 +4,7 @@
 # désactivation des règles implicites
 .SUFFIXES:
 # nom de l'executable :
-EXEC =Tclasse
-
+EXEC =Tiostream
  
 # Adresse des sources, des objets et des includes :
 SRCDIR = $(CURDIR)/test/
@@ -29,9 +28,11 @@ OBJ = $(OBJDIR)$(EXEC).o
 # choix du compilateur :
 CXX = g++
 # options compilations :
-CPPFLAGS=  -Wall -fexpensive-optimizations -O2 -Os -pedantic-errors  -Wextra -std=c++17    -Wparentheses -ftree-coalesce-vars  -fstack-protector -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0
+CPPFLAGS=  -Wall -fexpensive-optimizations -O2 -Os -pedantic-errors  -Wextra -std=c++17 -Wparentheses -ftree-coalesce-vars  -fstack-protector
 
-LDFLAGS=     -lpthread -lctemplate  -lX11   -lpq  -ldl 
+ 
+
+LDFLAGS=     -lpthread -lctemplate  -lX11   -lpq  -ldl  
 
 # tclasse
 ifeq ($(EXEC), Tclasse)
@@ -58,8 +59,8 @@ else
 	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)      -s $(INCLIB)
 endif 
 # regle de compilation des sources objet
-$(OBJDIR)%.o: $(SRCDIR)Tclasse.cpp
-	$(CXX)  $(CPPFLAGS) $(INCLUDES)  -o $@ -c $<   
+$(OBJDIR)%.o: $(SRCDIR)$(EXEC).cpp
+	$(CXX)  $(CPPFLAGS) $(INCLUDES) -o $@ -c $<   
 
 
 msg: mrproper

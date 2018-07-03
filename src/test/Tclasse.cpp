@@ -105,7 +105,7 @@ int main()
 	sql.connectDB("host=localhost port=5432 dbname =CGIFCH user=postgres password=pgmr application_name=Tclasse ");
 	slc.connectDB("host=localhost port=5432 dbname=CGIFCH user=readonly password=read application_name=Tiostream");
 
-	
+	std::cout<<"bonjour"<<std::endl;
 	vdate = 20180702 ;
 	vnumeric =1951;
 	vtext ="test";

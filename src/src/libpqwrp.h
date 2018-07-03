@@ -151,13 +151,13 @@ class libPQwrp																		/// gestion parametre sql
 
 	void fetchsql( std::string cursor = "mycursor");								/// fetch record use openSQL
 
-	void fetchupd( std::string sql);												/// fetch select for update
+	void openupd( std::string sql);													/// query select for update
 
-	char* fetch(int row, int column);												/// get the value of the row and the column
+	char* rtvCh(int row, int column);												/// get the value of the row and the column
 	
-	double fetchDbl(int row, int column);											/// get the value of the row and the column
+	double rtvDbl(int row, int column);												/// get the value of the row and the column
 
-	int fetchInt(int row, int column);												/// get the value of the row and the column
+	int rtvInt(int row, int column);												/// get the value of the row and the column
 
 	int nfield(std::string field);													/// number column of the field
 
@@ -166,6 +166,8 @@ class libPQwrp																		/// gestion parametre sql
 	int countfield();																/// number of columns
 
 	int countrow();																	/// number of rows
+
+	long int countqry(std::string sql);												/// count select .....
 
 	bool is_Table(const char* table);												/// if exist table of the database
 

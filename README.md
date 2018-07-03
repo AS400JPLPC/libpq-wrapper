@@ -1,7 +1,7 @@
 # libpq-wrapper
 wrapper de base en c++ une class<br> 
 
-travail avec gcc7.2  c++11... c++17      avec option  -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0<br>
+travail avec gcc-8 c++11... c++17      avec option  -Wabi-tag -D_GLIBCXX_USE_CXX11_ABI=0<br>
 
 fait avec XUBUNTU / DEBIAN / MANJARO 
 
@@ -90,6 +90,8 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO Read_Only_User; <br>
 GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO Read_Only_User;
 <br>
 
+
+Utiliser la Lib libpqwrp.a ex: Tiostream ou  #include <libpqwrp.hpp>   ex:Tclasse (Encours d'élaboration)
 
 	slc.begin();
 	requete = slc.prepare( \

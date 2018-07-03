@@ -161,7 +161,7 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
                 for (int j = 0; j < sql.countfield(); j++)
                 {
 					std::cout<<sql.cfield(j)<< " --> ";				// name
-					std::cout<<sql.fetch(i,j)<<std::endl;			// value    probleme numerique 
+					std::cout<<sql.rtvCh(i,j)<<std::endl;			// value    probleme numerique 
 				}
 
 /// traitement error ok
@@ -262,9 +262,9 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 			{
 				switch (HashStringToInt(sql.cfield(nf)))
 				{
-					case HashStringToInt("name"):		nom = sql.fetch( row, nf) ;   break;
+					case HashStringToInt("name"):		nom = sql.rtvCh( row, nf) ;   break;
 
-					case HashStringToInt("emp_id"):		test = atoi(sql.fetch( row, nf)) ;
+					case HashStringToInt("emp_id"):		test = atoi(sql.rtvCh( row, nf)) ;
 
 
 					break;
@@ -275,8 +275,8 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 			}
 
 
-	std::cout<<"nom = sql.fetch( row, nf)  "<<nom.ToChar()<<std::endl;
-	std::cout<<"test = atoi(sql.fetch( row, nf))  "<<test<<std::endl;
+	std::cout<<"nom = sql.rtvCh( row, nf)  "<<nom.ToChar()<<std::endl;
+	std::cout<<"test = atoi(sql.rtvCh( row, nf))  "<<test<<std::endl;
 
 
 	printf("\n011 delete\n");
@@ -322,41 +322,41 @@ WHERE cl.table_catalog='?'  and cl.table_name='?' and cl.column_name= '?' order 
 
 				switch (HashStringToInt(sql.cfield(nf)))
 				{
-					case HashStringToInt("table_catalog"):	std::cout<<sql.fetch( row, nf)<<"  ";   break;
+					case HashStringToInt("table_catalog"):	std::cout<<sql.rtvCh( row, nf)<<"  ";   break;
 					
-					case HashStringToInt("table_name"):		std::cout<<sql.fetch( row, nf)<<"  ";   break;
+					case HashStringToInt("table_name"):		std::cout<<sql.rtvCh( row, nf)<<"  ";   break;
 					
-					case HashStringToInt("column_name"):	std::cout<<sql.fetch(row, nf)<<"  ";   break;
+					case HashStringToInt("column_name"):	std::cout<<sql.rtvCh(row, nf)<<"  ";   break;
 					
-					case HashStringToInt("ordre"):			iptr =sql.fetch( row, nf);
+					case HashStringToInt("ordre"):			iptr =sql.rtvCh( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
 															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("data_type"):		std::cout<<sql.fetch( row, nf)<<"  "; 	break;
+					case HashStringToInt("data_type"):		std::cout<<sql.rtvCh( row, nf)<<"  "; 	break;
 
-					case HashStringToInt("length"):			iptr =sql.fetch( row, nf);
+					case HashStringToInt("length"):			iptr =sql.rtvCh( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
 															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("precision"):		iptr =sql.fetch( row, nf);
+					case HashStringToInt("precision"):		iptr =sql.rtvCh( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
 															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("scale"):			iptr =sql.fetch( row, nf);
+					case HashStringToInt("scale"):			iptr =sql.rtvCh( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
 															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("column_comment"):	std::cout<<sql.fetch( row, nf)<<std::endl;   break;
+					case HashStringToInt("column_comment"):	std::cout<<sql.rtvCh( row, nf)<<std::endl;   break;
 
 					
 					default : std::cout<<sql.cfield(nf)<<std::endl;	break;
 				}
 				//std::cout<<sql.cfield(nf)<<std::endl;   
-				//std::cout<<sql.fetch(row,nf)<<std::endl;
+				//std::cout<<sql.rtvCh(row,nf)<<std::endl;
 			}
 
 
@@ -533,7 +533,7 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 	
 	sql.end();
 
-
+std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
 
 	printf("\n016 traitement istream field db2  avec cursor name default\n");
 	
@@ -614,19 +614,19 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 
 				switch (HashStringToInt(sql.cfield(nf)))
 				{
-					case HashStringToInt(NAMEOF(vdate)):	vdate	=	sql.fetch( row, nf);  std::cout<< PQftype(sql.res, nf) <<std::endl; break; //exemple avec le Nom de la Variable
+					case HashStringToInt(NAMEOF(vdate)):	vdate	=	sql.rtvCh( row, nf);  std::cout<< PQftype(sql.res, nf) <<std::endl; break; //exemple avec le Nom de la Variable
 					
-					case HashStringToInt("vnumeric"):		Ndouble	= 	sql.fetchDbl( row, nf); std::cout<< PQftype(sql.res, nf) <<std::endl;  break;
+					case HashStringToInt("vnumeric"):		Ndouble	= 	sql.rtvDbl( row, nf); std::cout<< PQftype(sql.res, nf) <<std::endl;  break;
 					
-					case HashStringToInt("vtext"):			Nchar	=	sql.fetch( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;   break;
+					case HashStringToInt("vtext"):			Nchar	=	sql.rtvCh( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;   break;
 					
-					case HashStringToInt("vkey"):			Nint	=	sql.fetchInt( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;break;
+					case HashStringToInt("vkey"):			Nint	=	sql.rtvInt( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;break;
 
 					
 					default : std::cout<<sql.cfield(nf)<<std::endl;	break;
 				}
 				//std::cout<<sql.cfield(nf)<<std::endl;   
-				//std::cout<<sql.fetch(row,nf)<<std::endl;
+				//std::cout<<sql.rtvCh(row,nf)<<std::endl;
 
 			}
 		std::cout <<"NAMEOF(vdate)  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
@@ -775,7 +775,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	
 		requete = sql.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);			/// pas de point virgule ";"
 		
-	sql.fetchupd(requete);
+	sql.openupd(requete);
 	if ( !sql.errorSQL )
 	{
 		if ( !sql.fetchEOF )
@@ -831,7 +831,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 /* erreur
 			slc.begin();
 			requete = slc.prepare("SELECT   name   from patron  WHERE emp_id = ? ",5);			/// pas de point virgule ";"
-			slc.fetchupd(requete); // le commit impacte que la connexion de begin conn
+			slc.openupd(requete); // le commit impacte que la connexion de begin conn
  			requete = slc.prepare("UPDATE patron SET name = 'Nous'  WHERE emp_id = ?",5);
  			slc.query(requete);
 			slc.commit();
@@ -947,13 +947,13 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
 
 				switch (HashStringToInt(slc.cfield(nf)))
 				{
-					case HashStringToInt(NAMEOF(column_name)):			column_name			=	slc.fetch( row, nf);	break; //exemple avec le Nom de la Variable
-					case HashStringToInt("ordinal_position"):			column_ordre		=	slc.fetchInt( row, nf);	break;
-					case HashStringToInt("data_type"):					column_type			=	slc.fetch( row, nf);	break;
-					case HashStringToInt("character_maximum_length"):	column_length		=	slc.fetchInt( row, nf);	break;
-					case HashStringToInt("numeric_precision"):			column_precision	=	slc.fetchInt( row, nf);	break;
-					case HashStringToInt("numeric_scale"):				column_scale		=	slc.fetchInt( row, nf);	break;
-					case HashStringToInt(NAMEOF(column_comment)):		column_comment		=	slc.fetch( row, nf);	break;
+					case HashStringToInt(NAMEOF(column_name)):			column_name			=	slc.rtvCh( row, nf);	break; //exemple avec le Nom de la Variable
+					case HashStringToInt("ordinal_position"):			column_ordre		=	slc.rtvInt( row, nf);	break;
+					case HashStringToInt("data_type"):					column_type			=	slc.rtvCh( row, nf);	break;
+					case HashStringToInt("character_maximum_length"):	column_length		=	slc.rtvInt( row, nf);	break;
+					case HashStringToInt("numeric_precision"):			column_precision	=	slc.rtvInt( row, nf);	break;
+					case HashStringToInt("numeric_scale"):				column_scale		=	slc.rtvInt( row, nf);	break;
+					case HashStringToInt(NAMEOF(column_comment)):		column_comment		=	slc.rtvCh( row, nf);	break;
 				}
 			}
 			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
@@ -975,9 +975,7 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
   
  
 	slc.begin();
- 	requete = 
-"SELECT vdate, vnumeric, vtext, vonchar, heure, vkey, bol, vchar " \
-"FROM tabletype " ;
+ 	requete = "SELECT * FROM tabletype order by vkey ;" ;
  
 
 /*	requete = 
@@ -1022,19 +1020,9 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
 	Zchar		column_zchar(10);
   
  
-	slc.begin();
- 	requete = 
-"SELECT vdate, vnumeric, vtext, vonchar, heure, vkey, bol, vchar " \
-"FROM tabletype " ;
  
-
-/*	requete = 
-"SELECT vdate, vnumeric, vtext, heure, vkey, bol, vchar " \
-"FROM tabletype " ;
-*/
-//"  order by vkey ; " ;
-
-
+ 	requete = "SELECT * FROM tabletype order by vkey ;" ;
+try{
 	slc.begin();
 	slc.opensql(requete, cursorName); 	  
 	if ( !slc.errorSQL ) do
@@ -1055,8 +1043,16 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
  	}while  ( !slc.fetchEOF ) ;
 
 	slc.end();
+}
+catch (const std::exception& e)
+	{
+	  std::cerr<<e.what()<<"fin de procedure catch"<<std::endl;
+	  return EXIT_FAILURE ;
+	}
+	
 
  	slc.closeDB();
+
 }
 catch (const std::exception& e)
 	{

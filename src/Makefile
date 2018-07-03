@@ -4,10 +4,9 @@
 # désactivation des règles implicites
 .SUFFIXES:
 # nom de l'executable :
-EXEC = Tiostream
+EXEC =Tclasse
 
-
-
+ 
 # Adresse des sources, des objets et des includes :
 SRCDIR = $(CURDIR)/test/
 OBJDIR = $(CURDIR)/obj/
@@ -34,9 +33,16 @@ CPPFLAGS=  -Wall -fexpensive-optimizations -O2 -Os -pedantic-errors  -Wextra -st
 
 LDFLAGS=     -lpthread -lctemplate  -lX11   -lpq  -ldl 
 
-INCLIB= $(OBJLIB)libpqwrp.a \
-/home/soleil/ZONED/lib/libZONED.a \
+# tclasse
+ifeq ($(EXEC), Tclasse)
+INCLIB= /home/soleil/ZONED/lib/libZONED.a
+endif
 
+# tiostream
+ifeq ($(EXEC), Tiostream)
+INCLIB= $(OBJLIB)libpqwrp.a \
+/home/soleil/ZONED/lib/libZONED.a 
+endif
 
 #--------------------------------------------------------------------
 #  compilation
@@ -47,12 +53,12 @@ INCLIB= $(OBJLIB)libpqwrp.a \
 # regle edition de liens  
 all: $(OBJ)
 ifdef TEST	
-	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)      -s  $(INCLIB) 
+	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)      -s $(INCLIB) 
 else
-	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)     -s $(INCLIB)
+	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)      -s $(INCLIB)
 endif 
 # regle de compilation des sources objet
-$(OBJDIR)%.o: $(SRCDIR)%.cpp
+$(OBJDIR)%.o: $(SRCDIR)Tclasse.cpp
 	$(CXX)  $(CPPFLAGS) $(INCLUDES)  -o $@ -c $<   
 
 

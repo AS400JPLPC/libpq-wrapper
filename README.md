@@ -103,23 +103,21 @@ Utiliser la Lib libpqwrp.a ex: Tiostream ou  #include <libpqwrp.hpp>   ex:Tclass
 	"  order by 2 ; " ,(char*) gtk_entry_get_text(eDATABASE) ,(char*) gtk_label_get_text(eTABLE) );
 
 	slc.begin();
-	slc.opensql(requete, cursorName); 	  
+	slc.opensql(requete, cursorName); 	 
 	if ( !slc.errorSQL ) do
-	{ 
+	{
 		if ( ! slc.fetchEOF )
 		{
 			
 
 			sqlx = slc.result();
 
- 			sqlx>>column_vdate>>column_vnumeric>>column_vtext>>column_vonchar>>column_vheure>>column_vkey>>column_vbool>>column_vchar;
+			sqlx>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;		
+			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
 
-			std::cout<<column_vdate<<"  "<<column_vnumeric<<"  "<<column_vtext<<"  "<<column_vonchar<<"  "<<column_vheure<<"  "<<column_vkey<<"  "<<column_vbool<<"  "<<column_vchar<<std::endl;
-
-			
 			slc.fetchsql(cursorName);
 		}
- 	}while  ( !slc.fetchEOF ) ;
+ 	}while  ( !slc.fetchEOF ) ;	
 
 	slc.end();
 

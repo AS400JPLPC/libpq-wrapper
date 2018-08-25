@@ -10,7 +10,7 @@ il est basé sur libpq C API<br>
 ce projet à pour but de simplifier l'accès au travers de libpq mise à disposition par PostGreSql.<br>
 
 
-projet 2018-03-15  (C) 2011   Copyright 2018 <laroche.jeanpierre@gmail.com><br>
+projet 2018-03-18  (C) 2018   Copyright 2018 <laroche.jeanpierre@gmail.com><br>
 
 je voudrais remercier...<br>
 
@@ -44,6 +44,7 @@ THANK YOU   MERCI BEAUCOUP<br>
  Le wrapper se base libpq de PostGreSql<br>
 
  une class libpqwrp.a	           library pq (libpq)  wrp (wrapper)<br>
+ ou une class libpqwrp.hpp<br>
  pour contenir les éléments qui permettent de rendre flexible l'ensemble du process.<br>
 
 
@@ -102,15 +103,17 @@ Utiliser la Lib libpqwrp.a ex: Tiostream ou  #include <libpqwrp.hpp>   ex:Tclass
 	"WHERE cl.table_catalog='?'  and cl.table_name='?' " \
 	"  order by 2 ; " ,(char*) gtk_entry_get_text(eDATABASE) ,(char*) gtk_label_get_text(eTABLE) );
 
-
 	slc.begin();
-	slc.opensql(requete, cursorName); 	printMsg("Generator_Field");
+	slc.opensql(requete, cursorName); 	 
 	if ( !slc.errorSQL ) do
 	{
 		if ( ! slc.fetchEOF )
 		{
-			slc.result()>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;
-		
+			
+
+			sqlx = slc.result();
+
+			sqlx>>column_name>>column_ordre>>column_type>>column_length>>column_precision>>column_scale>>column_comment;		
 			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
 
 			slc.fetchsql(cursorName);

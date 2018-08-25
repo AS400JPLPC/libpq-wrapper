@@ -24,7 +24,7 @@
 
 #include <ZONED.hpp>
 
-#include <libpqwrp.hpp>
+#include <libpqwrp.cxx>
 
 
 #ifndef  vdate_HPP_INCLUDED
@@ -116,35 +116,40 @@ int main()
 	vchar ="JP-Laroche";
 	sql.begin() ;
 try{	
-	if ( tbl.check(vkey) && ! slc.errorSQL)
+	if ( tbl.check(vkey) )
 		{
 			vtext ="test jpl";
 			tbl.update(vkey);
 		}
-	else if (slc.errorSQL ) throw std::runtime_error("erreur programme 119\n");
-	else if (! slc.errorSQL ) tbl.insert();
+	else if (slc.errorSQL ) throw std::runtime_error("erreur programme 124\n");
+	else if ( !tbl.check(vkey) )tbl.insert();
 
 
 	vkey=102; 	vtext ="test 102";
-	if ( tbl.check(vkey) && ! slc.errorSQL)
+	if ( tbl.check(vkey) )
 		{
 			tbl.remove(vkey);
 		}
-	else if (slc.errorSQL ) throw std::runtime_error("erreur programme 124 \n");
-	else if (! slc.errorSQL ) tbl.insert();
+	else if (slc.errorSQL ) throw std::runtime_error("erreur programme 133 \n");
+	else if ( !tbl.check(vkey) ) tbl.insert();
 	sql.end();
 
-	
-	std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
-	sql.begin() ;
+
+ 	std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+/*	sql.begin() ;
 		vkey=101;
-	tbl.remove(vkey);
+ 	tbl.remove(vkey);
 			vkey=102;
 	tbl.remove(vkey);
 	sql.end();
-
-
+*/ 
+	sql.begin() ;
+	vkey=102;	tbl.check(vkey); printf(" slc.errorSQL %d",slc.errorSQL);   printf(" tbl.check(vkey) 1= actif %d",tbl.check(vkey));
+	vkey=101; if (!tbl.check(vkey) && slc.errorSQL) throw std::runtime_error("erreur programme 148 \n");
+//	if ( !tbl.check(vkey) && ! slc.errorSQL) throw std::runtime_error("erreur programme 148 \n");
+	sql.end();
 	sql.closeDB();
+//		std::cout<<" tag ctrl "<<std::endl;
 }
 catch (const std::exception& e)
 	{
@@ -153,27 +158,26 @@ catch (const std::exception& e)
 	}	
 	return 0;
 }
-
-
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+		
 /// check row key
-	bool PG_tabletype::check(Zdcml vkey)
+	bool PG_tabletype::check(   Zdcml vkey)
 {
 try{
-	requete= slc.prepare(\
-	"SELECT count(*) FROM tabletype" \
-	" WHERE (vkey = ?)" \
-	,vkey);
 
+	requete= slc.prepare("SELECT count(*) FROM tabletype \
+	 WHERE (vkey = ? )",
+		vkey  ); 
+ 
 	if ( slc.countqry(requete) > 0 )	return true ;
-
 	return false ;
-
+ 
 }catch (const std::exception& e)
 	{
 	  std::cerr<<e.what()<<"Check requete impossible"<<std::endl;
 	  return false;
 	}
-
 }
 
 /// INSERT 

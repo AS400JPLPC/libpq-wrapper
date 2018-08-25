@@ -689,7 +689,7 @@ long int libPQwrp::countqry(std::string sql)											/// if exist table of the
 	PQclear(res);
 	
 	clean = false;
-	
+
 	
 	return count;
 }
@@ -851,19 +851,23 @@ void libPQwrp::opensql( std::string sql, std::string cursor)						///  query for
 	rown	= 0;
 	coln	= 0;
 	
-    ordreSQL =  "DECLARE " + cursor + " CURSOR FOR "+ sql;
+	ordreSQL =  "DECLARE " + cursor + " CURSOR FOR "+ sql;
 
-    res = PQexec(conn, ordreSQL.c_str()); 
+	res = PQexec(conn, ordreSQL.c_str());
+    
 	if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
 	{
 		PQclear(res);
 		clean = false;
 		throw std::runtime_error(std::string(PQresultErrorMessage(res)));
 	}
-	
+
 	ordreSQL = "FETCH FIRST in " + cursor ;	/// read a line record only
 	res = PQexec(conn, ordreSQL.c_str());
-
+ std::cout<<"code status  :"<<PQresultStatus(res)<<"  value : "<<PQcmdStatus(res)<<std::endl;
+std::cout<<PGRES_EMPTY_QUERY<<"-"<<PGRES_COMMAND_OK<<"-"<<PGRES_TUPLES_OK<<"-"<<PGRES_COPY_OUT<<"-"<< PQresultErrorMessage(res)<<\
+PGRES_COPY_IN<<"-"<<PGRES_BAD_RESPONSE<<"-"<<PGRES_NONFATAL_ERROR<<"-"<<PGRES_FATAL_ERROR<<"-"<<PGRES_COPY_BOTH<<"-"<<PGRES_SINGLE_TUPLE<<std::endl;
+ 
 	std::string operation = PQcmdStatus(res);
 	switch (PQresultStatus(res))
 	{

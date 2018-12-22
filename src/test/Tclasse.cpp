@@ -100,6 +100,9 @@ class PG_tabletype	: public libPQwrp												/// gestion parametre sql
 
 int main()
 {
+		std::setlocale(LC_ALL, "");
+	//std::setlocale(LC_NUMERIC, "C");		// force '.'
+	 	std::setlocale(LC_NUMERIC,std::locale("").name().c_str());					/// user local
 	PG_tabletype tbl;
 
 	sql.connectDB("host=localhost port=5432 dbname =CGIFCH user=postgres password=pgmr application_name=Tclasse ");
@@ -107,13 +110,15 @@ int main()
 
 	std::cout<<"bonjour"<<std::endl;
 	vdate = 20180702 ;
-	vnumeric =1951;
+	vnumeric =1951.13;
 	vtext ="test";
 	vonchar = "Y";
 	vheure ="17:34:01";
 	vkey=101;
 	vbool = true ;
 	vchar ="JP-Laroche";
+
+	printf(" vnumeric %s \n",vnumeric.ToChar());  std::cout<<vnumeric<<std::endl; std::cout<<vnumeric.String()<<std::endl;
 	sql.begin() ;
 try{	
 	if ( tbl.check(vkey) )
@@ -144,18 +149,21 @@ try{
 	sql.end();
 */ 
 	sql.begin() ;
-	vkey=102;	tbl.check(vkey); printf(" slc.errorSQL %d",slc.errorSQL);   printf(" tbl.check(vkey) 1= actif %d",tbl.check(vkey));
+	vkey=102;	tbl.check(vkey); printf(" tbl.check vkey=102 slc.errorSQL %d\n",slc.errorSQL);  
 	vkey=101; if (!tbl.check(vkey) && slc.errorSQL) throw std::runtime_error("erreur programme 148 \n");
 //	if ( !tbl.check(vkey) && ! slc.errorSQL) throw std::runtime_error("erreur programme 148 \n");
+
 	sql.end();
 	sql.closeDB();
 //		std::cout<<" tag ctrl "<<std::endl;
 }
 catch (const std::exception& e)
 	{
-	  std::cerr<<e.what()<<"fin de procedure Tclass"<<std::endl;
+	  std::cerr<<e.what()<<"fin de procedure Tclass\n"<<std::endl;
 	  return EXIT_FAILURE ;
-	}	
+	}
+
+	 printf(" Fin de programme\n");
 	return 0;
 }
 ///////////////////////////////////////////////////////////////////////////
@@ -234,7 +242,7 @@ try{
 	" WHERE (vkey = ? ); " \
 	,vdate, vnumeric, vtext, vonchar, vheure, vbool, vchar,kvkey);
 
-
+	printf("requete %s",requete.c_str());
 	sql.query(requete);
 
 	return true ;

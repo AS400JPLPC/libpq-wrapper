@@ -53,7 +53,9 @@ using namespace std;
 
 int main()
 {
- 
+		std::setlocale(LC_ALL, "");
+//	std::setlocale(LC_NUMERIC, "C");		// force '.'
+	 	std::setlocale(LC_NUMERIC,std::locale("").name().c_str());					/// user local
  
 	const char *conninfo;
 
@@ -702,10 +704,12 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	
 	int Nkey = 3681210;
 	Ndouble = 345678.09;
+	printf("%0.02f\n",Ndouble);
 	std::cout<<std::setprecision(10)<<Ndouble<<" affiche une double"<<std::endl;
+	std::cout<<sql.DoubleToChar(Ndouble,2)<<std::endl;
 
 
-	requete = sql.prepare("UPDATE typetable  SET vnumeric = ?  WHERE vkey = ?",sql.DoubleToChar(Ndouble,2), sql.DoubleToChar(Nkey));
+	requete = sql.prepare("UPDATE typetable  SET vnumeric = ?  WHERE vkey = ?",sql.DoubleToChar(Ndouble,2), Nkey);
 	std::cout<<requete<<std::endl;
 	
 	sql.begin();

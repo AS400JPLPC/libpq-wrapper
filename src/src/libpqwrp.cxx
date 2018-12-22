@@ -1023,6 +1023,7 @@ char* libPQwrp::DoubleToChar(double _X_ ,unsigned _precision_)						/// Double t
 		snprintf(X_value + strlen(X_value), 16, X_cmd , fabs(_X_));
 	}
 
+	for (int i = 0 ; i< (int) strlen(X_value);i++) if ( X_value[i] == ',' ) X_value[i] = '.';  // use sql  '.'
 	return (char*) X_value;
 
 }

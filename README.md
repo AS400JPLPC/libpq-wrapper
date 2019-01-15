@@ -147,3 +147,6 @@ Utiliser la Lib libpqwrp.a ex: Tiostream ou  #include <libpqwrp.hpp>   ex:Tclass
 			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;
 	}
 
+<br>
+un exemple de génération de source pour des requêtes
+<br>

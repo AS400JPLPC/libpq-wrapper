@@ -543,7 +543,7 @@ void Generator_Field()
 			DDS.column_ordre		= std::to_string(column_ordre);
 			DDS.column_type			= column_type;
 			DDS.column_length		= std::to_string(column_length);
-			DDS.column_precision	= std::to_string(column_precision);
+			DDS.column_precision		= std::to_string(column_precision);
 			DDS.column_scale		= std::to_string(column_scale);
 			DDS.column_comment		= column_comment;
 			user_list.push_back(DDS);
@@ -617,9 +617,9 @@ void Generator_Field()
             HPP01_dict->AddSectionDictionary("HPP01");
             HPP01_dict->SetValue("ZONE0",i->column_name.c_str());
             sprintf(buffer,"%s","");
-			switch (HashStringToInt(i->column_type.c_str()))
+			switch (Sql_switch(i->column_type.c_str()))
 				{
-					case HashStringToInt("character"):
+					case Sql_switch("character"):
 														strcat(buffer, " Zchar ");
 														strcat(buffer,i->column_name.c_str());
 														strcat(buffer,"(");
@@ -629,7 +629,7 @@ void Generator_Field()
 														HPP01_dict->SetValue("ZONETEXT",i->column_comment.c_str());
 														break;
 
-					case HashStringToInt("numeric"):
+					case Sql_switch("numeric"):
 														strcat(buffer, " Zdcml ");
 														strcat(buffer,i->column_name.c_str());
 														strcat(buffer,"(");
@@ -642,28 +642,28 @@ void Generator_Field()
 														break;
 
 
-					case HashStringToInt("date"):
+					case Sql_switch("date"):
 														strcat(buffer, " Zdate ");
 														strcat(buffer,i->column_name.c_str());
 														HPP01_dict->SetValue("ZONE",buffer);
 														HPP01_dict->SetValue("ZONETEXT",i->column_comment.c_str());
 														break;
 														
-					case HashStringToInt("time"):
+					case Sql_switch("time"):
 														strcat(buffer, " Ztime ");
 														strcat(buffer,i->column_name.c_str());
 														HPP01_dict->SetValue("ZONE",buffer);
 														HPP01_dict->SetValue("ZONETEXT",i->column_comment.c_str());
 														break;
 														
-					case HashStringToInt("text"):
+					case Sql_switch("text"):
 														strcat(buffer, " Ztext ");
 														strcat(buffer,i->column_name.c_str());
 														HPP01_dict->SetValue("ZONE",buffer);
 														HPP01_dict->SetValue("ZONETEXT",i->column_comment.c_str());
 														break;
 														
-					case HashStringToInt("boolean"):
+					case Sql_switch("boolean"):
 														strcat(buffer, " Zbool ");
 														strcat(buffer,i->column_name.c_str());
 														HPP01_dict->SetValue("ZONE",buffer);
@@ -697,40 +697,40 @@ void Generator_Field()
 		{
             ctemplate::TemplateDictionary*  CHKP01_dict = dict.AddSectionDictionary("CHKP");
             CHKP01_dict->AddSectionDictionary("CHKP");
-			switch (HashStringToInt(k->column_type.c_str()))
+			switch (Sql_switch(k->column_type.c_str()))
 				{
-					case HashStringToInt("character"):
+					case Sql_switch("character"):
 														strcat(buffer, " Zchar k_");
 														strcat(buffer,k->column_name.c_str());
 														CHKP01_dict->SetValue("ZPARM",buffer);
 														break;
 
-					case HashStringToInt("numeric"):
+					case Sql_switch("numeric"):
 														strcat(buffer, " Zdcml k_");
 														strcat(buffer,k->column_name.c_str());
 														CHKP01_dict->SetValue("ZPARM",buffer);
 														break;
 
 
-					case HashStringToInt("date"):
+					case Sql_switch("date"):
 														strcat(buffer, " Zdate k_");
 														strcat(buffer,k->column_name.c_str());
 														CHKP01_dict->SetValue("ZPARM",buffer);
 														break;
 														
-					case HashStringToInt("time"):
+					case Sql_switch("time"):
 														strcat(buffer, " Ztime k_");
 														strcat(buffer,k->column_name.c_str());
 														CHKP01_dict->SetValue("ZPARM",buffer);
 														break;
 														
-					case HashStringToInt("text"):
+					case Sql_switch("text"):
 														strcat(buffer, " Ztext k_");
 														strcat(buffer,k->column_name.c_str());
 														CHKP01_dict->SetValue("ZPARM",buffer);
 														break;
 														
-					case HashStringToInt("boolean"):
+					case Sql_switch("boolean"):
 														strcat(buffer, " Zbool k_");
 														strcat(buffer,k->column_name.c_str());
 														CHKP01_dict->SetValue("ZPARM",buffer);
@@ -751,19 +751,19 @@ void Generator_Field()
 			if (k!= user_listk.begin())  sprintf(buffer,"%s"," and ");
             ctemplate::TemplateDictionary*  CHKW01_dict = dict.AddSectionDictionary("CHKW");
             CHKW01_dict->AddSectionDictionary("CHKW");
-			switch (HashStringToInt(k->column_type.c_str()))
+			switch (Sql_switch(k->column_type.c_str()))
 				{
-					case HashStringToInt("character"):
-					case HashStringToInt("date"):
-					case HashStringToInt("time"):
-					case HashStringToInt("text"):
-					case HashStringToInt("boolean"):
+					case Sql_switch("character"):
+					case Sql_switch("date"):
+					case Sql_switch("time"):
+					case Sql_switch("text"):
+					case Sql_switch("boolean"):
 														strcat(buffer,k->column_name.c_str());
 														strcat(buffer, " = '?' ");
 														CHKW01_dict->SetValue("ZWHERE",buffer);
 														break;
 
-					case HashStringToInt("numeric"):
+					case Sql_switch("numeric"):
 														strcat(buffer,k->column_name.c_str());
 														strcat(buffer, " = ?");
 														CHKW01_dict->SetValue("ZWHERE",buffer);
@@ -781,14 +781,14 @@ void Generator_Field()
 		{
             ctemplate::TemplateDictionary*  CHKV01_dict = dict.AddSectionDictionary("CHKV");
             CHKV01_dict->AddSectionDictionary("CHKV");
-			switch (HashStringToInt(k->column_type.c_str()))
+			switch (Sql_switch(k->column_type.c_str()))
 				{
-					case HashStringToInt("character"):
-					case HashStringToInt("date"):
-					case HashStringToInt("time"):
-					case HashStringToInt("text"):
-					case HashStringToInt("boolean"):
-					case HashStringToInt("numeric"):
+					case Sql_switch("character"):
+					case Sql_switch("date"):
+					case Sql_switch("time"):
+					case Sql_switch("text"):
+					case Sql_switch("boolean"):
+					case Sql_switch("numeric"):
 														strcat(buffer, "k_");
 														strcat(buffer,k->column_name.c_str());
 														CHKV01_dict->SetValue("ZVAL",buffer);

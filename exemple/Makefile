@@ -6,6 +6,18 @@
 # nom de l'executable :
 EXEC = srcsql
 
+
+# gestion de version
+VERSION_MAJOR := 0
+VERSION_MINOR := 1
+VERSION_PATCH := 0
+VERSION := $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
+
+FLAGXXX =\
+	-DDDSREP_VERSION_MAJOR=$(VERSION_MAJOR) \
+	-DDDSREP_VERSION_MINOR=$(VERSION_MINOR) \
+	-DDDSREP_VERSION_PATCH=$(VERSION_PATCH) \
+	-DDDSREP_VERSION=\"$(VERSION)\"
 	
 # Adresse des sources, des objets et des includes :
 SRCDIR = $(CURDIR)/src/
@@ -18,16 +30,7 @@ INCLUDES = \
 -I /usr/include/postgresql/ \
 -I /usr/include/postgresql/libpq/ \
 -I /home/soleil/ZLIBPQ/src/ \
--I/usr/include/gtk-3.0	\
--I/usr/lib64/gtk-3.0/include	\
--I/usr/include/atk-1.0	\
--I/usr/include/cairo	\
--I/usr/include/pango-1.0	\
--I/usr/include/glib-2.0	\
--I /usr/lib/x86_64-linux-gnu/glib-2.0/include/ \
--I/usr/include/pixman-1	\
--I/usr/include/libpng12	\
--I//usr/include/gdk-pixbuf-2.0/ \
+
 
 
 
@@ -43,10 +46,10 @@ CXX = g++
 
 # options compilations :
 
-CPPFLAGS=   -std=c++17 -Wall -pedantic-errors  -Wno-parentheses  -fexceptions  -Waddress \
-			-ftree-coalesce-vars  -fstack-clash-protection -fstack-protector-all \
-			-Wsign-compare -fpermissive 	-fexpensive-optimizations  \
-			`pkg-config --cflags gtk+-3.0` `pkg-config --cflags gmodule-2.0`
+
+CPPFLAGS=    -std=c++17 -Wall -pedantic-errors  -fexceptions -Wno-parentheses -Waddress -Wsign-compare -fpermissive \
+			-fexpensive-optimizations -ftree-coalesce-vars -fstack-protector-all  -fstack-clash-protection \
+			`pkg-config --cflags gtk+-3.0`   
 
 LDFLAGS=   `pkg-config gtk+-3.0 --libs` `pkg-config gmodule-2.0 --libs`   -lpq  -lctemplate -no-pie 
 

@@ -1,0 +1,91 @@
+[editor]
+line_wrapping=false
+line_break_column=120
+auto_continue_multiline=true
+
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=false
+replace_tabs=false
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=ZSRCSQL
+base_path=/home/soleil/ZSRCSQL
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=120
+
+[files]
+current_page=5
+FILE_NAME_0=4611;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTclasse.cpp;0;4
+FILE_NAME_1=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZSRCSQL%2Fsrc%2FC5250.hpp;0;4
+FILE_NAME_2=1132;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZSRCSQL%2Fsrc%2Fsrcsql.cpp;0;4
+FILE_NAME_3=0;XML;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZSRCSQL%2Fsrc%2Fsrcsql.glade;0;4
+FILE_NAME_4=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZSRCSQL%2Fsrc%2Fsrcsql.hpp;0;4
+FILE_NAME_5=733;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZSRCSQL%2FMakefile;0;4
+FILE_NAME_6=23512;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cxx;0;4
+FILE_NAME_7=256;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Foutstream.h;0;4
+
+[VTE]
+last_dir=/home/soleil
+
+[build-menu]
+MakeFT_00_LB=Construire
+MakeFT_00_CM=make -f Makefile --trace clean all 
+MakeFT_00_WD=
+MakeFT_01_LB=Build
+MakeFT_01_CM=make mrprope PROD=1 all  build 
+MakeFT_01_WD=
+MakeFT_02_LB=nettoyage 
+MakeFT_02_CM=make mrprope
+MakeFT_02_WD=
+filetypes=Make;C++;
+NF_03_LB=Conversion Glade
+NF_03_CM=/home/soleil/T_LIB/srcbuilder  -p %d/  -f  %e
+NF_03_WD=
+EX_01_LB=
+EX_01_CM=
+EX_01_WD=
+C++FT_00_LB=_Compile
+C++FT_00_CM=make -f Makefile clean all
+C++FT_00_WD=%p
+C++FT_01_LB=_Build
+C++FT_01_CM=make -f Makefile mrprope all  build
+C++FT_01_WD=%p
+C++FT_02_LB=Clean
+C++FT_02_CM=make -f Makefile mrprope
+C++FT_02_WD=%p
+NF_02_LB=GLADE
+NF_02_CM=/home/soleil/T_LIB/Pcall  -p %d/  -f  %e -g
+NF_02_WD=
+EX_00_LB=_Execute
+EX_00_CM="%p/bin/%e"
+EX_00_WD=%p/bin
+
+[debugger]
+target=
+debugger=
+arguments=
+envvar_count=0
+watches_count=0
+breaks_count=0
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+external_dirs=

@@ -39,8 +39,12 @@
 
 #include <ZONED.hpp>
 
-#include <libpqwrp.h>
+
+
 #include <outstream.h>
+#include <libpqwrp.h>
+
+
 
 
 using namespace std;
@@ -262,11 +266,11 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
     for (int row = 0; row < sql.countrow(); row++)
 		for (int nf = 0;nf < sql.countfield(); nf++)
 			{
-				switch (HashStringToInt(sql.cfield(nf)))
+				switch (Sql_switch(sql.cfield(nf)))
 				{
-					case HashStringToInt("name"):		nom = sql.rtvCh( row, nf) ;   break;
+					case Sql_switch("name"):		nom = sql.rtvCh( row, nf) ;   break;
 
-					case HashStringToInt("emp_id"):		test = atoi(sql.rtvCh( row, nf)) ;
+					case Sql_switch("emp_id"):		test = atoi(sql.rtvCh( row, nf)) ;
 
 
 					break;
@@ -322,37 +326,37 @@ WHERE cl.table_catalog='?'  and cl.table_name='?' and cl.column_name= '?' order 
 		for (int nf = 0;nf < sql.countfield(); nf++)
 			{ 
 
-				switch (HashStringToInt(sql.cfield(nf)))
+				switch (Sql_switch(sql.cfield(nf)))
 				{
-					case HashStringToInt("table_catalog"):	std::cout<<sql.rtvCh( row, nf)<<"  ";   break;
+					case Sql_switch("table_catalog"):	std::cout<<sql.rtvCh( row, nf)<<"  ";   break;
 					
-					case HashStringToInt("table_name"):		std::cout<<sql.rtvCh( row, nf)<<"  ";   break;
+					case Sql_switch("table_name"):		std::cout<<sql.rtvCh( row, nf)<<"  ";   break;
 					
-					case HashStringToInt("column_name"):	std::cout<<sql.rtvCh(row, nf)<<"  ";   break;
+					case Sql_switch("column_name"):	std::cout<<sql.rtvCh(row, nf)<<"  ";   break;
 					
-					case HashStringToInt("ordre"):			iptr =sql.rtvCh( row, nf);
+					case Sql_switch("ordre"):			iptr =sql.rtvCh( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
 															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("data_type"):		std::cout<<sql.rtvCh( row, nf)<<"  "; 	break;
+					case Sql_switch("data_type"):		std::cout<<sql.rtvCh( row, nf)<<"  "; 	break;
 
-					case HashStringToInt("length"):			iptr =sql.rtvCh( row, nf);
+					case Sql_switch("length"):			iptr =sql.rtvCh( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
 															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("precision"):		iptr =sql.rtvCh( row, nf);
+					case Sql_switch("precision"):		iptr =sql.rtvCh( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
 															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("scale"):			iptr =sql.rtvCh( row, nf);
+					case Sql_switch("scale"):			iptr =sql.rtvCh( row, nf);
 															ival = ntohl(*((uint32_t *) iptr));
 															std::cout<< ival<<"  ";
 															break;
 
-					case HashStringToInt("column_comment"):	std::cout<<sql.rtvCh( row, nf)<<std::endl;   break;
+					case Sql_switch("column_comment"):	std::cout<<sql.rtvCh( row, nf)<<std::endl;   break;
 
 					
 					default : std::cout<<sql.cfield(nf)<<std::endl;	break;
@@ -614,15 +618,15 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 		for (int nf = 0;nf < sql.countfield(); nf++)
 			{ 
 
-				switch (HashStringToInt(sql.cfield(nf)))
+				switch (Sql_switch(sql.cfield(nf)))
 				{
-					case HashStringToInt(NAMEOF(vdate)):	vdate	=	sql.rtvCh( row, nf);  std::cout<< PQftype(sql.res, nf) <<std::endl; break; //exemple avec le Nom de la Variable
+					case Sql_switch(NAMEOF(vdate)):	vdate	=	sql.rtvCh( row, nf);  std::cout<< PQftype(sql.res, nf) <<std::endl; break; //exemple avec le Nom de la Variable
 					
-					case HashStringToInt("vnumeric"):		Ndouble	= 	sql.rtvDbl( row, nf); std::cout<< PQftype(sql.res, nf) <<std::endl;  break;
+					case Sql_switch("vnumeric"):		Ndouble	= 	sql.rtvDbl( row, nf); std::cout<< PQftype(sql.res, nf) <<std::endl;  break;
 					
-					case HashStringToInt("vtext"):			Nchar	=	sql.rtvCh( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;   break;
+					case Sql_switch("vtext"):			Nchar	=	sql.rtvCh( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;   break;
 					
-					case HashStringToInt("vkey"):			Nint	=	sql.rtvInt( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;break;
+					case Sql_switch("vkey"):			Nint	=	sql.rtvInt( row, nf);std::cout<< PQftype(sql.res, nf) <<std::endl;break;
 
 					
 					default : std::cout<<sql.cfield(nf)<<std::endl;	break;
@@ -949,15 +953,15 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
 		for (int nf = 0;nf < slc.countfield(); nf++)
 			{ 
 
-				switch (HashStringToInt(slc.cfield(nf)))
+				switch (Sql_switch(slc.cfield(nf)))
 				{
-					case HashStringToInt(NAMEOF(column_name)):			column_name			=	slc.rtvCh( row, nf);	break; //exemple avec le Nom de la Variable
-					case HashStringToInt("ordinal_position"):			column_ordre		=	slc.rtvInt( row, nf);	break;
-					case HashStringToInt("data_type"):					column_type			=	slc.rtvCh( row, nf);	break;
-					case HashStringToInt("character_maximum_length"):	column_length		=	slc.rtvInt( row, nf);	break;
-					case HashStringToInt("numeric_precision"):			column_precision	=	slc.rtvInt( row, nf);	break;
-					case HashStringToInt("numeric_scale"):				column_scale		=	slc.rtvInt( row, nf);	break;
-					case HashStringToInt(NAMEOF(column_comment)):		column_comment		=	slc.rtvCh( row, nf);	break;
+					case Sql_switch(NAMEOF(column_name)):			column_name			=	slc.rtvCh( row, nf);	break; //exemple avec le Nom de la Variable
+					case Sql_switch("ordinal_position"):			column_ordre		=	slc.rtvInt( row, nf);	break;
+					case Sql_switch("data_type"):					column_type			=	slc.rtvCh( row, nf);	break;
+					case Sql_switch("character_maximum_length"):	column_length		=	slc.rtvInt( row, nf);	break;
+					case Sql_switch("numeric_precision"):			column_precision	=	slc.rtvInt( row, nf);	break;
+					case Sql_switch("numeric_scale"):				column_scale		=	slc.rtvInt( row, nf);	break;
+					case Sql_switch(NAMEOF(column_comment)):		column_comment		=	slc.rtvCh( row, nf);	break;
 				}
 			}
 			std::cout<<column_name<<"  "<<column_ordre<<"  "<<column_type<<" :"<<column_length<<":  "<<column_precision<<","<<column_scale<<" >>>> "<<column_comment<<std::endl;

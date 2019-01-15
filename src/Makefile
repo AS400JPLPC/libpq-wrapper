@@ -4,7 +4,7 @@
 # désactivation des règles implicites
 .SUFFIXES:
 # nom de l'executable :
-EXEC =Tiostream
+EXEC =Tclasse
 
 # Adresse des sources, des objets et des includes :
 SRCDIR = $(CURDIR)/test/
@@ -15,6 +15,7 @@ LIBSRC = $(CURDIR)/src/
  
 
 INCLUDES = \
+-I/usr/local/pgsql/include/ \
 -I/usr/include/postgresql/ \
 -I/usr/include/postgresql/libpq/ \
 -I/home/soleil/ZONED/src/ \
@@ -28,7 +29,7 @@ OBJ = $(OBJDIR)$(EXEC).o
 # choix du compilateur :
 CXX = g++
 # options compilations :
-CPPFLAGS=  -Wall -fexpensive-optimizations -O2 -Os -pedantic-errors  -Wextra -std=c++17 -Wparentheses -ftree-coalesce-vars  -fstack-protector
+CPPFLAGS=  -Wall -fexpensive-optimizations -Os -s -pedantic-errors  -Wextra -std=c++17 -Wparentheses -ftree-coalesce-vars  -fstack-protector
 
  
 
@@ -36,12 +37,12 @@ LDFLAGS=     -lpthread -lctemplate  -lX11   -lpq  -ldl
 
 # tclasse
 ifeq ($(EXEC), Tclasse)
-INCLIB= /home/soleil/ZONED/lib/libZONED.a
+INCLIB= /home/soleil/ZONED/lib/libZONED.a 
 endif
 
 # tiostream
 ifeq ($(EXEC), Tiostream)
-INCLIB= $(OBJLIB)libpqwrp.a \
+INCLIB= $(OBJLIB)/libpqwrp.a \
 /home/soleil/ZONED/lib/libZONED.a 
 endif
 
@@ -56,7 +57,7 @@ all: $(OBJ)
 ifdef TEST	
 	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)      -s $(INCLIB) 
 else
-	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)      -s $(INCLIB)
+	$(CXX)  $(OBJ) -o $(BINDIR)$(EXEC)    $(LDFLAGS)   -no-pie  -Os -s $(INCLIB)
 endif 
 # regle de compilation des sources objet
 $(OBJDIR)%.o: $(SRCDIR)$(EXEC).cpp

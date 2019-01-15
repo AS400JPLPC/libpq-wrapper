@@ -140,7 +140,7 @@ try{
 	sql.end();
 
 
- 	std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+ 
 /*	sql.begin() ;
 		vkey=101;
  	tbl.remove(vkey);
@@ -149,10 +149,14 @@ try{
 	sql.end();
 */ 
 	sql.begin() ;
-	vkey=102;	tbl.check(vkey); printf(" tbl.check vkey=102 slc.errorSQL %d\n",slc.errorSQL);  
-	vkey=101; if (!tbl.check(vkey) && slc.errorSQL) throw std::runtime_error("erreur programme 148 \n");
-//	if ( !tbl.check(vkey) && ! slc.errorSQL) throw std::runtime_error("erreur programme 148 \n");
+	vkey=102;	tbl.check(vkey); printf(" tbl.check vkey=102 slc.errorSQL %d\n",slc.errorSQL);
 
+	vkey=101; if (tbl.check(vkey) && slc.errorSQL) throw std::runtime_error("erreur programme 148 \n");
+			
+	//if (tbl.check(vkey) && ! slc.errorSQL) throw std::runtime_error("erreur programme 148 \n");
+
+std::cout<<"\n \n pas d'erreur de programation"<<std::endl;
+std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);														// contrôle erreur 
 	sql.end();
 	sql.closeDB();
 //		std::cout<<" tag ctrl "<<std::endl;

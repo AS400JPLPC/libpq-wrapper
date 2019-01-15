@@ -56,7 +56,6 @@
 
 
 
-
 namespace libpqwrp
 {
 
@@ -67,7 +66,9 @@ namespace libpqwrp
 #define   _separator_		'|'		///  remplace caractère space  de délimitation multibuffer > stringstream
 #endif
 
-
+///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+///				fonction stream for sql  
+///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	 std::stringstream &operator>>(std::stringstream& out ,char  &Argc)
 {
 	std::string Args ; 
@@ -187,18 +188,12 @@ namespace libpqwrp
 
 #endif // LIBPQWRP_H_INCLUDED
 
-
-
-
 ///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-///				fonction sql de libpq 
-///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
 /// a function to make your alphanumeric switch
-constexpr unsigned long long int HashStringToInt(const char *str, unsigned long long int hash = 0)
+///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+constexpr unsigned long long int Sql_switch(const char *str, unsigned long long int hash = 0)
 {
-    return (*str == 0) ? hash : 101 * HashStringToInt(str + 1) + *str;
+    return (*str == 0) ? hash : 101 * Sql_switch(str + 1) + *str;
 }
 
 
@@ -864,10 +859,10 @@ void libPQwrp::opensql( std::string sql, std::string cursor)						///  query for
 
 	ordreSQL = "FETCH FIRST in " + cursor ;	/// read a line record only
 	res = PQexec(conn, ordreSQL.c_str());
- std::cout<<"code status  :"<<PQresultStatus(res)<<"  value : "<<PQcmdStatus(res)<<std::endl;
+/* std::cout<<"code status  :"<<PQresultStatus(res)<<"  value : "<<PQcmdStatus(res)<<std::endl;
 std::cout<<PGRES_EMPTY_QUERY<<"-"<<PGRES_COMMAND_OK<<"-"<<PGRES_TUPLES_OK<<"-"<<PGRES_COPY_OUT<<"-"<< PQresultErrorMessage(res)<<\
 PGRES_COPY_IN<<"-"<<PGRES_BAD_RESPONSE<<"-"<<PGRES_NONFATAL_ERROR<<"-"<<PGRES_FATAL_ERROR<<"-"<<PGRES_COPY_BOTH<<"-"<<PGRES_SINGLE_TUPLE<<std::endl;
- 
+*/
 	std::string operation = PQcmdStatus(res);
 	switch (PQresultStatus(res))
 	{

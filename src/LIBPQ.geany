@@ -28,12 +28,11 @@ long_line_behaviour=1
 long_line_column=120
 
 [files]
-current_page=4
-FILE_NAME_0=4632;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.h;0;4
-FILE_NAME_1=6800;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cpp;0;4
-FILE_NAME_2=22482;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTiostream.cpp;0;4
-FILE_NAME_3=2411;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Foutstream.h;0;4
-FILE_NAME_4=627;None;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fmakelibpq;0;4
+current_page=1
+FILE_NAME_0=2136;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.h;0;4
+FILE_NAME_1=119;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cpp;0;4
+FILE_NAME_2=0;None;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fmakelibpq;0;4
+FILE_NAME_3=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%20%28copie%201%29%2Foutstream.h;0;4
 
 [VTE]
 last_dir=/home/soleil/CGIFCH

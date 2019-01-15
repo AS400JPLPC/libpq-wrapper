@@ -32,8 +32,9 @@
 */
 
 
-#ifndef PQWRP_H_INCLUDED
-#define PQWRP_H_INCLUDED
+#ifndef LIBPQWRP_H_INCLUDED
+#define LIBPQWRP_H_INCLUDED
+
 
 #include <string.h>
 #include <math.h>
@@ -46,43 +47,33 @@
 #include <sstream>
 #include <iomanip>
 
+#include <type_traits>
+
 #include <exception>
 #include <typeinfo>
 #include <stdexcept>
 
 #include <libpq-fe.h>
 
-
-#include <type_traits>
-
 namespace libpqwrp
 {
-
-
-///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-///				fonction sql de libpq 
-///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-///				fonction sql de libpq 
-///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-
-
-
-/// a function to make your alphanumeric switch
-constexpr unsigned long long int HashStringToInt(const char *str, unsigned long long int hash = 0)
-{
-    return (*str == 0) ? hash : 101 * HashStringToInt(str + 1) + *str;
-}
-
 
 #define NAMEOF(variable) ((void)variable, #variable)
 
 #ifndef   _separator_
 #define   _separator_		'|'		///  remplace caractère space  de délimitation multibuffer > stringstream
 #endif
+
+
+///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+/// a function to make your alphanumeric switch
+///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+constexpr unsigned long long int Sql_switch(const char* c_name, unsigned long long int l_hash = 0)	/// string to int for switch
+{
+
+    return (*c_name == 0) ? l_hash : 101 * Sql_switch(c_name + 1) + *c_name;
+}
+
 
 
 ///$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -246,7 +237,5 @@ class libPQwrp																		/// gestion parametre sql
 
 
 } // namespace libpqwrp
-
 using namespace libpqwrp ;
-
 #endif // LIBPQWRP_H_INCLUDED

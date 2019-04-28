@@ -29,7 +29,10 @@ INCLUDES = \
 # choix du compilateur :
 CXX = g++
 # options compilations :   
-CXXFLAGS=  -fexpensive-optimizations -Os -s  -Wmain -pedantic-errors -Wfatal-errors -Wall -Wextra -std=c++17   -Wparentheses 
+CXXFLAGS=	-std=c++17	-Wall	-fexceptions	-pedantic-errors	-Wextra	-Wparentheses	-Waddress	\
+			-ftree-coalesce-vars  -fstack-clash-protection -fstack-protector-all  \
+			-Wsign-compare -fpermissive 	-fexpensive-optimizations	-Os -s
+
 
 
 

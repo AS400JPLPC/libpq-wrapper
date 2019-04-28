@@ -28,14 +28,16 @@ long_line_behaviour=1
 long_line_column=120
 
 [files]
-current_page=3
-FILE_NAME_0=20146;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTiostream.cpp;0;4
-FILE_NAME_1=165;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefile;0;4
-FILE_NAME_2=2068;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTclasse.cpp;0;4
-FILE_NAME_3=24204;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cxx;0;4
+current_page=1
+FILE_NAME_0=1228;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTiostream.cpp;0;4
+FILE_NAME_1=163;Make;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2FMakefile;0;4
+FILE_NAME_2=2129;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Ftest%2FTclasse.cpp;0;4
+FILE_NAME_3=2603;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cxx;0;4
+FILE_NAME_4=2672;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.h;0;4
+FILE_NAME_5=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fsoleil%2FZLIBPQ%2Fsrc%2Flibpqwrp.cpp;0;4
 
 [VTE]
-last_dir=/home/soleil/CGIFCH
+last_dir=/home/soleil/Ztest/bin
 
 [build-menu]
 MakeFT_00_LB=Construire

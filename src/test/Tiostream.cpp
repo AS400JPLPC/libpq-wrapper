@@ -23,7 +23,10 @@
 
 
 
-
+#include <cstdio>
+#include <clocale>
+#include <ctime>
+#include <cwchar>
 
 #include <string>       // std::string
 #include <iostream>     // std::cout
@@ -35,13 +38,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
- 
+ #include <ZONED.hpp>
 
-#include <ZONED.hpp>
-
-
-
-#include <outstream.h>
 #include <libpqwrp.h>
 
 
@@ -57,16 +55,21 @@ using namespace std;
 
 int main()
 {
-		std::setlocale(LC_ALL, "");
-//	std::setlocale(LC_NUMERIC, "C");		// force '.'
-	 	std::setlocale(LC_NUMERIC,std::locale("").name().c_str());					/// user local
- 
+setenv("LANG",std::locale("").name().c_str(),1);
+
+//setenv("LANG","en_US.utf8",1);
+
+
+std::cout <<std::locale("").name().c_str() << '\n';
+
+
 	const char *conninfo;
 
 	libPQwrp sql;
 
 	std::string requete ;
 	
+
 	std::string cursorName = "MYcursor";
 
 
@@ -74,10 +77,9 @@ int main()
 
 
 
-Zind_Init_All();
+	Zind_Init_All();
 
 	Zchar nom(15);
-
 
 
 
@@ -138,7 +140,10 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 
 	sql.closeDB();
 
-	
+	std::cout<<"\n \n contrôle memoire"<<std::endl;
+std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
+
+
  	sql.connectDB(conninfo);
  	
 	printf("\n002 is table   command    creat\n");
@@ -281,7 +286,7 @@ COMMENT ON COLUMN patron.name	    IS 'NOM EMPLOYEE';	\
 			}
 
 
-	std::cout<<"nom = sql.rtvCh( row, nf)  "<<nom.ToChar()<<std::endl;
+	std::cout<<"nom = sql.rtvCh( row, nf)  "<<nom.Chr()<<std::endl;
 	std::cout<<"test = atoi(sql.rtvCh( row, nf))  "<<test<<std::endl;
 
 
@@ -484,7 +489,7 @@ WHERE "NBNDOS"=21071110 AND "NBCGIM"='S' AND "NBCDPO"=21 AND "NBCSTD"='RDS19X39'
 	NBZIMP = "bonjour" ;
 
 
-	std::cout<<NBNDOS.ToChar()<<std::endl;  std::cout<<NBMPRV.ToChar()<<std::endl; std::cout<<NBZIMP.ToChar()<<std::endl;
+	std::cout<<NBNDOS.Chr()<<std::endl;  std::cout<<NBMPRV<<std::endl; std::cout<<NBZIMP.Chr()<<std::endl;
 
 	NBMPRV =16.95 ; NBNDOS=21071110;
 
@@ -564,7 +569,8 @@ std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);
 
 
 
- 
+ std::cout<<"\n \n contrôle memoire"<<std::endl;
+std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);	
 
  
 /*
@@ -651,9 +657,10 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	sql.opensql(requete, cursorName);
 	if ( !sql.errorSQL ) do
 	{
-		if ( ! sql.fetchEOF )  {sqlz=sql.result(); sqlz>>vdate>>Ndouble>>Nchar>>Nint;}
+		Ndouble = 0;
+ 		if ( ! sql.fetchEOF )  {sqlz=sql.result(); sqlz>>vdate>>Ndouble>>Nchar>>Nint;}
 
-			std::cout <<"NAMEOF(vdate)  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
+			std::cout <<NAMEOF(vdate) << "  "<< vdate <<" -- vnumeric "<<std::setprecision(8)<<Ndouble<<" -- vtext  "<<Nchar<<"  -- vkey  "<<Nint<<std::endl;
 			
 		if ( !sql.fetchEOF ) sql.fetchsql(cursorName);
  	}while  ( !sql.fetchEOF ) ;	
@@ -709,7 +716,8 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	int Nkey = 3681210;
 	Ndouble = 345678.09;
 	printf("%0.02f\n",Ndouble);
-	std::cout<<std::setprecision(10)<<Ndouble<<" affiche une double"<<std::endl;
+	std::cout<<Ndouble<<" affiche une double"<<std::endl;
+	std::cout<<std::setprecision(8)<<Ndouble<<" affiche une double"<<std::endl;
 	std::cout<<sql.DoubleToChar(Ndouble,2)<<std::endl;
 
 
@@ -738,7 +746,7 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	{
 		if ( sql.fetchEOF ==false ) {sqlz=sql.result(); sqlz>>NBNDOS>>NBMPRV>>NBZIMP;}
 
-		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV<<"    "; std::cout<<NBZIMP<<std::endl;
+		std::cout<<NBNDOS<<"    ";  std::cout<<NBMPRV.Edt()<<"    "; std::cout<<NBZIMP<<std::endl;
 		
 		if ( !sql.fetchEOF  ) sql.fetchsql();
  	}	while  ( !sql.fetchEOF ) ;
@@ -847,7 +855,9 @@ VALUES('2051-10-12', 345678.09, 'MON NOM LAROCHE', 'C', '11:10:01', '1951-10-12 
 	printf("sql.closeDB \n");
 
 	sql.closeDB();
-
+	
+std::cout<<"\n \n contrôle memoire"<<std::endl;
+std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);	
 
 struct fc0cli
 {
@@ -888,7 +898,8 @@ struct fc0cli
 fc0cli.CDEP="95";
 std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<<std::endl;
 
-
+std::cout<<"\n \n contrôle memoire"<<std::endl;
+std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);	
 
 
 
@@ -1031,6 +1042,7 @@ std::cout<<fc0cli.CDEP.deflen()<<" - "<<NAMEOF(fc0cli.CDEP)<<" - "<<fc0cli.CDEP<
  
  	requete = "SELECT * FROM tabletype order by vkey ;" ;
 try{
+
 	slc.begin();
 	slc.opensql(requete, cursorName); 	  
 	if ( !slc.errorSQL ) do
@@ -1043,7 +1055,7 @@ try{
 
  			sqlx>>column_zdate>>column_znumeric>>column_ztext>>column_zonchar>>column_zheure>>column_zkey>>column_zbool>>column_zchar;
 
-			std::cout<<column_zdate<<"  "<<column_znumeric<<"  "<<column_ztext<<"  "<<column_zonchar<<"  "<<column_zheure<<"  "<<column_zkey<<"  "<<column_zbool<<"  "<<column_zchar<<std::endl;
+			std::cout<<column_zdate<<"  "<<column_znumeric.Edt()<<"  "<<column_ztext<<"  "<<column_zonchar<<"  "<<column_zheure<<"  "<<column_zkey<<"  "<<column_zbool<<"  "<<column_zchar<<std::endl;
 
 			
 			slc.fetchsql(cursorName);
@@ -1057,9 +1069,12 @@ catch (const std::exception& e)
 	  std::cerr<<e.what()<<"fin de procedure catch"<<std::endl;
 	  return EXIT_FAILURE ;
 	}
-	
+
 
  	slc.closeDB();
+std::cout<<"\n \n pas d'erreur de programation"<<std::endl;
+std::cin.ignore (std::cin.rdbuf () -> in_avail () + 1);														// contrôle erreur 
+
 
 }
 catch (const std::exception& e)

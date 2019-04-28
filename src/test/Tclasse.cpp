@@ -21,9 +21,11 @@
  * 
  */
 
+#include <locale>
+#include <clocale>
+ #include <ZONED.hpp>
 
-#include <ZONED.hpp>
-
+using namespace ZONED ;
 #include <libpqwrp.cxx>
 
 
@@ -100,9 +102,9 @@ class PG_tabletype	: public libPQwrp												/// gestion parametre sql
 
 int main()
 {
-		std::setlocale(LC_ALL, "");
-	//std::setlocale(LC_NUMERIC, "C");		// force '.'
-	 	std::setlocale(LC_NUMERIC,std::locale("").name().c_str());					/// user local
+ 	setenv("LANG","en_US.utf8",1);
+//setenv("LANG",std::locale("").name().c_str(),1);
+	 	std::cout <<std::locale("").name().c_str() << '\n';
 	PG_tabletype tbl;
 
 	sql.connectDB("host=localhost port=5432 dbname =CGIFCH user=postgres password=pgmr application_name=Tclasse ");
@@ -117,8 +119,9 @@ int main()
 	vkey=101;
 	vbool = true ;
 	vchar ="JP-Laroche";
+	std::cout.precision(2);
 
-	printf(" vnumeric %s \n",vnumeric.ToChar());  std::cout<<vnumeric<<std::endl; std::cout<<vnumeric.String()<<std::endl;
+	printf("vnumeric %s \n",vnumeric.Chr());  std::cout<<vnumeric<<std::endl; std::cout<<vnumeric.Edt()<<std::endl;
 	sql.begin() ;
 try{	
 	if ( tbl.check(vkey) )

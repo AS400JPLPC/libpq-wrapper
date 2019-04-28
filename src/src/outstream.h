@@ -44,7 +44,15 @@
 	std::string Args ; 
 	getline(out,Args,_separator_);
 
-	Argd =std::stod(Args);
+	const struct lconv* loc;
+	loc = localeconv();
+	std::string ponct=".";
+	int pos = Args.find(ponct);
+	if (pos >0)
+	{
+		if (loc->decimal_point[0]==',' && pos >= 0 ) Args.replace(pos,ponct.length(),",");
+	} 
+	Argd =std::stod(Args.c_str());
     return out;
 }
 
@@ -52,7 +60,14 @@
 {
 	std::string Args ; 
 	getline(out,Args,_separator_);
-
+	const struct lconv* loc;
+	loc = localeconv();
+	std::string ponct=".";
+	int pos = Args.find(ponct);
+	if (pos >0)
+	{
+		if (loc->decimal_point[0]==',' && pos >= 0 ) Args.replace(pos,ponct.length(),",");
+	}
 	Argf =atof(Args.c_str());
     return out;
 }

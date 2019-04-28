@@ -1,8 +1,7 @@
-#include <libpqwrp.h>     // name
-
 #ifndef LIBPQWRP_CPP_INCLUDED
 #define LIBPQWRP_CPP_INCLUDED
 
+#include <libpqwrp.h>     
 
 namespace libpqwrp
 {

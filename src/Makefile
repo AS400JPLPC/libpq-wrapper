@@ -6,13 +6,14 @@
 # nom de l'executable :
 EXEC =Tclasse
 
+
 # Adresse des sources, des objets et des includes :
 SRCDIR = $(CURDIR)/test/
 OBJDIR = $(CURDIR)/obj/
 BINDIR = $(CURDIR)/bin/
 OBJLIB = $(CURDIR)/lib/
 LIBSRC = $(CURDIR)/src/
- 
+
 
 INCLUDES = \
 -I/usr/local/pgsql/include/ \
@@ -21,7 +22,9 @@ INCLUDES = \
 -I/home/soleil/ZONED/src/ \
 -I$(LIBSRC) \
 -I$(OBJLIB)
- 
+
+
+
 
 OBJ = $(OBJDIR)$(EXEC).o  
  
@@ -29,8 +32,9 @@ OBJ = $(OBJDIR)$(EXEC).o
 # choix du compilateur :
 CXX = g++
 # options compilations :
-CPPFLAGS=  -Wall -fexpensive-optimizations -Os -s -pedantic-errors  -Wextra -std=c++17 -Wparentheses -ftree-coalesce-vars  -fstack-protector
-
+CPPFLAGS=	-std=c++17	-Wall	-fexceptions	-pedantic-errors	-Wextra	-Wparentheses	-Waddress	\
+			-ftree-coalesce-vars  -fstack-clash-protection -fstack-protector-all  \
+			-Wsign-compare -fpermissive 	-fexpensive-optimizations
  
 
 LDFLAGS=     -lpthread -lctemplate  -lX11   -lpq  -ldl  
